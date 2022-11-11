@@ -90,8 +90,8 @@ Depending on your booting configuration you can choose whether to keep the u-boo
     ```
 
 ## Build / 构建
-The script **must be run on an AArch64 device natively, with either ArchLinux ARM itself or derived distros like Manajaro**, as some AUR packages need to built natively, and the package manager Pacman should also be run natively. Your could just use the images here or follow [my guide on my blog](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) to bootstrap a working ArchLinux ARM installation.  
-构建脚本**必须在AArch64设备上原生运行，或者是ArchLinux ARM自己或者是衍生吗兴办比如Manjaro**，因为有的AUR包需要被原生构建，并且包管理器Pacman也应该被原生运行。你可以用这里的镜像或者照着[我博客上的文章](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) 来自举一个可以工作的ArchLinux ARM安装
+The script **must be run on an AArch64 device natively, with either ArchLinux ARM itself or derived distros like Manajaro**, as some AUR packages need to built natively, and the package manager Pacman should also be run natively. Your could just use the images here or follow [my guide on my blog](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) to bootstrap a working ArchLinux ARM installation from ground up.  
+构建脚本**必须在AArch64设备上原生运行，在ArchLinux ARM自己或者是衍生发行版如Manjaro ARM上**，因为有的AUR包需要被原生构建，并且包管理器Pacman也应该被原生运行。你可以用这里的镜像或者照着[我博客上的文章](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) 来从头自举一个可以工作的ArchLinux ARM安装
 
 Before the first build, some packages might need to be installed if you haven't installed them yet:  
 首次构建前，如果你没装的话，有的包必需被安装
@@ -117,7 +117,7 @@ After you get your local repo ready, all it needs is a simple ``./build.sh`` to 
 ```
 
 There're some environment variables you could set to define the behaviours:  
-你可以设置一些环境便利那个来决定行为
+你可以设置一些环境变量来决定行为
  - ``SKIP_XZ``
    - if set to yes, then the archive and image won't be compressed. So you could compress them on e.g. your more powerful x86-64 host
    - 如果设置为yes，归档和镜像不会被压缩。那样的话你就能在比如说你强大的x86-64主机上来压缩
