@@ -1,0 +1,12 @@
+[submodule "aur/ampart-git"]
+	path = aur/ampart-git
+	url = https://aur.archlinux.org/ampart-git.git
+[submodule "aur/uboot-legacy-initrd-hooks"]
+	path = aur/uboot-legacy-initrd-hooks
+	url = https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
+[submodule "aur/linux-aarch64-flippy-bin"]
+	path = aur/linux-aarch64-flippy-bin
+	url = https://aur.archlinux.org/linux-aarch64-flippy-bin.git
+[submodule "aur/linux-firmware-amlogic-ophub"]
+	path = aur/linux-firmware-amlogic-ophub
+	url = https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
