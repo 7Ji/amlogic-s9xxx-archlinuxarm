@@ -14,7 +14,7 @@ basic_setup() {
     s|^#${locale_zh}  $|${locale_zh}  |g
     s|^#${locale_gb}  $|${locale_gb}  |g
     s|^#${locale_us}  $|${locale_us}  |g
-  "
+  " '/etc/locale.gen'
   echo "  -> Generating locales..."
   locale-gen
   echo "  -> Setting en_GB.UTF-8 as locale"
