@@ -15,6 +15,14 @@ aur_names=(
   'uboot-legacy-initrd-hooks'
 )
 
+no_root() {
+  echo " => Checking if running with root permission..."
+  if [[ "${UID}" == 0 ]]; then
+    echo "  -> Error: running with root permission, refuse to build for safety concerns"
+    return 1
+  fi
+  echo " => No root permission, check pass"
+}
 
 no_makepkg_conf() {
   local makepkg_conf='/etc/makepkg.conf'
@@ -310,6 +318,7 @@ populate_boot() {
 
 sanity_check() {
   echo "=> Sanity checking..."
+  no_root
   no_makepkg_conf
   echo "=> Sanity check end"
 }
