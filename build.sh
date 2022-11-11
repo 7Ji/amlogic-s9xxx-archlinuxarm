@@ -132,16 +132,18 @@ prepare_aur() {
     echo "  -> Skipped AUR building as SKIP_AUR=yes"
   else
     git submodule update --remote
-    find "${dir_aur}" -maxdepth 2 -name '*-aarch64.pkg.tar.*' -exec rm -rf {} \;
+    find "${dir_aur}" -maxdepth 2 -name '*-aarch64.pkg.tar' -exec rm -rf {} \;
     mkdir -p "${dir_pkg}"
     rm -rf "${dir_pkg}/"*
     local dir_pkg_absolute=$(readlink -f "${dir_pkg}")
+    local PKGEXT=.pkg.tar
+    export PKGEXT
     pushd "${dir_aur}"
     for aur_pkg in *; do
         echo "  -> Building AUR package ${aur_pkg}..."
         pushd "${aur_pkg}"
         makepkg -cfsAC
-        mv -v "${aur_pkg}"-*-aarch64.pkg.tar.* "${dir_pkg_absolute}/"
+        mv -v "${aur_pkg}"-*-aarch64.pkg.tar "${dir_pkg_absolute}/"
         popd
     done
     popd
@@ -223,7 +225,7 @@ pacstrap_base() {
 
 pacstrap_aur() {
   echo " => Pacstrapping the AUR packages into ${dir_root}..."
-  local pkg_suffix='aarch64.pkg.tar.'
+  local pkg_suffix='aarch64.pkg.tar'
   local pkg_names=(
     'ampart-git'
     'linux-aarch64-flippy-bin-dtb-amlogic'
@@ -233,7 +235,7 @@ pacstrap_aur() {
   local pkg_name pkg_match
   local pkgs=()
   for pkg_name in "${pkg_names[@]}"; do
-    pkg_match=("${dir_pkg}/${pkg_name}-"*"-${pkg_suffix}"*)
+    pkg_match=("${dir_pkg}/${pkg_name}-"*"-${pkg_suffix}")
     if [[ "${#pkg_match[@]}" != 1 ]]; then
       echo "  -> Error: not exact one match for package ${pkg_name}, matches: ${pkg_match[@]}"
       return 1
@@ -245,7 +247,7 @@ pacstrap_aur() {
     return 2
   fi
   local pkg
-  for pkg in "${dir_pkg}/linux-aarch64-flippy-bin-"*"-${pkg_suffix}"*; do
+  for pkg in "${dir_pkg}/linux-aarch64-flippy-bin-"*"-${pkg_suffix}"; do
     if [[ "$(basename "${pkg}")" != linux-aarch64-flippy-bin-dtb-* ]]; then
       pkgs+=("${pkg}")
       break
