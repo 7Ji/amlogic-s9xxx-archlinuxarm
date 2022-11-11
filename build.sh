@@ -297,7 +297,7 @@ populate_boot() {
   sudo cp "${temp_extlinux}" "${dir_boot}/extlinux/extlinux.conf"
   rm -f "${temp_uenv}" "${temp_extlinux}"
   echo "  -> Dumping uboot..."
-  sudo cp -rva "${dir_uboot}" "${dir_boot}/"
+  sudo cp -rv "${dir_uboot}" "${dir_boot}/"
   echo " => Populated boot partition"
 }
 
