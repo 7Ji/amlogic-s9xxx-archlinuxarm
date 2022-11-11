@@ -275,7 +275,6 @@ populate_boot() {
     name=$(basename "$script")
     sudo mkimage -A arm64 -O linux -T script -C none -d "${script}" "${dir_boot}/${name%.sh}.scr" > /dev/null
   done
-  sudo cp -rva "${dir_uboot}" "${dir_boot}/"
   echo "  -> Writing booting configuration..."
   local kernel='linux-aarch64-flippy'
   local conf_linux="vmlinuz-${kernel}"
