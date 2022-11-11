@@ -120,20 +120,24 @@ prepare_name() {
 
 prepare_aur() {
   echo " => Preparing AUR packages..."
-  git submodule update --remote
-  find "${dir_aur}" -maxdepth 2 -name '*-aarch64.pkg.tar.*' -exec rm -rf {} \;
-  mkdir -p "${dir_pkg}"
-  rm -rf "${dir_pkg}/"*
-  local dir_pkg_absolute=$(readlink -f "${dir_pkg}")
-  pushd "${dir_aur}"
-  for aur_pkg in *; do
-    echo "  -> Building AUR package ${aur_pkg}..."
-    pushd "${aur_pkg}"
-    makepkg -cfsAC
-    mv -v "${aur_pkg}"-*-aarch64.pkg.tar.* "${dir_pkg_absolute}/"
+  if [[ ${SKIP_AUR} == 'yes' ]]; then
+    echo "  -> Skipped AUR building as SKIP_AUR=yes"
+  else
+    git submodule update --remote
+    find "${dir_aur}" -maxdepth 2 -name '*-aarch64.pkg.tar.*' -exec rm -rf {} \;
+    mkdir -p "${dir_pkg}"
+    rm -rf "${dir_pkg}/"*
+    local dir_pkg_absolute=$(readlink -f "${dir_pkg}")
+    pushd "${dir_aur}"
+    for aur_pkg in *; do
+        echo "  -> Building AUR package ${aur_pkg}..."
+        pushd "${aur_pkg}"
+        makepkg -cfsAC
+        mv -v "${aur_pkg}"-*-aarch64.pkg.tar.* "${dir_pkg_absolute}/"
+        popd
+    done
     popd
-  done
-  popd
+  fi
   echo " => AUR packages prepared"
 }
 
