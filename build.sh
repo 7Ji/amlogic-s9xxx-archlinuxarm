@@ -331,10 +331,12 @@ deploy() {
 
 run_inside() {
   echo "=> Getting into the target root"
-  local script='/root/inroot.sh'
-  sudo install -Dm755 "${dir_root}${script}"
-  sudo arch-chroot "${dir_root}" "${script}"
-  sudo rm -f "${dir_root}${script}"
+  local script_name='inroot.sh'
+  local script_in_path="/root/${script_name}"
+  local script_actual_path="${dir_root}${script_in_path}"
+  sudo install -Dm755 'inroot.sh' "${script_actual_path}"
+  sudo arch-chroot "${dir_root}" "${script_in_path}"
+  sudo rm -f "${script_actual_path}"
   echo "=> Getting out from the target root"
 }
 
