@@ -270,10 +270,15 @@ genfstab_root() {
 populate_boot() {
   echo " => Populating boot partition..."
   echo "  -> Writing booting scripts..."
-  local script
+  local script name
   for script in booting/*.sh; do
     name=$(basename "$script")
-    sudo mkimage -A arm64 -O linux -T script -C none -d "${script}" "${dir_boot}/${name%.sh}.scr" > /dev/null
+    if [ "${name}" == 'boot.sh' ]; then
+      name="${name%.sh}.scr"
+    else
+      name="${name%.sh}"
+    fi
+    sudo mkimage -A arm64 -O linux -T script -C none -d "${script}" "${dir_boot}/${name}" > /dev/null
   done
   echo "  -> Writing booting configuration..."
   local kernel='linux-aarch64-flippy'
@@ -323,6 +328,7 @@ deploy() {
   create_mountpoint
   mount_tree
   pacstrap_base
+  genfstab_root
   pacstrap_aur
   remove_non_fallback
   populate_boot
