@@ -371,9 +371,9 @@ zero_fill() {
 release_resource() {
   echo "=> Releasing resources..."
   echo " => Umouting partitions..."
-  umount -R "${dir_root}" 
+  sudo umount -R "${dir_root}" 
   echo " => Detaching loopback device ${loop_disk}"
-  losetup -d "${loop_disk}"
+  sudo losetup -d "${loop_disk}"
   echo "=> Released resources"
 }
 
