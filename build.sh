@@ -253,7 +253,7 @@ pacstrap_aur() {
 
 remove_non_fallback() {
   echo " => Removing non-fallback non-legacy initramfs..."
-  rm -f ${dir_boot}/initramfs-linux-aarch64-flippy.{u,}img ${dir_boot}/initramfs-linux-aarch64-flippy-fallback.img
+  sudo rm -f ${dir_boot}/initramfs-linux-aarch64-flippy.{u,}img ${dir_boot}/initramfs-linux-aarch64-flippy-fallback.img
   echo " => Removed non-fallback non-legacy initramfs"
 }
 
