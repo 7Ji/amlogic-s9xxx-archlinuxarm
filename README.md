@@ -109,6 +109,9 @@ git submodule update
 
 After you get your local repo ready, all it needs is a simple ``./build.sh`` to build the image  
 当你本地的仓库就绪后，只需要一条简单的``./build.sh``就能构建镜像了
+
+**Do not run the build script with root, the commands that need root permission are all prefixed with ``sudo``  
+不要直接以root权限运行构建脚本，里面需要root权限的命令都已经加了``sudo``前缀**
 ```
 ./build.sh
 ```
