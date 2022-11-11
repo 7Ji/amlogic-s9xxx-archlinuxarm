@@ -28,6 +28,16 @@ After you flash the image, you should open the FAT32 first/boot partition with l
     ```
     FDT=/dtbs/linux-aarch64-flippy/amlogic/meson-sm1-hk1box-vontar-x3.dtb
     ```
+ - Edit ``extlinux/extlinux.conf``, change the line  
+ 编辑``extlinux/extlinux.conf``，把这行
+    ```
+    FDT     /dtbs/linux-aarch64-flippy/amlogic/PLEASE_SET_YOUR_DTB.dtb
+    ```
+    to like this, with the same idea
+    以相同的思路改成像这样
+    ```
+    FDT     /dtbs/linux-aarch64-flippy/amlogic/meson-sm1-hk1box-vontar-x3.dtb
+    ```
 Holding the reset button with the SD card / USB drive plugged in, and power on the box, just like how you would do with Armbian and Openwrt.  
 按住重置键，保持SD卡/USB驱动器插入，给盒子上电，就和你在Armbian和Openwrt上那样做的一样
 
