@@ -34,7 +34,7 @@ install_pkgs() {
   echo "  -> openssh: for remote management"
   echo "  -> vim: for text editting"
   echo "  -> sudo: for permission management"
-  pacman -Syu openssh vim sudo
+  pacman -Syu --noconfirm openssh vim sudo
   echo " => Essential packages installed"
 }
 
@@ -55,7 +55,7 @@ setup_sudo() {
 
 setup_users() {
   echo " => Setting up users, root and a newly created user in the wheel group will be set with a temporary password"
-  local key='please_change_me'
+  local key='alarm_please_change_me'
   echo "  -> Temporary password is ${key}"
   local user='alarm'
   echo "  -> Creating user ${user}"
