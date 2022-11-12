@@ -9,6 +9,12 @@
 *Note only generic image is provided in this project, as there's no SoC-specific things. Everything is kept as simple and lightweight as possible, with most of details leaving to yourself to decide  
 注意本项目只提供通用镜像，项目中没有对应各SoC专有的东西。所有的细节都被控制得尽可能简单和轻量化，大多数细节都留给你自己去做决定*
 
+Installing on USB drive is more recommended, and then [alarm-install][alarm guide on blog] can be referred to to install to eMMC or to another USB drive/SD card **in the ArchLinux way**  
+建议安装在USB驱动器上，然后可以参考[alarm-install][alarm guide on blog]使用**ArchLinux的方式**来安装到eMMC或者另一个USB驱动器/SD卡上
+
+All Amlogic s9xxx devices **share the same generic image**, i.e. there is **no default u-boot.ext and dtb** set, and you must set them according to your device. And take care dtb should be set both in ``uEnv.txt`` and ``extlinux/extlinux.conf``  
+所有的Amlogic s9xxx设备**共用同一个通用镜像**，也就是说镜像里**没有设置默认的u-boot.ext和dtb**，你必须根据你的设备设置。并请注意dtb需要在``uEnv.txt``和``extlinux/extlinux.conf``里一并设置
+
 Two different kinds of releases are available  
 有两种类型的发布可用
  - ``ArchLinuxARM-aarch64-Amlogic-*.img.xz`` is just like the normal image you would find in the Armbian and Openwrt projects, where you should just decompress and burn it to a SD card / USB drive. The layout is hard-coded but it's therefore easy to use because you do not need to worry about partitioning  
