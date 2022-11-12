@@ -240,10 +240,15 @@ pacstrap_aur() {
   fi
   local pkg
   for pkg in "${dir_pkg}/linux-aarch64-flippy-bin-"*"-${pkg_suffix}"; do
-    if [[ "$(basename "${pkg}")" != linux-aarch64-flippy-bin-dtb-* ]]; then
-      pkgs+=("${pkg}")
-      break
-    fi
+    pkg_name="$(basename "${pkg}")"
+    case "$pkg_name" in
+      linux-aarch64-flippy-bin-dtb-*) :;;
+      linux-aarch64-flippy-bin-headers-*) :;;
+      *)
+        pkgs+=("${pkg}")
+        break
+      ;;
+    esac
   done
   if [[ ${#pkgs[@]} != 6 ]]; then
     echo "  -> Error: Package linux-aarch64-flippy-bin was not found"
