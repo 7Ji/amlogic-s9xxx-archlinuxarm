@@ -1,6 +1,11 @@
 # ArchLinux ARM for Amlogic s9xxx devices
+*This is for an installation done in the flash-and-boot way not like ArchLinux, if you prefer an installation done in the ArchLinux way, please refer to the [installation guide on my blog][alarm guide on blog] instead  
+这是为刷完就能启动的安装方式准备的，和ArchLinux大为不同，如果你更喜欢以ArchLinux的方式安装，请参考[我博客上的安装指南][alarm guide on blog]*
+
+[alarm guide on blog]: https://7ji.github.io/embedded/2022/11/08/alarm-install.html
 
 ## Installation / 安装
+
 *Note only generic image is provided in this project, as there's no SoC-specific things. Everything is kept as simple and lightweight as possible, with most of details leaving to yourself to decide  
 注意本项目只提供通用镜像，项目中没有对应各SoC专有的东西。所有的细节都被控制得尽可能简单和轻量化，大多数细节都留给你自己去做决定*
 
@@ -150,3 +155,25 @@ export SKIP_AUR=yes
 export SKIP_XZ=yes
 ./build.sh
 ```
+
+## Sources / 来源
+
+U-boot unpacked to ``/boot/uboot`` are downloaded during building from [ophub's Armbian repo][Armbian u-boot overload]  
+释放到``/boot/uboot``的u-boot是在构建过程中自[ophub的 Armbian仓库][Armbian u-boot overload]下载的
+
+Scripts and configuration under ``/boot`` are also adapted from [ophub's Armbian repo][Armbian boot common] but directly maintained here  
+``/boot``下的脚本和配置也是从[ophub的Armbian仓库][Armbian boot common]修改适配而来，不过直接在这里维护
+
+
+AUR package [ampart-git][AUR ampart-git], [linux-aarch64-flippy-bin][AUR linux-aarch64-flippy-bin], [linux-firmware-amlogic-ophub][AUR linux-firmware-amlogic-ophub] and [uboot-legacy-initrd-hooks][AUR uboot-legacy-initrd-hooks] are from my AUR.  
+AUR包[ampart-git][AUR ampart-git], [linux-aarch64-flippy-bin][AUR linux-aarch64-flippy-bin], [linux-firmware-amlogic-ophub][AUR linux-firmware-amlogic-ophub]和 [uboot-legacy-initrd-hooks][AUR uboot-legacy-initrd-hooks]都来自我的AUR
+
+
+[Armbian u-boot overload]: https://github.com/ophub/amlogic-s9xxx-armbian/tree/main/build-armbian/amlogic-u-boot/overload
+[Armbian boot common]: https://github.com/ophub/amlogic-s9xxx-armbian/blob/main/build-armbian/amlogic-armbian/boot-common.tar.xz
+
+
+[AUR ampart-git]: https://aur.archlinux.org/packages/ampart-git
+[AUR linux-aarch64-flippy-bin]: https://aur.archlinux.org/packages/linux-aarch64-flippy-bin
+[AUR linux-firmware-amlogic-ophub]: https://aur.archlinux.org/packages/linux-firmware-amlogic-ophub
+[AUR uboot-legacy-initrd-hooks]: https://aur.archlinux.org/packages/uboot-legacy-initrd-hooks
