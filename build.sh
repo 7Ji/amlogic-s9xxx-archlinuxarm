@@ -361,7 +361,7 @@ cleanup() {
   echo "=> Cleaning up..."  
   clean_pacman
   remove_non_fallback
-  ehco "=> Cleaned up"
+  echo "=> Cleaned up"
 }
 
 make_archive() {
