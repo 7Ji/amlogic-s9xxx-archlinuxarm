@@ -222,6 +222,7 @@ pacstrap_aur() {
     'linux-aarch64-flippy-bin-dtb-amlogic'
     'linux-firmware-amlogic-ophub'
     'uboot-legacy-initrd-hooks'
+    'yay'
   )
   local pkg_name pkg_match
   local pkgs=()
@@ -233,8 +234,8 @@ pacstrap_aur() {
     fi
     pkgs+=(${pkg_match[0]})
   done
-  if [[ ${#pkgs[@]} != 4 ]]; then
-    echo "  -> Error: Not all 4 of ${pkg_names[@]} are found"
+  if [[ ${#pkgs[@]} != 5 ]]; then
+    echo "  -> Error: Not all 5 of ${pkg_names[@]} are found"
     return 2
   fi
   local pkg
@@ -244,7 +245,7 @@ pacstrap_aur() {
       break
     fi
   done
-  if [[ ${#pkgs[@]} != 5 ]]; then
+  if [[ ${#pkgs[@]} != 6 ]]; then
     echo "  -> Error: Package linux-aarch64-flippy-bin was not found"
     return 3
   fi

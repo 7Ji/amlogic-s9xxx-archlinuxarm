@@ -10,3 +10,6 @@
 [submodule "aur/linux-firmware-amlogic-ophub"]
 	path = aur/linux-firmware-amlogic-ophub
 	url = https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
+[submodule "aur/yay"]
+	path = aur/yay
+	url = https://aur.archlinux.org/yay.git

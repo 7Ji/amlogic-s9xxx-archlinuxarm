@@ -105,6 +105,7 @@ sudo pacman -Syu arch-install-scripts \
                  base-devel \
                  dosfstools \
                  git \
+                 go \
                  parted \
                  uboot-tools \
                  xz \
@@ -168,7 +169,10 @@ Scripts and configuration under ``/boot`` are also adapted from [ophub's Armbian
 
 
 AUR package [ampart-git][AUR ampart-git], [linux-aarch64-flippy-bin][AUR linux-aarch64-flippy-bin], [linux-firmware-amlogic-ophub][AUR linux-firmware-amlogic-ophub] and [uboot-legacy-initrd-hooks][AUR uboot-legacy-initrd-hooks] are from my AUR.  
-AUR包[ampart-git][AUR ampart-git], [linux-aarch64-flippy-bin][AUR linux-aarch64-flippy-bin], [linux-firmware-amlogic-ophub][AUR linux-firmware-amlogic-ophub]和 [uboot-legacy-initrd-hooks][AUR uboot-legacy-initrd-hooks]都来自我的AUR
+AUR包[ampart-git][AUR ampart-git], [linux-aarch64-flippy-bin][AUR linux-aarch64-flippy-bin], [linux-firmware-amlogic-ophub][AUR linux-firmware-amlogic-ophub]和 [uboot-legacy-initrd-hooks][AUR uboot-legacy-initrd-hooks]都来自我的AUR.
+
+AUR package [yay][AUR yay] is its author's AUR  
+AUR包[yay][AUR yay]来自于其作者的AUR
 
 
 [Armbian u-boot overload]: https://github.com/ophub/amlogic-s9xxx-armbian/tree/main/build-armbian/amlogic-u-boot/overload
@@ -179,3 +183,4 @@ AUR包[ampart-git][AUR ampart-git], [linux-aarch64-flippy-bin][AUR linux-aarch64
 [AUR linux-aarch64-flippy-bin]: https://aur.archlinux.org/packages/linux-aarch64-flippy-bin
 [AUR linux-firmware-amlogic-ophub]: https://aur.archlinux.org/packages/linux-firmware-amlogic-ophub
 [AUR uboot-legacy-initrd-hooks]: https://aur.archlinux.org/packages/uboot-legacy-initrd-hooks
+[AUR yay]: https://aur.archlinux.org/packages/yay
