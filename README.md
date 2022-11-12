@@ -113,7 +113,8 @@ sudo pacman -Syu arch-install-scripts \
 When cloning the repo, remember to register all of the submodules and update them first. Otherwise the AUR packages would fail to build because of missing ``PKGBUILD``  
 克隆仓库的时候，记得先注册所有的子模块并更新。不然的话AUR包会因为找不到``PKGBUILD``而构建失败
 ```
-git clone https://github.com/7Ji/amlogic-s9xxx-alarm
+git clone https://github.com/7Ji/amlogic-s9xxx-archlinuxarm
+cd amlogic-s9xxx-archlinuxarm
 git submodule init
 git submodule update
 ```
