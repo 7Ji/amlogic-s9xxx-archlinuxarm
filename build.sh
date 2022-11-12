@@ -252,12 +252,6 @@ pacstrap_aur() {
   echo " => Pacstrap AUR done"
 }
 
-remove_non_fallback() {
-  echo " => Removing non-fallback non-legacy initramfs..."
-  sudo rm -f ${dir_boot}/initramfs-linux-aarch64-flippy.{u,}img ${dir_boot}/initramfs-linux-aarch64-flippy-fallback.img
-  echo " => Removed non-fallback non-legacy initramfs"
-}
-
 genfstab_root() {
   echo " => Generating fstab..."
   local fstab_file="${dir_root}/etc/fstab"
@@ -335,7 +329,6 @@ deploy() {
   pacstrap_base
   genfstab_root
   pacstrap_aur
-  remove_non_fallback
   populate_boot
   echo "=> Deploy end"
 }
@@ -351,6 +344,25 @@ run_inside() {
   echo "=> Getting out from the target root"
 }
 
+remove_non_fallback() {
+  echo " => Removing non-fallback non-legacy initramfs..."
+  sudo rm -f ${dir_boot}/initramfs-linux-aarch64-flippy.{u,}img ${dir_boot}/initramfs-linux-aarch64-flippy-fallback.img
+  echo " => Removed non-fallback non-legacy initramfs"
+}
+
+clean_pacman() {
+  echo " => Cleaning Pacman package cache..."
+  rm -rf "${dir_root}/var/cache/pacman/pkg/"*
+  echo " => Pacman cache cleaned"
+}
+
+cleanup() {
+  echo "=> Cleaning up..."  
+  clean_pacman
+  remove_non_fallback
+  ehco "=> Cleaned up"
+}
+
 make_archive() {
   echo "=> Creating rootfs archive..."
   local path_archive="${dir_out}/${name_archive}"
@@ -359,11 +371,11 @@ make_archive() {
     cd "${dir_root}"
     sudo bsdtar --acls --xattrs -cvpf - *
   ) > "${path_archive}"
-  local path_archive_compressed="${dir_out}/${name_archive_compressed}"
-  echo " -> Compressing archive to ${path_archive_compressed} ..."
   if [[ "${SKIP_XZ}" == 'yes' ]]; then
     echo " -> Compressing skipped since SKIP_XZ=yes"
   else
+    local path_archive_compressed="${dir_out}/${name_archive_compressed}"
+    echo " -> Compressing archive to ${path_archive_compressed} ..."
     xz -9ecvT0 "${path_archive}" > "${path_archive_compressed}"
   fi
   echo "=> Rootfs archive created"
@@ -392,12 +404,12 @@ release_resource() {
 
 compress_image() {
   echo "=> Compressing disk image..."
-  local path_disk="${dir_out}/${name_disk}"
-  local path_disk_compressed="${dir_out}/${name_disk_compressed}"
-  echo " => Compressing into ${path_disk_compressed}..."
   if [[ "${SKIP_XZ}" == 'yes' ]]; then
     echo " -> Compressing skipped since SKIP_XZ=yes"
   else
+    local path_disk="${dir_out}/${name_disk}"
+    local path_disk_compressed="${dir_out}/${name_disk_compressed}"
+    echo " => Compressing into ${path_disk_compressed}..."
     xz -9ecvT0 "${path_disk}" > "${path_disk_compressed}"
   fi
   echo "=> Compressing success"
@@ -409,6 +421,7 @@ build() {
   prepare
   deploy
   run_inside
+  cleanup
   make_archive
   zero_fill
   release_resource

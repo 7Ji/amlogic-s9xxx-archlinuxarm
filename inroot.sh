@@ -76,12 +76,6 @@ setup_ssh() {
   echo " => SSH set up"
 }
 
-pkg_clean() {
-  echo " => Cleaning Pacman package cache..."
-  rm -rf /var/cache/pacman/pkg/*
-  echo " => Pacman cache cleaned"
-}
-
 inside_root() {
   basic_setup
   install_pkgs
@@ -89,7 +83,6 @@ inside_root() {
   setup_sudo
   setup_users
   setup_ssh
-  pkg_clean
 }
 
 inside_root
