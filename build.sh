@@ -4,7 +4,7 @@ dir_aur='aur'
 dir_pkg='pkg'
 dir_uboot='uboot'
 dir_booting='booting'
-dir_out='out'
+dir_releases='releases'
 
 no_root() {
   echo " => Checking if running with root permission..."
@@ -158,8 +158,8 @@ create_disk() {
   echo " => Creating disk..."
   local size_split=256M
   local size_disk=2G
-  mkdir -p "${dir_out}"
-  path_disk="${dir_out}/${name_disk}"
+  mkdir -p "${dir_releases}"
+  path_disk="${dir_releases}/${name_disk}"
   echo "  -> Disk path is ${path_disk}"
   rm -f "${path_disk}"
   echo "  -> Allocating disk space..."
@@ -366,7 +366,7 @@ cleanup() {
 
 make_archive() {
   echo "=> Creating rootfs archive..."
-  local path_archive="${dir_out}/${name_archive}"
+  local path_archive="${dir_releases}/${name_archive}"
   echo " -> Creating archive ${path_archive} without compression..."
   (
     cd "${dir_root}"
@@ -375,7 +375,7 @@ make_archive() {
   if [[ "${SKIP_XZ}" == 'yes' ]]; then
     echo " -> Compressing skipped since SKIP_XZ=yes"
   else
-    local path_archive_compressed="${dir_out}/${name_archive_compressed}"
+    local path_archive_compressed="${dir_releases}/${name_archive_compressed}"
     echo " -> Compressing archive to ${path_archive_compressed} ..."
     xz -9ecvT0 "${path_archive}" > "${path_archive_compressed}"
   fi
@@ -408,8 +408,8 @@ compress_image() {
   if [[ "${SKIP_XZ}" == 'yes' ]]; then
     echo " -> Compressing skipped since SKIP_XZ=yes"
   else
-    local path_disk="${dir_out}/${name_disk}"
-    local path_disk_compressed="${dir_out}/${name_disk_compressed}"
+    local path_disk="${dir_releases}/${name_disk}"
+    local path_disk_compressed="${dir_releases}/${name_disk_compressed}"
     echo " => Compressing into ${path_disk_compressed}..."
     xz -9ecvT0 "${path_disk}" > "${path_disk_compressed}"
   fi
