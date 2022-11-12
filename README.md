@@ -22,7 +22,7 @@ Two different kinds of releases are available
 After you flash the image, you should open the FAT32 first/boot partition with label ``ALARMBOOT``, and do the following adjustment:  
 当你写入镜像以后，你应该打开FAT32的卷标是`ALARMBOOT`的第一个/启动分区分区，然后做以下调整
  - Find a corresponding u-boot in the folder ``uboot``, copy/move it as ``u-boot.ext`` in the root of the partition. You can then safely delete the ``uboot`` folder if you want to save space  
-在`uboot`文件夹中找到对应的u-boot，把它复制或移动到这个分区的根目录。然后如果你想节约空间的话，你可以放心地把`uboot`文件夹删掉
+在`uboot`文件夹中找到对应的u-boot，把它改名为``u-boot.ext``复制或移动到这个分区的根目录。然后如果你想节约空间的话，你可以放心地把`uboot`文件夹删掉
  - Edit ``uEnv.txt``, change the line  
 编辑``uEnv.txt``，把这行
     ```
