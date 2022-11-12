@@ -34,7 +34,7 @@ install_pkgs() {
   echo "  -> openssh: for remote management"
   echo "  -> vim: for text editting"
   echo "  -> sudo: for permission management"
-  pacman -Syu --noconfirm openssh vim sudo
+  pacman -Sy --noconfirm openssh vim sudo
   echo " => Essential packages installed"
 }
 
