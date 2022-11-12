@@ -70,7 +70,7 @@ setup_users() {
 setup_ssh() {
   echo " => Setting up SSH"
   echo '  -> Allowing to login as root with password'
-  sed 's|^#PermitRootLogin prohibit-password$|PermitRootLogin yes|g' 'etc/ssh/sshd_config'
+  sed -i 's|^#PermitRootLogin prohibit-password$|PermitRootLogin yes|g' '/etc/ssh/sshd_config'
   echo '  -> Enabling sshd.service'
   systemctl enable sshd.service
   echo " => SSH set up"

@@ -96,7 +96,13 @@ The script **must be run on an AArch64 device natively, with either ArchLinux AR
 Before the first build, some packages might need to be installed if you haven't installed them yet:  
 首次构建前，如果你没装的话，有的包必需被安装
 ```
-sudo pacman -Syu base-devel git wget parted arch-install-scripts
+sudo pacman -Syu arch-install-scripts \
+                 base-devel \
+                 git \
+                 parted \
+                 uboot-tools \
+                 xz \
+                 wget 
 ```
 
 When cloning the repo, remember to register all of the submodules and update them first. Otherwise the AUR packages would fail to build because of missing ``PKGBUILD``  

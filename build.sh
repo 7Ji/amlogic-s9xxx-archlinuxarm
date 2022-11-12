@@ -6,15 +6,6 @@ dir_uboot='uboot'
 dir_booting='booting'
 dir_out='out'
 
-kernel='linux-aarch64-flippy'
-
-aur_names=(
-  'ampart-git'
-  "${kernel}-bin"
-  'linux-firmware-amlogic-ophub'
-  'uboot-legacy-initrd-hooks'
-)
-
 no_root() {
   echo " => Checking if running with root permission..."
   if [[ "${UID}" == 0 ]]; then
