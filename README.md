@@ -58,7 +58,12 @@ By default, there's a user ``alarm`` in the group ``wheel`` and can use `sudo` w
 It's recommended to do a full upgrade right after you boot:  
 建议你开机后立即进行一次全局升级：
 ```
-pacman -Syu
+sudo pacman -Syu
+```
+or (``yay`` without argument calls ``sudo pacman -Syu`` implicitly)  
+或者（不带任何参数的``yay``隐式调用``sudo pacman -Syu``）
+```
+yay
 ```
 And generate the initramfs, since only the u-boot legacy initrd fallback image is kept to save space, all other 3 initramfs were deleted before packing (standard default, standard fallback and legacy default):  
 并立即生成初始化内存盘，因为为了节约空间，只有u-boot传统内存盘的回落镜像被保留，其他三个初始化内存盘都在打包前删掉了（标准默认配置。标准回落配置和传统默认配置）
