@@ -103,6 +103,7 @@ Before the first build, make sure these build dependencies are installed:
 ```
 sudo pacman -Syu arch-install-scripts \
                  base-devel \
+                 dosfstools \
                  git \
                  parted \
                  uboot-tools \
