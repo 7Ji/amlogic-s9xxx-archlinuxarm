@@ -38,7 +38,7 @@ After you flash the image, you should open the FAT32 first/boot partition with l
     ```
     FDT     /dtbs/linux-aarch64-flippy/amlogic/PLEASE_SET_YOUR_DTB.dtb
     ```
-    to like this, with the same idea
+    to like this, with the same idea  
     以相同的思路改成像这样
     ```
     FDT     /dtbs/linux-aarch64-flippy/amlogic/meson-sm1-hk1box-vontar-x3.dtb
@@ -49,10 +49,10 @@ Holding the reset button with the SD card / USB drive plugged in, and power on t
 By default, `systemd-networkd.service` and `systemd-resolved.service` are enabled, and DHCP is enabled on ``eth*``, you can check your router to get the box's IP  
 默认情况下`systemd-networkd.service`和`systemd-resolved.service`都已启用，DHCP在`eth*`上启动，你可以到你的路由器上去查询盒子的IP
 
-By default, `sshd.service` is enabled, and root login is permitted, whose password `please_change_me`  
+By default, `sshd.service` is enabled, and root login is permitted, whose password `alarm_please_change_me`  
 默认情况下`sshd.service`已启用，且允许root登录，root的密码是`alarm_please_change_me`
 
-By default, there's a user ``alarm`` in the group ``wheel`` and can use `sudo` with password. The user has a password `please_change_me`.
+By default, there's a user ``alarm`` in the group ``wheel`` and can use `sudo` with password. The user has a password `alarm_please_change_me`.  
 默认情况下，有一个组为`wheel`的用户`alarm`，可以在输入密码后使用`sudo`。这个用户的密码是`alarm_please_change_me`
 
 It's recommended to do a full upgrade right after you boot:  
