@@ -93,8 +93,8 @@ Depending on your booting configuration you can choose whether to keep the u-boo
 The script **must be run on an AArch64 device natively, with either ArchLinux ARM itself or derived distros like Manajaro**, as some AUR packages need to built natively, and the package manager Pacman should also be run natively. Your could just use the images here or follow [my guide on my blog](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) to bootstrap a working ArchLinux ARM installation from ground up.  
 构建脚本**必须在AArch64设备上原生运行，在ArchLinux ARM自己或者是衍生发行版如Manjaro ARM上**，因为有的AUR包需要被原生构建，并且包管理器Pacman也应该被原生运行。你可以用这里的镜像或者照着[我博客上的文章](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) 来从头自举一个可以工作的ArchLinux ARM安装
 
-Before the first build, some packages might need to be installed if you haven't installed them yet:  
-首次构建前，如果你没装的话，有的包必需被安装
+Before the first build, make sure these build dependencies are installed:  
+首次构建前，确保这些构建依赖已经安装
 ```
 sudo pacman -Syu arch-install-scripts \
                  base-devel \
@@ -115,11 +115,18 @@ git submodule update
 
 After you get your local repo ready, all it needs is a simple ``./build.sh`` to build the image  
 当你本地的仓库就绪后，只需要一条简单的``./build.sh``就能构建镜像了
-
-**Do not run the build script with root, the commands that need root permission are all prefixed with ``sudo``  
-不要直接以root权限运行构建脚本，里面需要root权限的命令都已经加了``sudo``前缀**
 ```
 ./build.sh
+```
+Or if you prefer to prefix it with the corresponding shell (**`-e`** flash must be set):  
+或者你更喜欢在前面加上对应的shell的话（必须设置 **`-e`** 标志）
+```
+bash -e build.sh
+```
+*The script should be run as a user that can use `sudo`, as it will run some high risk commands with `sudo` instead of always running as `root`. It will refuse to work if being run as `root` or with `sudo`. You might need to to set the following option in `sudoers` if you want to keep it in background to cancel the timeout:  
+这个脚本应当以一个能用`sudo`的用户的身份运行，因为它会通过`sudo`运行一些高风险的命令，而不是一直作为`root`运行，如果以`root`身份或者是通过`sudo`，脚本会拒绝工作。如果你要让脚本在后台运行的话，你可能需要在`sudoers`里添加以下选项来取消超时：*
+```
+Defaults passwd_timeout=0
 ```
 
 There're some environment variables you could set to define the behaviours:  
