@@ -106,8 +106,14 @@ Depending on your booting configuration you can choose whether to keep the u-boo
     ```
 
 ## Build / 构建
-The script **must be run on an AArch64 device natively, with either ArchLinux ARM itself or derived distros like Manajaro**, as some AUR packages need to built natively, and the package manager Pacman should also be run natively. Your could just use the images here or follow [my guide on my blog](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) to bootstrap a working ArchLinux ARM installation from ground up.  
-构建脚本**必须在AArch64设备上原生运行，在ArchLinux ARM自己或者是衍生发行版如Manjaro ARM上**，因为有的AUR包需要被原生构建，并且包管理器Pacman也应该被原生运行。你可以用这里的镜像或者照着[我博客上的文章](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) 来从头自举一个可以工作的ArchLinux ARM安装
+The script **must be run on an AArch64 device natively, and on either ArchLinux ARM itself or derived distros like Manjaro ARM**, as our AUR packages need to built natively, and the package manager Pacman should also be run natively to install them and other essential packages. Unless you want to leave a lot of binaries not tracked by the package manager (**very dangerous, and not the Arch way**), this is the way to go.  
+构建脚本**必须在装有ArchLinux ARM自己或者是Manjaro ARM等衍生发行版的AArch64设备上原生运行**，因为有的AUR包需要被原生构建，并且包管理器Pacman也应且仅应当该被原生运行来安装它们还有其他的必要包。除非你想整一堆包管理器追踪不到的文件（**非常危险，而且根本不是Arch的风格**），不然这就是正确的唯一路子。
+
+Your could just use the images here or follow [my guide on my blog](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) to bootstrap a working ArchLinux ARM installation from ground up to be used as the build environment.  
+你可以用这里的镜像或者照着[我博客上的文章](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) 来从头自举一个可以工作的ArchLinux ARM安装来当作构建环境
+
+Be sure to setup distcc with other more powerful machines (e.g. your x86-64 server) as voluenteers beforehand, following [the documentation on ArchWiki][Arch Wiki distcc]. The AArch64 devices themselves are too weak and slow to build just by themselves.  
+记得提前根据[ArchWiki上的文档][Arch Wiki distcc]设置好distcc，用其他更强大的机子（比如说你的x86-64的服务器）作为构建志愿者。AArch64设备本身太弱了，单纯用它们构建很慢。
 
 Before the first build, make sure these build dependencies are installed:  
 首次构建前，确保这些构建依赖已经安装
@@ -185,6 +191,7 @@ AUR包[ampart-git][AUR ampart-git], [linux-aarch64-flippy-bin][AUR linux-aarch64
 AUR package [yay][AUR yay] is its author's AUR  
 AUR包[yay][AUR yay]来自于其作者的AUR
 
+[Arch Wiki distcc]: https://wiki.archlinux.org/title/Distcc#Arch_Linux_ARM_as_clients_(x86_64_as_volunteers)
 
 [Armbian u-boot overload]: https://github.com/ophub/amlogic-s9xxx-armbian/tree/main/build-armbian/amlogic-u-boot/overload
 [Armbian boot common]: https://github.com/ophub/amlogic-s9xxx-armbian/blob/main/build-armbian/amlogic-armbian/boot-common.tar.xz
