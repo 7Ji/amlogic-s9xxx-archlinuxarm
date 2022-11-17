@@ -1,3 +1,6 @@
+**ARCHIVED UNTIL I FINISH MY 2023 POST-GRADUATTE ADMISSION EXAM ON DEC 24TH AND 25TH  
+归档至23考研结束**
+
 # ArchLinux ARM for Amlogic s9xxx devices
 *This is for an installation done in the flash-and-boot way not like ArchLinux, if you prefer an installation done in the ArchLinux way, please refer to the [installation guide on my blog][alarm guide on blog] instead  
 这是为刷完就能启动的安装方式准备的，和ArchLinux大为不同，如果你更喜欢以ArchLinux的方式安装，请参考[我博客上的安装指南][alarm guide on blog]*
