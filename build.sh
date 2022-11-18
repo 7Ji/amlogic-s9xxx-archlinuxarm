@@ -79,6 +79,11 @@ prepare_uboot() {
   local armbian_commit='4da175261a44e179c1416902b1f7bcc9f502cd8f'
   mkdir -p "${dir_uboot}"
   local uboot_name uboot_file uboot_sha256sum i=0
+  if [[ ${WGET_PROXYCHAINS} == 'yes' ]]; then
+    local wget='proxychains wget'
+  else
+    local wget='wget'
+  fi
   for uboot_name in "${uboot_names[@]}"; do
     uboot_file="${dir_uboot}/${uboot_name}"
     if [[ -f "${uboot_file}" ]]; then
@@ -93,7 +98,7 @@ prepare_uboot() {
     fi
     # A URL should look like this: 
     # https://github.com/ophub/amlogic-s9xxx-armbian/raw/main/build-armbian/amlogic-u-boot/overload/u-boot-e900v22c.bin
-    wget "${armbian_repo}/raw/${armbian_commit}/build-armbian/amlogic-u-boot/overload/u-boot-${uboot_name}.bin" -O "${uboot_file}"
+    ${wget} "${armbian_repo}/raw/${armbian_commit}/build-armbian/amlogic-u-boot/overload/u-boot-${uboot_name}.bin" -O "${uboot_file}"
     uboot_sha256sum=$(sha256sum "${uboot_file}") # This is written as a single command without piping to cut because I want it to fail it sha256sum fails
     if [[ "${uboot_sha256sum::64}" != "${uboot_sha256sums[$i]}" ]]; then
       echo "  -> Error: u-boot for ${uboot_name} has different sha256sum"
@@ -131,11 +136,11 @@ prepare_aur() {
     export PKGEXT
     pushd "${dir_aur}"
     for aur_pkg in *; do
-        echo "  -> Building AUR package ${aur_pkg}..."
-        pushd "${aur_pkg}"
-        makepkg -cfsAC
-        mv -v "${aur_pkg}"-*-aarch64.pkg.tar "${dir_pkg_absolute}/"
-        popd
+      echo "  -> Building AUR package ${aur_pkg}..."
+      pushd "${aur_pkg}"
+      makepkg -cfsAC
+      mv -v "${aur_pkg}"-*-aarch64.pkg.tar "${dir_pkg_absolute}/"
+      popd
     done
     popd
   fi
