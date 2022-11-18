@@ -391,13 +391,17 @@ make_archive() {
 }
 
 zero_fill() {
-  echo "=> Filling zeroes to target root and boot fs to maximum compression"
-  echo " => Filling boot partition..."
-  sudo dd if=/dev/zero of="${dir_boot}/.zerofill" || true
-  echo " => Filling root partition..."
-  sudo dd if=/dev/zero of="${dir_root}/.zerofill" || true
-  sudo rm -f "${dir_boot}/.zerofill" "${dir_root}/.zerofill"
-  echo "=> Zero fill successful"
+  echo "=> Filling zeroes to target root and boot fs for maximum compression"
+  if [[ "${SKIP_XZ}" == 'yes' ]]; then
+    echo " -> Zero-fill skipped since SKIP_XZ=yes"
+  else
+    echo " => Filling boot partition..."
+    sudo dd if=/dev/zero of="${dir_boot}/.zerofill" || true
+    echo " => Filling root partition..."
+    sudo dd if=/dev/zero of="${dir_root}/.zerofill" || true
+    sudo rm -f "${dir_boot}/.zerofill" "${dir_root}/.zerofill"
+    echo "=> Zero fill successful"
+  fi
 }
 
 release_resource() {
