@@ -219,7 +219,7 @@ pacstrap_aur() {
   local pkg_suffix='aarch64.pkg.tar'
   local pkg_names=(
     'ampart-git'
-    'linux-aarch64-flippy-bin-dtb-amlogic'
+    'linux-aarch64-flippy-dtb-amlogic'
     'linux-firmware-amlogic-ophub'
     'uboot-legacy-initrd-hooks'
     'yay'
@@ -239,11 +239,11 @@ pacstrap_aur() {
     return 2
   fi
   local pkg
-  for pkg in "${dir_pkg}/linux-aarch64-flippy-bin-"*"-${pkg_suffix}"; do
+  for pkg in "${dir_pkg}/linux-aarch64-flippy-"*"-${pkg_suffix}"; do
     pkg_name="$(basename "${pkg}")"
     case "$pkg_name" in
-      linux-aarch64-flippy-bin-dtb-*) :;;
-      linux-aarch64-flippy-bin-headers-*) :;;
+      linux-aarch64-flippy-dtb-*) :;;
+      linux-aarch64-flippy-headers-*) :;;
       *)
         pkgs+=("${pkg}")
         break
