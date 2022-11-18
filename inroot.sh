@@ -29,15 +29,6 @@ basic_setup() {
   systemctl enable systemd-networkd.service systemd-resolved.service
 }
 
-install_pkgs() {
-  echo " => Installing more essential packages..."
-  echo "  -> openssh: for remote management"
-  echo "  -> vim: for text editting"
-  echo "  -> sudo: for permission management"
-  pacman -Sy --noconfirm openssh vim sudo
-  echo " => Essential packages installed"
-}
-
 vim_as_vi() {
   echo " => Setting VIM as VI..."
   ln -sf 'vim' '/usr/bin/vi'
@@ -78,7 +69,6 @@ setup_ssh() {
 
 inside_root() {
   basic_setup
-  install_pkgs
   vim_as_vi
   setup_sudo
   setup_users

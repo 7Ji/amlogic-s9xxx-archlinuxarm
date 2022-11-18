@@ -209,8 +209,11 @@ mount_tree() {
 }
 
 pacstrap_base() {
-  echo " => Pacstrapping the base package group into ${dir_root}..."
-  sudo pacstrap "${dir_root}" base
+  echo " => Pacstrapping the base package group and other packages from official repo into ${dir_root}..."
+  echo "  -> openssh: for remote management"
+  echo "  -> vim: for text editting"
+  echo "  -> sudo: for privilege elevation"
+  sudo pacstrap "${dir_root}" base openssh vim
   echo " => Pacstrap base done"
 }
 
