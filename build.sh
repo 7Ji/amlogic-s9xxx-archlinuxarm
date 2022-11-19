@@ -218,7 +218,7 @@ pacstrap_base() {
   echo "  -> openssh: for remote management"
   echo "  -> vim: for text editting"
   echo "  -> sudo: for privilege elevation"
-  sudo pacstrap "${dir_root}" base openssh vim
+  sudo pacstrap "${dir_root}" base openssh vim sudo
   echo " => Pacstrap base done"
 }
 
