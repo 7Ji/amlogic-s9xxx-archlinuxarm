@@ -79,6 +79,11 @@ prepare_uboot() {
   local armbian_commit='4da175261a44e179c1416902b1f7bcc9f502cd8f'
   mkdir -p "${dir_uboot}"
   local uboot_name uboot_file uboot_sha256sum i=0
+  if [[ ${WGET_PROXYCHAINS} == 'yes' ]]; then
+    local wget='proxychains wget'
+  else
+    local wget='wget'
+  fi
   for uboot_name in "${uboot_names[@]}"; do
     uboot_file="${dir_uboot}/${uboot_name}"
     if [[ -f "${uboot_file}" ]]; then
@@ -93,7 +98,7 @@ prepare_uboot() {
     fi
     # A URL should look like this: 
     # https://github.com/ophub/amlogic-s9xxx-armbian/raw/main/build-armbian/amlogic-u-boot/overload/u-boot-e900v22c.bin
-    wget "${armbian_repo}/raw/${armbian_commit}/build-armbian/amlogic-u-boot/overload/u-boot-${uboot_name}.bin" -O "${uboot_file}"
+    ${wget} "${armbian_repo}/raw/${armbian_commit}/build-armbian/amlogic-u-boot/overload/u-boot-${uboot_name}.bin" -O "${uboot_file}"
     uboot_sha256sum=$(sha256sum "${uboot_file}") # This is written as a single command without piping to cut because I want it to fail it sha256sum fails
     if [[ "${uboot_sha256sum::64}" != "${uboot_sha256sums[$i]}" ]]; then
       echo "  -> Error: u-boot for ${uboot_name} has different sha256sum"
@@ -131,11 +136,11 @@ prepare_aur() {
     export PKGEXT
     pushd "${dir_aur}"
     for aur_pkg in *; do
-        echo "  -> Building AUR package ${aur_pkg}..."
-        pushd "${aur_pkg}"
-        makepkg -cfsAC
-        mv -v "${aur_pkg}"-*-aarch64.pkg.tar "${dir_pkg_absolute}/"
-        popd
+      echo "  -> Building AUR package ${aur_pkg}..."
+      pushd "${aur_pkg}"
+      makepkg -cfsAC
+      mv -v "${aur_pkg}"-*-aarch64.pkg.tar "${dir_pkg_absolute}/"
+      popd
     done
     popd
   fi
@@ -209,8 +214,11 @@ mount_tree() {
 }
 
 pacstrap_base() {
-  echo " => Pacstrapping the base package group into ${dir_root}..."
-  sudo pacstrap "${dir_root}" base
+  echo " => Pacstrapping the base package group and other packages from official repo into ${dir_root}..."
+  echo "  -> openssh: for remote management"
+  echo "  -> vim: for text editting"
+  echo "  -> sudo: for privilege elevation"
+  sudo pacstrap "${dir_root}" base openssh vim sudo
   echo " => Pacstrap base done"
 }
 
@@ -219,7 +227,7 @@ pacstrap_aur() {
   local pkg_suffix='aarch64.pkg.tar'
   local pkg_names=(
     'ampart-git'
-    'linux-aarch64-flippy-bin-dtb-amlogic'
+    'linux-aarch64-flippy-dtb-amlogic'
     'linux-firmware-amlogic-ophub'
     'uboot-legacy-initrd-hooks'
     'yay'
@@ -239,11 +247,11 @@ pacstrap_aur() {
     return 2
   fi
   local pkg
-  for pkg in "${dir_pkg}/linux-aarch64-flippy-bin-"*"-${pkg_suffix}"; do
+  for pkg in "${dir_pkg}/linux-aarch64-flippy-"*"-${pkg_suffix}"; do
     pkg_name="$(basename "${pkg}")"
     case "$pkg_name" in
-      linux-aarch64-flippy-bin-dtb-*) :;;
-      linux-aarch64-flippy-bin-headers-*) :;;
+      linux-aarch64-flippy-dtb-*) :;;
+      linux-aarch64-flippy-headers-*) :;;
       *)
         pkgs+=("${pkg}")
         break
@@ -388,13 +396,17 @@ make_archive() {
 }
 
 zero_fill() {
-  echo "=> Filling zeroes to target root and boot fs to maximum compression"
-  echo " => Filling boot partition..."
-  sudo dd if=/dev/zero of="${dir_boot}/.zerofill" || true
-  echo " => Filling root partition..."
-  sudo dd if=/dev/zero of="${dir_root}/.zerofill" || true
-  sudo rm -f "${dir_boot}/.zerofill" "${dir_root}/.zerofill"
-  echo "=> Zero fill successful"
+  echo "=> Filling zeroes to target root and boot fs for maximum compression"
+  if [[ "${SKIP_XZ}" == 'yes' ]]; then
+    echo " -> Zero-fill skipped since SKIP_XZ=yes"
+  else
+    echo " => Filling boot partition..."
+    sudo dd if=/dev/zero of="${dir_boot}/.zerofill" || true
+    echo " => Filling root partition..."
+    sudo dd if=/dev/zero of="${dir_root}/.zerofill" || true
+    sudo rm -f "${dir_boot}/.zerofill" "${dir_root}/.zerofill"
+    echo "=> Zero fill successful"
+  fi
 }
 
 release_resource() {

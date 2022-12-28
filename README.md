@@ -162,6 +162,9 @@ There're some environment variables you could set to define the behaviours:
  - ``SKIP_AUR``
    - if set to yes, then AUR packages won't be re-built. This is recommended for rebuilds when you already have built AUR packages under ``pkg``.
    - 如果设置为yes，那么AUR包不会被重新构建。对于你已经在`pkg`下有构建好的AUR包的情况下重新构建来说是建议的
+ - `WGET_PROXYCHAINS`
+   - if set to yes, prefix `wget` with `proxychains`  
+   - 如果设置为yes，在`wget`命令前加前缀`proxychains`
 
 So time spent on rebuilds can be set with a build command like this:  
 那么重新构建的时候如果这么写命令，花的时间就会更少
