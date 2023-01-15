@@ -27,6 +27,8 @@ basic_setup() {
   printf '[Match]\nName=eth* en*\n\n[Network]\nDHCP=yes\nDNSSEC=no\n' > /etc/systemd/network/20-wired.network
   echo "  -> Enabling systemd-networkd and systemd-resolved"
   systemctl enable systemd-networkd.service systemd-resolved.service
+  echo "  -> Creating symbol link /etc/resolve.conf => /run/systemd/resolve/resolv.conf in case systemd-resolved fails to set it up"
+  ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 }
 
 vim_as_vi() {
