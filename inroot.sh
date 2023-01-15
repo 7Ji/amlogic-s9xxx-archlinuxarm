@@ -24,7 +24,7 @@ basic_setup() {
   echo "  -> Setting basic localhost"
   printf '127.0.0.1\tlocalhost\n::1\t\tlocalhost\n' >> /etc/hosts
   echo "  -> Setting DHCP on eth* with systemd-networkd"
-  printf '[Match]\nName=eth*\n\n[Network]\nDHCP=yes\nDNSSEC=no\n' > /etc/systemd/network/20-wired.network 
+  printf '[Match]\nName=eth* en*\n\n[Network]\nDHCP=yes\nDNSSEC=no\n' > /etc/systemd/network/20-wired.network
   echo "  -> Enabling systemd-networkd and systemd-resolved"
   systemctl enable systemd-networkd.service systemd-resolved.service
 }
