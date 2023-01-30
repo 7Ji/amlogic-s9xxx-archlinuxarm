@@ -641,6 +641,7 @@ build() {
   sanity_check
   prepare
   deploy
+  basic_setup
   run_inside
   cleanup
   make_archive
