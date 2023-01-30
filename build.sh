@@ -515,6 +515,41 @@ deploy() {
   echo "=> Deploy end"
 }
 
+basic_setup() {
+  echo " => Basic setup outside the target root"
+  echo "  -> Setting timezone to Asia/Shanghai"
+  sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai "${dir_root}/etc/localtime"
+  echo "  -> Enabling locales en_US.UTF-8, en_GB.UTF-8, zh_CN.UTF-8"
+  local locale_zh='zh_CN.UTF-8 UTF-8'
+  local locale_gb='en_GB.UTF-8 UTF-8'
+  local locale_us='en_US.UTF-8 UTF-8'
+  sudo sed -i "
+    s|^#${locale_zh}  $|${locale_zh}  |g
+    s|^#${locale_gb}  $|${locale_gb}  |g
+    s|^#${locale_us}  $|${locale_us}  |g
+  " "${dir_root}/etc/locale.gen"
+  echo "  -> Setting en_GB.UTF-8 as locale"
+  echo 'LANG=en_GB.UTF-8' | sudo tee "${dir_root}/etc/locale.conf"
+  echo "  -> Setting hostname to alarm"
+  echo 'alarm' | sudo tee "${dir_root}/etc/hostname"
+  echo "  -> Setting basic localhost"
+  printf '127.0.0.1\tlocalhost\n::1\t\tlocalhost\n' | sudo tee -a "${dir_root}/etc/hosts"
+  echo "  -> Setting DHCP on eth* with systemd-networkd"
+  printf '[Match]\nName=eth* en*\n\n[Network]\nDHCP=yes\nDNSSEC=no\n' | sudo tee "${dir_root}/etc/systemd/network/20-wired.network"
+  echo "  -> Creating symbol link /etc/resolve.conf => /run/systemd/resolve/resolv.conf in case systemd-resolved fails to set it up"
+  sudo ln -sf /run/systemd/resolve/resolv.conf "${dir_root}/etc/resolv.conf"
+  echo "  -> Setting VIM as VI..."
+  sudo ln -sf 'vim' "${dir_root}/usr/bin/vi"
+  echo "  -> Setting up sudo, to allow users in group wheel to use sudo with password"
+  local sudoers="${dir_root}/etc/sudoers"
+  sudo chmod o+w "${sudoers}"
+  sudo sed -i 's|^# %wheel ALL=(ALL:ALL) ALL$|%wheel ALL=(ALL:ALL) ALL|g' "${sudoers}"
+  sudo chmod o-w "${sudoers}"
+  echo '  -> Setting up SSH, to allow to login as root with password'
+  sed -i 's|^#PermitRootLogin prohibit-password$|PermitRootLogin yes|g' "${dir_root}/etc/ssh/sshd_config"
+  echo " => Completed basic setup outside the target root"
+}
+
 run_inside() {
   echo "=> Getting into the target root"
   local script_name='inroot.sh'
