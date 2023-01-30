@@ -130,28 +130,170 @@ prepare_name() {
   echo " => Name prepared"
 }
 
+should_build_aur() { 
+  # should be called inside the folder
+  # #1 aur name
+  local aur_pkg=$1
+  (
+    . PKGBUILD
+    file_blacklist="../${aur_pkg}.blacklist"
+    file_whitelist="../${aur_pkg}.whitelist"
+    if [[ -f "${file_blacklist}" ]]; then
+      readlink -t blacklist < "${file_blacklist}"
+    else
+      blacklist=()
+    fi
+    if [[ -f "${file_whitelist}" ]]; then
+      readlink -t whitelist < "${file_whitelist}"
+    else
+      whitelist=()
+    fi
+    pkgfiles=()
+    for i in "${pkgname[@]}"; do
+      if [[ "${blacklist}" ]]; then
+        should_build='yes'
+        for j in "${blacklist[@]}"; do
+          if [[ "${j}" == "${i}" ]]; then
+            should_build=''
+            break
+          fi
+        done
+        if [[ -z "${should_build}" ]]; then
+          continue
+        fi
+      fi
+      if [[ "${whitelist}" ]]; then
+        should_build=''
+        for j in "${whitelist[@]}"; do
+          if [[ "${j}" == "${i}" ]]; then
+            should_build='yes'
+            break
+          fi
+        done
+        if [[ -z "${should_build}" ]]; then
+          continue
+        fi
+      fi
+      pkgfilename="${i}-${pkgver}-${pkgrel}-aarch64${PKGEXT}"
+      pkgfile="${dir_pkg_absolute}/${pkgfilename}"
+      # pkgfilenames+=(${pkgfilename})
+      if [[ -f "${pkgfile}" ]]; then
+        pkgfiles+=("${pkgfile}")
+      else
+        echo "  -> ${pkgfilename} provided by ${1} not found in built packages, should build ${1}"
+        exit 0
+      fi
+    done
+    for pkgfile in "${pkgfiles[@]}"; do
+      chmod -x "${pkgfile}"
+    done
+    echo "  -> All package files existing for ${1}, can be skipped"
+    exit 1
+  )
+  return $?
+}
+
+move_built_to_pkg() {
+  # should be called inside the folder
+  # #1 aur name
+  # #2 dir_pkg_absolute
+  local aur_pkg="$1"
+  local dir_pkg_absolute="$2"
+  (
+    . PKGBUILD
+    file_blacklist="../${aur_pkg}.blacklist"
+    file_whitelist="../${aur_pkg}.whitelist"
+    if [[ -f "${file_blacklist}" ]]; then
+      readlink -t blacklist < "${file_blacklist}"
+    else
+      blacklist=()
+    fi
+    if [[ -f "${file_whitelist}" ]]; then
+      readlink -t whitelist < "${file_whitelist}"
+    else
+      whitelist=()
+    fi
+    for i in "${pkgname[@]}"; do
+      if [[ "${blacklist}" ]]; then
+        should_build='yes'
+        for j in "${blacklist[@]}"; do
+          if [[ "${j}" == "${i}" ]]; then
+            should_build=''
+            break
+          fi
+        done
+        if [[ -z "${should_build}" ]]; then
+          continue
+        fi
+      fi
+      if [[ "${whitelist}" ]]; then
+        should_build=''
+        for j in "${whitelist[@]}"; do
+          if [[ "${j}" == "${i}" ]]; then
+            should_build='yes'
+            break
+          fi
+        done
+        if [[ -z "${should_build}" ]]; then
+          continue
+        fi
+      fi
+      pkgfile="${i}-${pkgver}-${pkgrel}-aarch64${PKGEXT}"
+      chmod -x "${pkgfile}"
+      mv -vf "${pkgfile}" "${dir_pkg_absolute}/"
+    done
+  )
+}
+
 prepare_aur() {
   echo " => Preparing AUR packages..."
-  if [[ ${SKIP_AUR} == 'yes' ]]; then
-    echo "  -> Skipped AUR building as SKIP_AUR=yes"
-  else
-    git submodule update --remote
-    find "${dir_aur}" -maxdepth 2 -name '*-aarch64.pkg.tar' -exec rm -rf {} \;
-    mkdir -p "${dir_pkg}"
-    rm -rf "${dir_pkg}/"*
-    local dir_pkg_absolute=$(readlink -f "${dir_pkg}")
-    local PKGEXT=.pkg.tar
-    export PKGEXT
-    pushd "${dir_aur}"
-    for aur_pkg in *; do
-      echo "  -> Building AUR package ${aur_pkg}..."
-      pushd "${aur_pkg}"
-      makepkg -cfsAC
-      mv -v "${aur_pkg}"-*-aarch64.pkg.tar "${dir_pkg_absolute}/"
-      popd
-    done
-    popd
+  echo "  -> Updateing submodules..."
+  git submodule update --remote
+  echo "  -> Cleaning AUR build dir..."
+  find "${dir_aur}" -maxdepth 2 -name '*-aarch64.pkg.tar' -exec rm -rf {} \;
+  echo "  -> Preparing package storage dir..."
+  mkdir -p "${dir_pkg}"
+  if compgen -G "${dir_pkg}/"* &>/dev/null && ! chmod u+x "${dir_pkg}/"*; then
+    # We use executable permission to do two things:
+    #  1. The user must be the owner of the file to run chmod u+x, so this bails out if it is not owned by the user
+    #  2. We use it as a pseudo un-check flag, after checking the x permission will be removed from a file, so we
+    #     can just remove all of the files that's still executable
+    echo "  -> Failed to mark all existing package files are executable to use as check flag"
+    exit 1
   fi
+  local dir_pkg_absolute=$(readlink -f "${dir_pkg}")
+  local PKGEXT=.pkg.tar
+  export PKGEXT
+  pushd "${dir_aur}"
+  for aur_pkg in *; do
+    pushd "${aur_pkg}"
+    if should_build_aur "${aur_pkg}"; then
+      echo "  -> Building AUR package ${aur_pkg}..."
+      local retry=3
+      local success=''
+      while [[ ${retry} -ge 0 ]]; do
+        makepkg -cfsAC
+        if [[ $? == 0 ]]; then
+          success='yes'
+          break
+        fi
+        echo "  -> Retrying to build AUR package ${aur_pkg}, retries left: ${retry}"
+      done
+      if [[ -z "${success}" ]]; then
+        echo "  -> Failed to build AUR package ${aur_pkg} after 3 retries"
+        exit 1
+      fi
+      move_built_to_pkg "${aur_pkg}" "${dir_pkg_absolute}"
+    fi
+    popd
+  done
+  popd
+  local i
+  for i in "${dir_pkg}/"*; do
+    if [[ -x "${i}" ]]; then
+      rm -f "${i}"
+    fi
+  done
   echo " => AUR packages prepared"
 }
 
@@ -233,44 +375,44 @@ pacstrap_base() {
 pacstrap_aur() {
   echo " => Pacstrapping the AUR packages into ${dir_root}..."
   local pkg_suffix='aarch64.pkg.tar'
-  local pkg_names=(
-    'ampart-git'
-    'linux-aarch64-flippy-dtb-amlogic'
-    'linux-firmware-amlogic-ophub'
-    'uboot-legacy-initrd-hooks'
-    'yay'
-  )
-  local pkg_name pkg_match
-  local pkgs=()
-  for pkg_name in "${pkg_names[@]}"; do
-    pkg_match=("${dir_pkg}/${pkg_name}-"*"-${pkg_suffix}")
-    if [[ "${#pkg_match[@]}" != 1 ]]; then
-      echo "  -> Error: not exact one match for package ${pkg_name}, matches: ${pkg_match[@]}"
-      return 1
-    fi
-    pkgs+=(${pkg_match[0]})
-  done
-  if [[ ${#pkgs[@]} != 5 ]]; then
-    echo "  -> Error: Not all 5 of ${pkg_names[@]} are found"
-    return 2
-  fi
-  local pkg
-  for pkg in "${dir_pkg}/linux-aarch64-flippy-"*"-${pkg_suffix}"; do
-    pkg_name="$(basename "${pkg}")"
-    case "$pkg_name" in
-      linux-aarch64-flippy-dtb-*) :;;
-      linux-aarch64-flippy-headers-*) :;;
-      *)
-        pkgs+=("${pkg}")
-        break
-      ;;
-    esac
-  done
-  if [[ ${#pkgs[@]} != 6 ]]; then
-    echo "  -> Error: Package linux-aarch64-flippy-bin was not found"
-    return 3
-  fi
-  sudo pacstrap -U "${dir_root}" "${pkgs[@]}"
+  # local pkg_names=(
+  #   'ampart-git'
+  #   'linux-aarch64-flippy-dtb-amlogic'
+  #   'linux-firmware-amlogic-ophub'
+  #   'uboot-legacy-initrd-hooks'
+  #   'yay'
+  # )
+  # local pkg_name pkg_match
+  # local pkgs=()
+  # for pkg_name in "${pkg_names[@]}"; do
+  #   pkg_match=("${dir_pkg}/${pkg_name}-"*"-${pkg_suffix}")
+  #   if [[ "${#pkg_match[@]}" != 1 ]]; then
+  #     echo "  -> Error: not exact one match for package ${pkg_name}, matches: ${pkg_match[@]}"
+  #     return 1
+  #   fi
+  #   pkgs+=(${pkg_match[0]})
+  # done
+  # if [[ ${#pkgs[@]} != 5 ]]; then
+  #   echo "  -> Error: Not all 5 of ${pkg_names[@]} are found"
+  #   return 2
+  # fi
+  # local pkg
+  # for pkg in "${dir_pkg}/linux-aarch64-flippy-"*"-${pkg_suffix}"; do
+  #   pkg_name="$(basename "${pkg}")"
+  #   case "$pkg_name" in
+  #     linux-aarch64-flippy-dtb-*) :;;
+  #     linux-aarch64-flippy-headers-*) :;;
+  #     *)
+  #       pkgs+=("${pkg}")
+  #       break
+  #     ;;
+  #   esac
+  # done
+  # if [[ ${#pkgs[@]} != 6 ]]; then
+  #   echo "  -> Error: Package linux-aarch64-flippy-bin was not found"
+  #   return 3
+  # fi
+  sudo pacstrap -U "${dir_root}" "${dir_pkg}/"*
   echo " => Pacstrap AUR done"
 }
 
