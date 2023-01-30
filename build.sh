@@ -174,7 +174,13 @@ should_build_aur() {
           continue
         fi
       fi
-      pkgfilename="${i}-${pkgver}-${pkgrel}-aarch64${PKGEXT}"
+      if [[ $(type -t pkgver) == 'function' ]]; then
+        pkgfile_glob1="${i}-"
+        pkgfile_glob2="-${pkgrel}-aarch64${PKGEXT}"
+        pkgfilename=($(compgen -G "${pkgfile_glob1}"*"${pkgfile_glob2}")) # Will only use the first one
+      else
+        pkgfilename="${i}-${pkgver}-${pkgrel}-aarch64${PKGEXT}"
+      fi
       pkgfile="${dir_pkg_absolute}/${pkgfilename}"
       # pkgfilenames+=(${pkgfilename})
       if [[ -f "${pkgfile}" ]]; then
@@ -238,9 +244,16 @@ move_built_to_pkg() {
           continue
         fi
       fi
-      pkgfile="${i}-${pkgver}-${pkgrel}-aarch64${PKGEXT}"
-      chmod -x "${pkgfile}"
-      mv -vf "${pkgfile}" "${dir_pkg_absolute}/"
+      if [[ $(type -t pkgver) == 'function' ]]; then
+        pkgfile_glob1="${i}-"
+        pkgfile_glob2="-${pkgrel}-aarch64${PKGEXT}"
+        chmod -x "${pkgfile_glob1}"*"${pkgfile_glob2}"
+        mv -vf "${pkgfile_glob1}"*"${pkgfile_glob2}" "${dir_pkg_absolute}/"
+      else
+        pkgfile="${i}-${pkgver}-${pkgrel}-aarch64${PKGEXT}"
+        chmod -x "${pkgfile}"
+        mv -vf "${pkgfile}" "${dir_pkg_absolute}/"
+      fi
     done
   )
 }
