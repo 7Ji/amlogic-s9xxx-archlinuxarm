@@ -139,12 +139,12 @@ should_build_aur() {
     file_blacklist="../${aur_pkg}.blacklist"
     file_whitelist="../${aur_pkg}.whitelist"
     if [[ -f "${file_blacklist}" ]]; then
-      readlink -t blacklist < "${file_blacklist}"
+      readarray -t blacklist < "${file_blacklist}"
     else
       blacklist=()
     fi
     if [[ -f "${file_whitelist}" ]]; then
-      readlink -t whitelist < "${file_whitelist}"
+      readarray -t whitelist < "${file_whitelist}"
     else
       whitelist=()
     fi
@@ -212,12 +212,12 @@ move_built_to_pkg() {
     file_blacklist="../${aur_pkg}.blacklist"
     file_whitelist="../${aur_pkg}.whitelist"
     if [[ -f "${file_blacklist}" ]]; then
-      readlink -t blacklist < "${file_blacklist}"
+      readarray -t blacklist < "${file_blacklist}"
     else
       blacklist=()
     fi
     if [[ -f "${file_whitelist}" ]]; then
-      readlink -t whitelist < "${file_whitelist}"
+      readarray -t whitelist < "${file_whitelist}"
     else
       whitelist=()
     fi
