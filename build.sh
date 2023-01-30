@@ -87,7 +87,7 @@ prepare_uboot() {
     uboot_file="${dir_uboot}/${uboot_name}"
     if [[ -f "${uboot_file}" ]]; then
       sha256sum_log=$(sha256sum "${uboot_file}") # This is written as a single command without piping to cut because I want it to fail it sha256sum fails
-      sha256sum_actual="${uboot_sha256sum::64}"
+      sha256sum_actual="${sha256sum_log::64}"
       sha256sum_expected="${uboot_sha256sums[$i]}"
       if [[ "${sha256sum_actual}" ==  "${sha256sum_expected}" ]]; then
         echo "  -> u-boot for ${uboot_name} already exists and sha256sum is correct, skip it"
@@ -104,7 +104,7 @@ prepare_uboot() {
     # https://github.com/ophub/amlogic-s9xxx-armbian/blob/main/build-armbian/u-boot/amlogic/overload/u-boot-s905x-s912.bin
     ${wget} "${armbian_repo}/raw/${armbian_commit}/build-armbian/amlogic-u-boot/overload/u-boot-${uboot_name}.bin" -O "${uboot_file}"
     sha256sum_log=$(sha256sum "${uboot_file}") # This is written as a single command without piping to cut because I want it to fail it sha256sum fails
-    sha256sum_actual="${uboot_sha256sum::64}"
+    sha256sum_actual="${sha256sum_log::64}"
     sha256sum_expected="${uboot_sha256sums[$i]}"
     if [[ "${sha256sum_actual}" ==  "${sha256sum_expected}" ]]; then
       echo "  -> Error: u-boot for ${uboot_name} has different sha256sum"
