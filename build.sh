@@ -106,7 +106,7 @@ prepare_uboot() {
     sha256sum_log=$(sha256sum "${uboot_file}") # This is written as a single command without piping to cut because I want it to fail it sha256sum fails
     sha256sum_actual="${sha256sum_log::64}"
     sha256sum_expected="${uboot_sha256sums[$i]}"
-    if [[ "${sha256sum_actual}" ==  "${sha256sum_expected}" ]]; then
+    if [[ "${sha256sum_actual}" !=  "${sha256sum_expected}" ]]; then
       echo "  -> Error: u-boot for ${uboot_name} has different sha256sum"
       echo "   -> actual: ${sha256sum_actual}"
       echo "   -> expected: ${sha256sum_expected}"
