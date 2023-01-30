@@ -281,6 +281,9 @@ prepare_aur() {
   export PKGEXT
   pushd "${dir_aur}"
   for aur_pkg in *; do
+    if [[ ! -d "${aur_pkg}" ]]; then
+      continue
+    fi
     pushd "${aur_pkg}"
     if should_build_aur "${aur_pkg}"; then
       echo "  -> Building AUR package ${aur_pkg}..."
