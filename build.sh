@@ -546,7 +546,7 @@ basic_setup() {
   sudo sed -i 's|^# %wheel ALL=(ALL:ALL) ALL$|%wheel ALL=(ALL:ALL) ALL|g' "${sudoers}"
   sudo chmod o-w "${sudoers}"
   echo '  -> Setting up SSH, to allow to login as root with password'
-  sed -i 's|^#PermitRootLogin prohibit-password$|PermitRootLogin yes|g' "${dir_root}/etc/ssh/sshd_config"
+  sudo sed -i 's|^#PermitRootLogin prohibit-password$|PermitRootLogin yes|g' "${dir_root}/etc/ssh/sshd_config"
   echo " => Completed basic setup outside the target root"
 }
 
