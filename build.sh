@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+# These are constants and should not be touched
 dir_aur='aur'
 dir_pkg='pkg'
 dir_uboot='uboot'
@@ -45,6 +46,7 @@ prepare_uboot() {
     's905x-s912'
     'sei510'
     'sei610'
+    'skyworth-lb2004'
     'tx3-bz'
     'tx3-qz'
     'u200'
@@ -67,6 +69,7 @@ prepare_uboot() {
     '3becd7d97afaa7fbcb683eb4c28221f282bf73b74d71138ac6be768611f8e11f'
     '5ff0be52537bd01ab6aa772e0ee284ab1e1f47f43cbc08da2a6c9982ef1df379'
     'ddf6ff930c13c03528b64a738de1126f811f6802c5096495ef83f6c07c4986d1'
+    'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
     '3e89947c31bacc31574213f86ab03339291dcde928872dc6ae957fce58e76ac9'
     'aba80167498ef01482118c210636f14306ccaea80d09dce9e4358b993c0b3d88'
     '065370807a82019677cff7adaea917f1a08c5cc4baca4c5d9e19b117b66e5ce6'
@@ -76,32 +79,37 @@ prepare_uboot() {
     '3df7343e56116244b2d2d2fa8bcdbf411c088667bfc850f163d3b0b8caca29aa'
   )
   local armbian_repo='https://github.com/ophub/amlogic-s9xxx-armbian'
-  local armbian_commit='4da175261a44e179c1416902b1f7bcc9f502cd8f'
+  local armbian_commit='f68f61acade5fe1d9425bf12cae89fe0b5e8b28e'
   mkdir -p "${dir_uboot}"
   local uboot_name uboot_file uboot_sha256sum i=0
-  if [[ ${WGET_PROXYCHAINS} == 'yes' ]]; then
-    local wget='proxychains wget'
-  else
-    local wget='wget'
-  fi
+  local wget=${wget:-wget} # User can e.g. export wget='proxychains wget', so it can go through proxy
   for uboot_name in "${uboot_names[@]}"; do
     uboot_file="${dir_uboot}/${uboot_name}"
     if [[ -f "${uboot_file}" ]]; then
-      uboot_sha256sum=$(sha256sum "${uboot_file}") # This is written as a single command without piping to cut because I want it to fail it sha256sum fails
-      if [[ "${uboot_sha256sum::64}" == "${uboot_sha256sums[$i]}" ]]; then
+      sha256sum_log=$(sha256sum "${uboot_file}") # This is written as a single command without piping to cut because I want it to fail it sha256sum fails
+      sha256sum_actual="${uboot_sha256sum::64}"
+      sha256sum_expected="${uboot_sha256sums[$i]}"
+      if [[ "${sha256sum_actual}" ==  "${sha256sum_expected}" ]]; then
         echo "  -> u-boot for ${uboot_name} already exists and sha256sum is correct, skip it"
         i=$(($i+1))
         continue
       else
+        echo "  -> existing u-boot for ${uboot_name} has different sha256sum than expected, will re-downloadd"
+        echo "   -> actual: ${sha256sum_actual}"
+        echo "   -> expected: ${sha256sum_expected}"
         rm -f "${uboot_file}"
       fi
     fi
     # A URL should look like this: 
-    # https://github.com/ophub/amlogic-s9xxx-armbian/raw/main/build-armbian/amlogic-u-boot/overload/u-boot-e900v22c.bin
+    # https://github.com/ophub/amlogic-s9xxx-armbian/blob/main/build-armbian/u-boot/amlogic/overload/u-boot-s905x-s912.bin
     ${wget} "${armbian_repo}/raw/${armbian_commit}/build-armbian/amlogic-u-boot/overload/u-boot-${uboot_name}.bin" -O "${uboot_file}"
-    uboot_sha256sum=$(sha256sum "${uboot_file}") # This is written as a single command without piping to cut because I want it to fail it sha256sum fails
-    if [[ "${uboot_sha256sum::64}" != "${uboot_sha256sums[$i]}" ]]; then
+    sha256sum_log=$(sha256sum "${uboot_file}") # This is written as a single command without piping to cut because I want it to fail it sha256sum fails
+    sha256sum_actual="${uboot_sha256sum::64}"
+    sha256sum_expected="${uboot_sha256sums[$i]}"
+    if [[ "${sha256sum_actual}" ==  "${sha256sum_expected}" ]]; then
       echo "  -> Error: u-boot for ${uboot_name} has different sha256sum"
+      echo "   -> actual: ${sha256sum_actual}"
+      echo "   -> expected: ${sha256sum_expected}"
       exit 1
     fi
     i=$(($i+1))
