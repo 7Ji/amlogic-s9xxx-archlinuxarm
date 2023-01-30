@@ -174,13 +174,14 @@ should_build_aur() {
           continue
         fi
       fi
-      if [[ $(type -t pkgver) == 'function' ]]; then
-        pkgfile_glob1="${i}-"
-        pkgfile_glob2="-${pkgrel}-aarch64${PKGEXT}"
-        pkgfilename=($(compgen -G "${pkgfile_glob1}"*"${pkgfile_glob2}")) # Will only use the first one
-      else
-        pkgfilename="${i}-${pkgver}-${pkgrel}-aarch64${PKGEXT}"
-      fi
+      # if [[ $(type -t pkgver) == 'function' ]]; then
+      #   pkgfile_glob1="${i}-"
+      #   pkgfile_glob2="-${pkgrel}-aarch64${PKGEXT}"
+      #   pkgfile=
+      #   compgen -G 
+      #   pkgfilename=($(compgen -G "${pkgfile_glob1}"*"${pkgfile_glob2}")) # Will only use the first one
+      # else
+      pkgfilename="${i}-${pkgver}-${pkgrel}-aarch64${PKGEXT}"
       pkgfile="${dir_pkg_absolute}/${pkgfilename}"
       # pkgfilenames+=(${pkgfilename})
       if [[ -f "${pkgfile}" ]]; then
@@ -189,6 +190,7 @@ should_build_aur() {
         echo "  -> ${pkgfilename} provided by ${1} not found in built packages, should build ${1}"
         exit 0
       fi
+      # fi
     done
     for pkgfile in "${pkgfiles[@]}"; do
       chmod -x "${pkgfile}"
