@@ -1,16 +1,27 @@
 # ArchLinux ARM for Amlogic s9xxx devices
+**This is not an official release of ArchLinuxARM, but only a pre-built flash-and-boot image of it for Amlogic platform for generirc s9xxx boxes due to some kernel quirks needed to make it bootable on these devices not merged in mainline kernel  
+本项目不是ArchLinuxARM的官方发行，而是预构建的可刷写并启动的用于晶晨平台的普通s9xxx盒子的镜像，项目存在的原因是有很多需要对内核作出的没有合并到官方仓库用的主线内核的修改**
+
+## Information / 信息
+
 *This is for an installation done in the flash-and-boot way not like ArchLinux, if you prefer an installation done in the ArchLinux way, please refer to the [installation guide on my blog][alarm guide on blog] instead  
 这是为刷完就能启动的安装方式准备的，和ArchLinux大为不同，如果你更喜欢以ArchLinux的方式安装，请参考[我博客上的安装指南][alarm guide on blog]*
 
 [alarm guide on blog]: https://7ji.github.io/embedded/2022/11/08/alarm-install.html
 
-## Installation / 安装
+**Please only use the image provided in this project as live environment to install another ArchLinuxARM with pacstrap, not as your daily driver. A pre-defined ArchLinux is never an ArchLinux experience intended. I've made some decisions on configuration and packages to make the image bootable, these are probably not what you really want for your system.  
+请仅使用本项目提供的镜像作为用pacstrap安装另一个ArchLinuxARM的live环境，而不是日常系统。预定义的ArchLinux带来的不是真正的ArchLinux的体验。为了让镜像能启动，我替你做了不少配置和包上的决定，而这些决定恐怕不是你真的想在你的系统上所要的**
 
 *Note only generic image is provided in this project, as there's no SoC-specific things. Everything is kept as simple and lightweight as possible, with most of details leaving to yourself to decide  
 注意本项目只提供通用镜像，项目中没有对应各SoC专有的东西。所有的细节都被控制得尽可能简单和轻量化，大多数细节都留给你自己去做决定*
 
+## Installation / 安装
+
+### Drive / 驱动器
 Installing on USB drive is more recommended, and then [alarm-install][alarm guide on blog] can be referred to to install to eMMC or to another USB drive/SD card **in the ArchLinux way**  
 建议安装在USB驱动器上，然后可以参考[alarm-install][alarm guide on blog]使用**ArchLinux的方式**来安装到eMMC或者另一个USB驱动器/SD卡上
+
+### Releases & Images / 发行与镜像
 
 All Amlogic s9xxx devices **share the same generic image**, i.e. there is **no default u-boot.ext and dtb** set, and you must set them according to your device. And take care dtb should be set both in ``uEnv.txt`` and ``extlinux/extlinux.conf``  
 所有的Amlogic s9xxx设备**共用同一个通用镜像**，也就是说镜像里**没有设置默认的u-boot.ext和dtb**，你必须根据你的设备设置。并请注意dtb需要在``uEnv.txt``和``extlinux/extlinux.conf``里一并设置
@@ -25,6 +36,7 @@ Two different kinds of releases are available
     bsdtar -C /your/root --acls --xattrs -xvpf /the/archive.tar.xz
     ```
 
+### Bootup setup / 启动配置
 After you flash the image, you should open the FAT32 first/boot partition with label ``ALARMBOOT``, and do the following adjustment:  
 当你写入镜像以后，你应该打开FAT32的卷标是`ALARMBOOT`的第一个/启动分区分区，然后做以下调整
  - Find a corresponding u-boot in the folder ``uboot``, copy/move it as ``u-boot.ext`` in the root of the partition. You can then safely delete the ``uboot`` folder if you want to save space  
@@ -49,18 +61,27 @@ After you flash the image, you should open the FAT32 first/boot partition with l
     ```
     FDT     /dtbs/linux-aarch64-flippy/amlogic/meson-sm1-hk1box-vontar-x3.dtb
     ```
+### Booting / 启动
 Holding the reset button with the SD card / USB drive plugged in, and power on the box, just like how you would do with Armbian and Openwrt.  
 按住重置键，保持SD卡/USB驱动器插入，给盒子上电，就和你在Armbian和Openwrt上那样做的一样
 
+### Connection / 连接
+
+#### Network / 网络
 By default, `systemd-networkd.service` and `systemd-resolved.service` are enabled, and DHCP is enabled on ``eth*``, you can check your router to get the box's IP  
 默认情况下`systemd-networkd.service`和`systemd-resolved.service`都已启用，DHCP在`eth*`上启动，你可以到你的路由器上去查询盒子的IP
 
+#### SSH
 By default, `sshd.service` is enabled, and root login is permitted, whose password `alarm_please_change_me`  
 默认情况下`sshd.service`已启用，且允许root登录，root的密码是`alarm_please_change_me`
 
+#### Users / 用户
 By default, there's a user ``alarm`` in the group ``wheel`` and can use `sudo` with password. The user has a password `alarm_please_change_me`.  
 默认情况下，有一个组为`wheel`的用户`alarm`，可以在输入密码后使用`sudo`。这个用户的密码是`alarm_please_change_me`
 
+
+### Upgrade / 升级
+#### Packages / 包
 It's recommended to do a full upgrade right after you boot:  
 建议你开机后立即进行一次全局升级：
 ```
@@ -71,6 +92,7 @@ or (``yay`` without argument calls ``sudo pacman -Syu`` implicitly)
 ```
 yay
 ```
+#### Initramfs / 初始化内存盘
 And generate the initramfs, since only the u-boot legacy initrd fallback image is kept to save space, all other 3 initramfs were deleted before packing (standard default, standard fallback and legacy default):  
 并立即生成初始化内存盘，因为为了节约空间，只有u-boot传统内存盘的回落镜像被保留，其他三个初始化内存盘都在打包前删掉了（标准默认配置。标准回落配置和传统默认配置）
 ```
