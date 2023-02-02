@@ -41,6 +41,7 @@ prepare_uboot() {
     'odroid-n2'
     'p201'
     'p212'
+    'r3300l'
     's905'
     's905x2-s922'
     's905x-s912'
@@ -64,6 +65,7 @@ prepare_uboot() {
     'e0e7a258e024aa8e825a6c46c68fdf0e6da2dfa54d379115b91fae25176e748f'
     '3a76dc9b2d80988ffbaade9555700b6d9121498eef6f75000ebd11e9f991ed3f'
     'c3b2065356e61cec05320e68010135a315e7d89d0e6d6dd212a55a28cf90f7e8'
+    '27874155c05d4c8252cf443a78c84867d071960dff0d66dbee5c8f19a3d30737'
     'f69f6241224f72e6942119dae0d026154089cdff8442d5a4c93de4d8bc3e69b9'
     'c3a3662453cbbfcd7a11e2c829017b667e601708f2f5c85543f1727249787a74'
     '3becd7d97afaa7fbcb683eb4c28221f282bf73b74d71138ac6be768611f8e11f'
@@ -79,7 +81,7 @@ prepare_uboot() {
     '3df7343e56116244b2d2d2fa8bcdbf411c088667bfc850f163d3b0b8caca29aa'
   )
   local armbian_repo='https://github.com/ophub/amlogic-s9xxx-armbian'
-  local armbian_commit='f68f61acade5fe1d9425bf12cae89fe0b5e8b28e'
+  local armbian_commit='8d5f8a8ac2fb1a7b749a67274f44edd308ce7a6a'
   mkdir -p "${dir_uboot}"
   local uboot_name uboot_file uboot_sha256sum i=0
   local wget=${wget:-wget} # User can e.g. export wget='proxychains wget', so it can go through proxy
