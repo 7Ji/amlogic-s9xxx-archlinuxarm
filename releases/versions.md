@@ -45,6 +45,19 @@ Build ID: 20230131_113258
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
 |yay|11.3.2-1|[AUR][AUR yay]
 
+### 20230202
+Build ID: 20230202_215449
+|name|version|source|
+|-|-|-|
+|systemd|252.5-1|official|
+|openssh|9.1p1-3|official|
+|sudo|1.9.12.p2-1|official
+|vim|9.0.1182-1|official|
+|ampart-git|1.1.r15.17eb5ce-1|[my AUR][AUR ampart-git]|
+|linux-aarch64-flippy|6.1.9-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-firmware-amlogic-ophub|20230119-1|[my AUR][AUR linux-firmware-amlogic-ophub]
+|uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
+|yay|11.3.2-1|[AUR][AUR yay]
 
 [AUR ampart-git]: https://aur.archlinux.org/packages/ampart-git
 [AUR linux-aarch64-flippy-bin]: https://aur.archlinux.org/packages/linux-aarch64-flippy-bin
