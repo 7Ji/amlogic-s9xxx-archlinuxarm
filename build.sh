@@ -122,7 +122,7 @@ prepare_uboot() {
 prepare_name() {
   echo " => Preparing name"
   local name_distro='ArchLinuxARM-aarch64-Amlogic'
-  local name_date=$(date +%Y%m%d_%H%M%S)
+  name_date=$(date +%Y%m%d_%H%M%S)
   name_base="${name_distro}-${name_date}"
   echo "  -> Basename ${name_base}"
   name_disk="${name_base}.img"
@@ -131,6 +131,7 @@ prepare_name() {
   name_archive_root_compressed="${name_archive_root}.xz"
   name_archive_pkgs="${name_base}-pkgs.tar"
   name_archive_pkgs_compressed="${name_archive_pkgs}.xz"
+  name_release_note="${name_base}.md"
   echo " => Name prepared"
 }
 
@@ -565,6 +566,13 @@ run_inside() {
   echo "=> Getting out from the target root"
 }
 
+get_versions() {
+  echo " => Getting package versions to be used in later release note"
+  file_versions=$(mktemp)
+  pacman -Q --root "${dir_root}" > "${file_versions}"
+  echo " => Got version"
+}
+
 remove_non_fallback() {
   echo " => Removing non-fallback non-legacy initramfs..."
   sudo rm -f ${dir_boot}/initramfs-linux-aarch64-flippy.{u,}img ${dir_boot}/initramfs-linux-aarch64-flippy-fallback.img
@@ -665,6 +673,28 @@ compress_image() {
   echo "=> Compressing success"
 }
 
+release_note() {
+  echo " => Generating release note..."
+  local names=(
+    'systemd'
+    'openssh'
+    'sudo'
+    'vim'
+    'ampart-git'
+    'linux-aarch64-flippy'
+    'linux-firmware-amlogic-ophub'
+    'uboot-legacy-initrd-hooks'
+    'yay'
+  )
+  local versions=()
+  local name
+  for name in "${names[@]}"; do
+    versions+=($(grep $'^'"${name}"' .*' "${file_versions}" | cut -d ' ' -f 2))
+  done
+  printf "%s\nBuild ID: %s\n|name|version|source|\n|-|-|-|\n|systemd|%s|official|\n|openssh|%s|official|\n|sudo|%s|official\n|vim|%s|official|\n|ampart-git|%s|[my AUR][AUR ampart-git]|\n|linux-aarch64-flippy|%s|[my AUR][AUR linux-aarch64-flippy-bin]|\n|linux-firmware-amlogic-ophub|%s|[my AUR][AUR linux-firmware-amlogic-ophub]\n|uboot-legacy-initrd-hooks|%s|[my AUR][AUR uboot-legacy-initrd-hooks]\n|yay|%s|[AUR][AUR yay]\n" "$(date +%Y%m%d)" "${name_date}" "${versions[0]}" "${versions[1]}" "${versions[2]}" "${versions[3]}" "${versions[4]}" "${versions[5]}" "${versions[6]}" "${versions[7]}" "${versions[8]}" > "${dir_releases}/${name_release_note}"
+  echo " => Release note generated"
+}
+
 build() {
   echo "=> Build starts at $(date) <="
   sanity_check
@@ -672,11 +702,13 @@ build() {
   deploy
   basic_setup
   run_inside
+  get_versions
   cleanup
   make_archive
   zero_fill
   release_resource
   compress_image
+  release_note
   echo "=> Build ends at $(date) <="
 }
 
