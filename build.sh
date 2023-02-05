@@ -127,8 +127,10 @@ prepare_name() {
   echo "  -> Basename ${name_base}"
   name_disk="${name_base}.img"
   name_disk_compressed="${name_disk}.xz"
-  name_archive="${name_base}.tar"
-  name_archive_compressed="${name_archive}.xz"
+  name_archive_root="${name_base}-root.tar"
+  name_archive_root_compressed="${name_archive_root}.xz"
+  name_archive_pkgs="${name_base}-pkgs.tar"
+  name_archive_pkgs_compressed="${name_archive_pkgs}.xz"
   echo " => Name prepared"
 }
 
@@ -582,9 +584,28 @@ cleanup() {
   echo "=> Cleaned up"
 }
 
-make_archive() {
+make_archive_pkgs() {
+  echo "=> Creating packages archive..."
+  local path_archive="${dir_releases}/${name_archive_pkgs}"
+  echo " -> Creating archive ${path_archive} without compression..."
+  (
+    cd "${dir_pkg}"
+    tar -cvf - *
+  ) > "${path_archive}"
+  if [[ ${SKIP_XZ} == 'yes' ]]; then
+    echo " -> Compressing skipped since SKIP_XZ=yes"
+  else
+    local path_archive_compressed="${dir_releases}/${name_archive_pkgs_compressed}"
+    echo " -> Compressing archive to ${path_archive_compressed} ..."
+    # Just single thread, we want best compression
+    xz -9ecv "${path_archive}" > "${path_archive_compressed}"
+  fi
+  echo "=> Packages archive created"
+}
+
+make_archive_root() {
   echo "=> Creating rootfs archive..."
-  local path_archive="${dir_releases}/${name_archive}"
+  local path_archive="${dir_releases}/${name_archive_root}"
   echo " -> Creating archive ${path_archive} without compression..."
   (
     cd "${dir_root}"
@@ -593,25 +614,31 @@ make_archive() {
   if [[ "${SKIP_XZ}" == 'yes' ]]; then
     echo " -> Compressing skipped since SKIP_XZ=yes"
   else
-    local path_archive_compressed="${dir_releases}/${name_archive_compressed}"
+    local path_archive_compressed="${dir_releases}/${name_archive_root_compressed}"
     echo " -> Compressing archive to ${path_archive_compressed} ..."
-    xz -9ecvT0 "${path_archive}" > "${path_archive_compressed}"
+    # Just single thread, we want best compression
+    xz -9ecv "${path_archive}" > "${path_archive_compressed}"
   fi
   echo "=> Rootfs archive created"
 }
 
+make_archive() {
+  make_archive_pkgs
+  make_archive_root
+}
+
 zero_fill() {
   echo "=> Filling zeroes to target root and boot fs for maximum compression"
-  if [[ "${SKIP_XZ}" == 'yes' ]]; then
-    echo " -> Zero-fill skipped since SKIP_XZ=yes"
-  else
+  # if [[ "${SKIP_XZ}" == 'yes' ]]; then
+  #   echo " -> Zero-fill skipped since SKIP_XZ=yes"
+  # else
     echo " => Filling boot partition..."
     sudo dd if=/dev/zero of="${dir_boot}/.zerofill" || true
     echo " => Filling root partition..."
     sudo dd if=/dev/zero of="${dir_root}/.zerofill" || true
     sudo rm -f "${dir_boot}/.zerofill" "${dir_root}/.zerofill"
     echo "=> Zero fill successful"
-  fi
+  # fi
 }
 
 release_resource() {
