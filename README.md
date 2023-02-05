@@ -4,16 +4,10 @@
 
 ## Information / 信息
 
-*This is for an installation done in the flash-and-boot way not like ArchLinux, if you prefer an installation done in the ArchLinux way, please refer to the [installation guide on my blog][alarm guide on blog] instead  
-这是为刷完就能启动的安装方式准备的，和ArchLinux大为不同，如果你更喜欢以ArchLinux的方式安装，请参考[我博客上的安装指南][alarm guide on blog]*
+**Please only use the image provided in this project as live environment to install another ArchLinuxARM with pacstrap, not as your daily driver. A pre-defined ArchLinux is never an ArchLinux experience intended. I've made some decisions on configuration and packages to make the image bootable, these are probably not what you really want for your system. Refer to the [installation guide on my blog][alarm guide on blog] for how to install in Arch way.
+请仅使用本项目提供的镜像作为用pacstrap安装另一个ArchLinuxARM的live环境，而不是日常系统。预定义的ArchLinux带来的不是真正的ArchLinux的体验。为了让镜像能启动，我替你做了不少配置和包上的决定，而这些决定恐怕不是你真的想在你的系统上所要的。参考[我博客上的安装指南][alarm guide on blog]来了解怎么在晶晨平台上以Arch的方式安装**
 
 [alarm guide on blog]: https://7ji.github.io/embedded/2022/11/08/alarm-install.html
-
-**Please only use the image provided in this project as live environment to install another ArchLinuxARM with pacstrap, not as your daily driver. A pre-defined ArchLinux is never an ArchLinux experience intended. I've made some decisions on configuration and packages to make the image bootable, these are probably not what you really want for your system.  
-请仅使用本项目提供的镜像作为用pacstrap安装另一个ArchLinuxARM的live环境，而不是日常系统。预定义的ArchLinux带来的不是真正的ArchLinux的体验。为了让镜像能启动，我替你做了不少配置和包上的决定，而这些决定恐怕不是你真的想在你的系统上所要的**
-
-*Note only generic image is provided in this project, as there's no SoC-specific things. Everything is kept as simple and lightweight as possible, with most of details leaving to yourself to decide  
-注意本项目只提供通用镜像，项目中没有对应各SoC专有的东西。所有的细节都被控制得尽可能简单和轻量化，大多数细节都留给你自己去做决定*
 
 ## Installation / 安装
 
