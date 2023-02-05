@@ -24,11 +24,15 @@ Two different kinds of releases are available
 有两种类型的发布可用
  - ``ArchLinuxARM-aarch64-Amlogic-*.img.xz`` is just like the normal image you would find in the Armbian and Openwrt projects, where you should just decompress and burn it to a SD card / USB drive. The layout is hard-coded but it's therefore easy to use because you do not need to worry about partitioning  
 `ArchLinuxARM-aarch64-Amlogic-*.img.xz`就和你能在Armbian和Openwrt项目里找到的普通镜像一样，只要解压后写到SD卡或者是USB驱动器上就能用。布局是写死的，不过也因此很简单，因为你不需要担心分区的问题。
- - ``ArchLinuxARM-aarch64-Amlogic-*.tar.xz`` is a compressed archive of the rootfs, it can be decompressed to an already partitioned disk so you can freely decide the partition layout and size, but you need to update ``/etc/fstab``, ``/boot/uEnv.txt``, ``/boot/extlinux/extlinux.conf`` according to your actual partitions. Use the following command to extract the archive:  
-``ArchLinuxARM-aarch64-Amlogic-*.tar.xz`` 是压缩过的根文件系统的归档，可以把它解压到已经分区过的盘里，这样你就可以自由地决定分区布局和大小了，不过你需要根据你的实际分区来更新``/etc/fstab``, ``/boot/uEnv.txt``, ``/boot/extlinux/extlinux.conf``。用下面这条命令来提取归档：
+ - ``ArchLinuxARM-aarch64-Amlogic-*-root.tar.xz`` is a compressed archive of the rootfs, it can be decompressed to an already partitioned disk so you can freely decide the partition layout and size, but you need to update ``/etc/fstab``, ``/boot/uEnv.txt``, ``/boot/extlinux/extlinux.conf`` according to your actual partitions. Use the following command to extract the archive:  
+``ArchLinuxARM-aarch64-Amlogic-*-root.tar.xz`` 是压缩过的根文件系统的归档，可以把它解压到已经分区过的盘里，这样你就可以自由地决定分区布局和大小了，不过你需要根据你的实际分区来更新``/etc/fstab``, ``/boot/uEnv.txt``, ``/boot/extlinux/extlinux.conf``。用下面这条命令来提取归档：
     ```
     bsdtar -C /your/root --acls --xattrs -xvpf /the/archive.tar.xz
     ```
+
+There's also an addtional artifact that's available on the release page:  
+发布页还有另外一种资源
+ - `ArchLinuxARM-aarch64-Amlogic-*-pkgs.tar.xz` is a compressed archive of the AUR packages built and installed into the above image. You can download it and upgrade your packages with the files in it, if you don't want to built them by yourself when upgrading.
 
 ### Bootup setup / 启动配置
 After you flash the image, you should open the FAT32 first/boot partition with label ``ALARMBOOT``, and do the following adjustment:  
