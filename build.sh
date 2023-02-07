@@ -691,7 +691,7 @@ release_note() {
   for name in "${names[@]}"; do
     versions+=($(grep $'^'"${name}"' .*' "${file_versions}" | cut -d ' ' -f 2))
   done
-  printf "###%s\nBuild ID: %s\n|name|version|source|\n|-|-|-|\n|systemd|%s|official|\n|openssh|%s|official|\n|sudo|%s|official\n|vim|%s|official|\n|ampart-git|%s|[my AUR][AUR ampart-git]|\n|linux-aarch64-flippy|%s|[my AUR][AUR linux-aarch64-flippy-bin]|\n|linux-firmware-amlogic-ophub|%s|[my AUR][AUR linux-firmware-amlogic-ophub]\n|uboot-legacy-initrd-hooks|%s|[my AUR][AUR uboot-legacy-initrd-hooks]\n|yay|%s|[AUR][AUR yay]\n" "$(date +%Y%m%d)" "${name_date}" "${versions[0]}" "${versions[1]}" "${versions[2]}" "${versions[3]}" "${versions[4]}" "${versions[5]}" "${versions[6]}" "${versions[7]}" "${versions[8]}" > "${dir_releases}/${name_release_note}"
+  printf "### %s\nBuild ID: %s\n|name|version|source|\n|-|-|-|\n|systemd|%s|official|\n|openssh|%s|official|\n|sudo|%s|official\n|vim|%s|official|\n|ampart-git|%s|[my AUR][AUR ampart-git]|\n|linux-aarch64-flippy|%s|[my AUR][AUR linux-aarch64-flippy-bin]|\n|linux-firmware-amlogic-ophub|%s|[my AUR][AUR linux-firmware-amlogic-ophub]\n|uboot-legacy-initrd-hooks|%s|[my AUR][AUR uboot-legacy-initrd-hooks]\n|yay|%s|[AUR][AUR yay]\n" "$(date +%Y%m%d)" "${name_date}" "${versions[0]}" "${versions[1]}" "${versions[2]}" "${versions[3]}" "${versions[4]}" "${versions[5]}" "${versions[6]}" "${versions[7]}" "${versions[8]}" > "${dir_releases}/${name_release_note}"
   rm -f "${file_versions}"
   echo " => Release note generated"
 }
