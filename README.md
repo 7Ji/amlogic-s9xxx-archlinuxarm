@@ -32,7 +32,8 @@ Two different kinds of releases are available
 
 There's also an addtional artifact that's available on the release page:  
 发布页还有另外一种资源
- - `ArchLinuxARM-aarch64-Amlogic-*-pkgs.tar.xz` is a compressed archive of the AUR packages built and installed into the above image. You can download it and upgrade your packages with the files in it, if you don't want to built them by yourself when upgrading.
+ - `ArchLinuxARM-aarch64-Amlogic-*-pkgs.tar.xz` is a compressed archive of the AUR packages built and installed into the above image. You can download it and upgrade your packages with the files in it with `pacman -U`, if you don't want to built them by yourself when upgrading.  
+`ArchLinuxARM-aarch64-Amlogic-*-pkgs.tar.xz`是压缩过的构建并安装到上面镜像里的AUR包。如果你升级的时候不想自己构建，你可以下载、解压，再用`pacman -U`安装里面现成的包。
 
 ### Bootup setup / 启动配置
 After you flash the image, you should open the FAT32 first/boot partition with label ``ALARMBOOT``, and do the following adjustment:  
