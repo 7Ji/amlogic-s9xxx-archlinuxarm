@@ -1,0 +1,14 @@
+[Unit]
+Description=Build ArchLinuxARM
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=YOUR_USER_NAME
+WorkingDirectory=PATH_TO_THE_PROJECT_FOLDER
+ExecStart=/bin/bash -e ABSOLUTE_PATH_TO_BUILDER.SH
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
