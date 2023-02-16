@@ -101,6 +101,20 @@ Build ID: 20230213_000013
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
 |yay|11.3.2-1|[AUR][AUR yay]
 
+### 20230216
+Build ID: 20230216_011012
+|name|version|source|
+|-|-|-|
+|systemd|252.5-1|official|
+|openssh|9.2p1-1|official|
+|sudo|1.9.12.p2-2|official
+|vim|9.0.1302-1|official|
+|ampart-git|1.2.r4.a5f4a7b-1|[my AUR][AUR ampart-git]|
+|linux-aarch64-flippy|6.1.12-2|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-firmware-amlogic-ophub|20230129-2|[my AUR][AUR linux-firmware-amlogic-ophub]
+|uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
+|yay|11.3.2-1|[AUR][AUR yay]
+
 [AUR ampart-git]: https://aur.archlinux.org/packages/ampart-git
 [AUR linux-aarch64-flippy-bin]: https://aur.archlinux.org/packages/linux-aarch64-flippy-bin
 [AUR linux-firmware-amlogic-ophub]: https://aur.archlinux.org/packages/linux-firmware-amlogic-ophub
