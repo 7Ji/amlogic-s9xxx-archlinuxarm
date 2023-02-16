@@ -4,7 +4,7 @@
 
 ## Information / 信息
 
-**Please only use the image provided in this project as live environment to install another ArchLinuxARM with pacstrap, not as your daily driver. A pre-defined ArchLinux is never an ArchLinux experience intended. I've made some decisions on configuration and packages to make the image bootable, these are probably not what you really want for your system. Refer to the [installation guide on my blog][alarm guide on blog] for how to install in Arch way.
+**Please only use the image provided in this project as live environment to install another ArchLinuxARM with pacstrap, not as your daily driver. A pre-defined ArchLinux is never an ArchLinux experience intended. I've made some decisions on configuration and packages to make the image bootable, these are probably not what you really want for your system. Refer to the [installation guide on my blog][alarm guide on blog] for how to install in Arch way.  
 请仅使用本项目提供的镜像作为用pacstrap安装另一个ArchLinuxARM的live环境，而不是日常系统。预定义的ArchLinux带来的不是真正的ArchLinux的体验。为了让镜像能启动，我替你做了不少配置和包上的决定，而这些决定恐怕不是你真的想在你的系统上所要的。参考[我博客上的安装指南][alarm guide on blog]来了解怎么在晶晨平台上以Arch的方式安装**
 
 [alarm guide on blog]: https://7ji.github.io/embedded/2022/11/08/alarm-install.html
@@ -150,12 +150,16 @@ sudo pacman -Syu arch-install-scripts \
                  wget 
 ```
 
-When cloning the repo, remember to register all of the submodules and update them first. Otherwise the AUR packages would fail to build because of missing ``PKGBUILD``  
-克隆仓库的时候，记得先注册所有的子模块并更新。不然的话AUR包会因为找不到``PKGBUILD``而构建失败
+When cloning the repo, remember to register all of the submodules and update them first. Otherwise the AUR packages would fail to build because of missing ``PKGBUILD``. The option `--recursive` is enough for managing them during the clone.   
+克隆仓库的时候，记得先注册所有的子模块并更新。不然的话AUR包会因为找不到``PKGBUILD``而构建失败。选项`--recursive`可以自动在克隆期间处理这些琐事
 ```
-git clone https://github.com/7Ji/amlogic-s9xxx-archlinuxarm
-cd amlogic-s9xxx-archlinuxarm
-git submodule init
+git clone --recursive https://github.com/7Ji/amlogic-s9xxx-archlinuxarm.git
+```
+
+_When pulling the update, you need to run `git submodule update` to also update the submodules  
+拉取更新时，也需要用`git submodule update`来更新子模块_
+```
+git pull
 git submodule update
 ```
 
@@ -177,28 +181,11 @@ Defaults passwd_timeout=0
 
 There're some environment variables you could set to define the behaviours:  
 你可以设置一些环境变量来决定行为
- - ``SKIP_XZ``
-   - if set to yes, then the archive and image won't be compressed. So you could compress them on e.g. your more powerful x86-64 host
-   - 如果设置为yes，归档和镜像不会被压缩。那样的话你就能在比如说你强大的x86-64主机上来压缩
- - ``SKIP_AUR``
-   - if set to yes, then AUR packages won't be re-built. This is recommended for rebuilds when you already have built AUR packages under ``pkg``.
-   - 如果设置为yes，那么AUR包不会被重新构建。对于你已经在`pkg`下有构建好的AUR包的情况下重新构建来说是建议的
- - `WGET_PROXYCHAINS`
-   - if set to yes, prefix `wget` with `proxychains`  
-   - 如果设置为yes，在`wget`命令前加前缀`proxychains`
-
-So time spent on rebuilds can be set with a build command like this:  
-那么重新构建的时候如果这么写命令，花的时间就会更少
-```
-SKIP_AUR=yes SKIP_XZ=yes ./build.sh
-```
-Or like this  
-或者像这样
-```
-export SKIP_AUR=yes
-export SKIP_XZ=yes
-./build.sh
-```
+ - ``compressor``
+   - A combination of compressor executable and optional argument (e.g. `gzip` for compressing with gzip with default options, `xz -9e` for compressing with xz with maximum compression)  
+   压缩程序的执行文件名以及可选的参数（比如，`gzip`就是用gzip以默认选项压缩，`xz -9e`就是用xz以最大压缩率压缩）
+   - If set to no, then the archive and image won't be compressed.  
+   如果设置为no，归档和镜像不会被压缩。那样的话你就能在比如说你强大的x86-64主机上来压缩
 
 ## Sources / 来源
 
@@ -212,7 +199,7 @@ Scripts and configuration under ``/boot`` are also adapted from [ophub's Armbian
 AUR package [ampart-git][AUR ampart-git], [linux-aarch64-flippy-bin][AUR linux-aarch64-flippy-bin], [linux-firmware-amlogic-ophub][AUR linux-firmware-amlogic-ophub] and [uboot-legacy-initrd-hooks][AUR uboot-legacy-initrd-hooks] are from my AUR.  
 AUR包[ampart-git][AUR ampart-git], [linux-aarch64-flippy-bin][AUR linux-aarch64-flippy-bin], [linux-firmware-amlogic-ophub][AUR linux-firmware-amlogic-ophub]和 [uboot-legacy-initrd-hooks][AUR uboot-legacy-initrd-hooks]都来自我的AUR.
 
-AUR package [yay][AUR yay] is its author's AUR  
+AUR package [yay][AUR yay] is from its author's AUR  
 AUR包[yay][AUR yay]来自于其作者的AUR
 
 [Arch Wiki distcc]: https://wiki.archlinux.org/title/Distcc#Arch_Linux_ARM_as_clients_(x86_64_as_volunteers)
