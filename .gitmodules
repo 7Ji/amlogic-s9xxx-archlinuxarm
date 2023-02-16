@@ -13,3 +13,6 @@
 [submodule "aur/linux-aarch64-flippy"]
 	path = aur/linux-aarch64-flippy
 	url = https://aur.archlinux.org/linux-aarch64-flippy.git
+[submodule "alarm-builder-common"]
+	path = common
+	url = https://github.com/7Ji/alarm-builder-common.git
