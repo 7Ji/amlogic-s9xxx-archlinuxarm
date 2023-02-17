@@ -4,6 +4,7 @@
 . common/scripts/config.sh
 # Local config
 name_distro+='-Amlogic'
+dir_booting='booting'
 dir_uboot='uboot'
 release_note_packages+=(
   'ampart-git:[my AUR][AUR ampart-git]'
