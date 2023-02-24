@@ -21,6 +21,7 @@ prepare_blob() {
 }
 populate_blob() {
   populate_boot
+  populate_udev
 }
 remove_non_fallback() {
   echo " => Removing non-fallback non-legacy initramfs..."
@@ -141,17 +142,18 @@ populate_boot() {
     s|%FDT%|${conf_fdt}|g
     s|%APPEND%|${conf_append}|g
   "
-  local temp_uenv=$(mktemp)
-  local temp_extlinux=$(mktemp)
-  sed "${subst}" "${dir_booting}/uEnv.txt" > "${temp_uenv}"
-  sed "${subst}" "${dir_booting}/extlinux.conf" > "${temp_extlinux}"
-  sudo cp "${temp_uenv}" "${dir_boot}/uEnv.txt"
-  sudo mkdir -p "${dir_boot}/extlinux"
-  sudo cp "${temp_extlinux}" "${dir_boot}/extlinux/extlinux.conf"
-  rm -f "${temp_uenv}" "${temp_extlinux}"
+  sed "${subst}" "${dir_booting}/uEnv.txt" |
+    sudo install -DTm 644 '/dev/stdin' "${dir_boot}/uEnv.txt"
+  sed "${subst}" "${dir_booting}/extlinux.conf" |
+    sudo install -DTm 644 '/dev/stdin' "${dir_boot}/extlinux/extlinux.conf"
   echo "  -> Dumping uboot..."
   sudo cp -rv "${dir_uboot}" "${dir_boot}/"
   echo " => Populated boot partition"
+}
+populate_udev() {
+  git archive --remote '${dir_aur}/ampart-git/ampart' 'ampart' 'udev/ept-links-mainline.rules' |
+    tar -xvO |
+    sudo install -DTm 644 '/dev/stdin' "${dir_root}/etc/udev/rules.d/50-amlogic-partition-links.rules"
 }
 # Actual build
 build
