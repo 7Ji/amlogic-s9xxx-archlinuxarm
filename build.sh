@@ -151,8 +151,8 @@ populate_boot() {
   echo " => Populated boot partition"
 }
 populate_udev() {
-  git archive --remote '${dir_aur}/ampart-git/ampart' 'ampart' 'udev/ept-links-mainline.rules' |
-    tar -xvO |
+  git archive --remote "${dir_aur}/ampart-git/ampart" 'ampart' 'udev/ept-links-mainline.rules' |
+    tar -xO |
     sudo install -DTm 644 '/dev/stdin' "${dir_root}/etc/udev/rules.d/50-amlogic-partition-links.rules"
 }
 # Actual build
