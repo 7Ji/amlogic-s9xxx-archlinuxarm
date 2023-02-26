@@ -1,7 +1,7 @@
 # ArchLinux ARM for Amlogic s9xxx devices
 [中文文档](README_cn.md)
 
-**This is not an official release of ArchLinuxARM, but only a pre-built flash-and-boot image of it for Amlogic platform for generirc s9xxx boxes due to some kernel quirks needed to make it bootable on these devices not merged in mainline kernel**
+**This is not an official release of ArchLinuxARM, but only a pre-built flash-and-boot image of it for Amlogic platform for generic s9xxx boxes due to some kernel quirks needed to make it bootable on these devices not merged in mainline kernel**
 
 ## Information
 
@@ -85,7 +85,6 @@ Depending on your booting configuration you can choose whether to keep the u-boo
         INITRD  /initramfs-linux-aarch64-flippy.img
         ```
         And the hooks for u-boot legacy initrd can be moved  
-        生成传统内存镜像的钩子可以被移除
         ```
         pacman -R uboot-legacy-initrd-hooks
         ```
