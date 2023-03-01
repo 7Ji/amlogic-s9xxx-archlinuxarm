@@ -7,7 +7,7 @@ name_distro+='-Amlogic'
 dir_booting='booting'
 dir_uboot='uboot'
 release_note_packages+=(
-  'ampart-git:[my AUR][AUR ampart-git]'
+  'ampart:[my AUR][AUR ampart]'
   'linux-aarch64-flippy:[my AUR][AUR linux-aarch64-flippy-bin]'
   'linux-firmware-amlogic-ophub:[my AUR][AUR linux-firmware-amlogic-ophub]'
   'uboot-legacy-initrd-hooks:[my AUR][AUR uboot-legacy-initrd-hooks]'

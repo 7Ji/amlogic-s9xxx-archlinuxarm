@@ -158,6 +158,7 @@ Build ID: 20230227_003954
 |yay|11.3.2-1|[AUR][AUR yay]|
 
 [AUR ampart-git]: https://aur.archlinux.org/packages/ampart-git
+[AUR ampart]: https://aur.archlinux.org/packages/ampart
 [AUR linux-aarch64-flippy-bin]: https://aur.archlinux.org/packages/linux-aarch64-flippy-bin
 [AUR linux-firmware-amlogic-ophub]: https://aur.archlinux.org/packages/linux-firmware-amlogic-ophub
 [AUR uboot-legacy-initrd-hooks]: https://aur.archlinux.org/packages/uboot-legacy-initrd-hooks
