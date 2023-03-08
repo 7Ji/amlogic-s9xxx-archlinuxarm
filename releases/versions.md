@@ -157,9 +157,25 @@ Build ID: 20230227_003954
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
 |yay|11.3.2-1|[AUR][AUR yay]|
 
-[AUR ampart-git]: https://aur.archlinux.org/packages/ampart-git
+### 20230308
+Build ID: 20230308_155007
+|name|version|source|
+|-|-|-|
+|systemd|253.1-2|official|
+|openssh|9.2p1-1|official|
+|sudo|1.9.13.p2-1|official|
+|vim|9.0.1337-1|official|
+|ampart|1.3-1|[my AUR][AUR ampart]|
+|linux-aarch64-flippy|6.1.15-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-firmware-amlogic-ophub|20230129-4|[my AUR][AUR linux-firmware-amlogic-ophub]|
+|openvfd-service|1.4.2-1|[my AUR][AUR openvfd]|
+|uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
+|yay|11.3.2-1|[AUR][AUR yay]|
+
 [AUR ampart]: https://aur.archlinux.org/packages/ampart
+[AUR ampart-git]: https://aur.archlinux.org/packages/ampart-git
 [AUR linux-aarch64-flippy-bin]: https://aur.archlinux.org/packages/linux-aarch64-flippy-bin
 [AUR linux-firmware-amlogic-ophub]: https://aur.archlinux.org/packages/linux-firmware-amlogic-ophub
+[AUR openvfd]: https://aur.archlinux.org/packages/openvfd-service
 [AUR uboot-legacy-initrd-hooks]: https://aur.archlinux.org/packages/uboot-legacy-initrd-hooks
 [AUR yay]: https://aur.archlinux.org/packages/yay
