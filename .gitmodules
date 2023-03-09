@@ -16,6 +16,6 @@
 [submodule "aur/ampart"]
 	path = aur/ampart
 	url = https://aur.archlinux.org/ampart.git
-[submodule "aur/openvfd"]
-	path = aur/openvfd
-	url = https://aur.archlinux.org/openvfd.git
+[submodule "aur/yaopenvfd"]
+	path = aur/yaopenvfd
+	url = https://aur.archlinux.org/yaopenvfd.git
