@@ -9,7 +9,7 @@ release_note_packages+=(
   'ampart:[my AUR][AUR ampart]'
   'linux-aarch64-flippy:[my AUR][AUR linux-aarch64-flippy-bin]'
   'linux-firmware-amlogic-ophub:[my AUR][AUR linux-firmware-amlogic-ophub]'
-  'openvfd-service:[my AUR][AUR openvfd]'
+  'yaopenvfd:[my AUR][AUR yaopenvfd]'
   'uboot-legacy-initrd-hooks:[my AUR][AUR uboot-legacy-initrd-hooks]'
   'yay:[AUR][AUR yay]'
 )

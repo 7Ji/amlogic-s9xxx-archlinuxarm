@@ -178,4 +178,5 @@ Build ID: 20230308_155007
 [AUR linux-firmware-amlogic-ophub]: https://aur.archlinux.org/packages/linux-firmware-amlogic-ophub
 [AUR openvfd]: https://aur.archlinux.org/packages/openvfd-service
 [AUR uboot-legacy-initrd-hooks]: https://aur.archlinux.org/packages/uboot-legacy-initrd-hooks
+[AUR yaopenvfd]: https://aur.archlinux.org/packages/yaopenvfd
 [AUR yay]: https://aur.archlinux.org/packages/yay
