@@ -1,21 +1,21 @@
 [submodule "aur/uboot-legacy-initrd-hooks"]
-	path = aur/uboot-legacy-initrd-hooks
+	path = build/uboot-legacy-initrd-hooks
 	url = https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
 [submodule "aur/linux-firmware-amlogic-ophub"]
-	path = aur/linux-firmware-amlogic-ophub
+	path = build/linux-firmware-amlogic-ophub
 	url = https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
 [submodule "aur/yay"]
-	path = aur/yay
+	path = build/yay
 	url = https://aur.archlinux.org/yay.git
 [submodule "aur/linux-aarch64-flippy"]
-	path = aur/linux-aarch64-flippy
+	path = build/linux-aarch64-flippy
 	url = https://aur.archlinux.org/linux-aarch64-flippy.git
 [submodule "alarm-builder-common"]
 	path = common
 	url = https://github.com/7Ji/alarm-builder-common.git
 [submodule "aur/ampart"]
-	path = aur/ampart
+	path = build/ampart
 	url = https://aur.archlinux.org/ampart.git
 [submodule "aur/yaopenvfd"]
-	path = aur/yaopenvfd
+	path = build/yaopenvfd
 	url = https://aur.archlinux.org/yaopenvfd.git
