@@ -3,3 +3,4 @@ releases/ArchLinux*
 uboot
 blob
 pkg
+build/*/*
