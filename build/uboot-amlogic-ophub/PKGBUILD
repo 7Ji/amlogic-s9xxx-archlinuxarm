@@ -65,5 +65,5 @@ sha256sums=(
 )
 
 package() {
-  echo install -Dm644 "${srcdir}/u-boot-"*'.bin' -t "${pkgdir}/boot/uboot/"
+  install -Dm644 "${srcdir}/u-boot-"*'.bin' -t "${pkgdir}/boot/uboot/"
 }
