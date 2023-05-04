@@ -15,14 +15,14 @@ jobs:
       - name: Prepare packages
         run: |
           sudo apt update
-          sudo apt install arch-install-scripts qemu-user-static
+          sudo apt install arch-install-scripts qemu-user-static libarchive-tools
       - name: Cache cross rootfs
         uses: actions/cache@v1.2.1
         with:
           path: cross
           key:  ${{ runner.os }}-cross
       - name: Cross build
-        run: CROSS_BUILD=yes compressor=no ./build.sh
+        run: compressor=no ./cross.sh
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
         with:
