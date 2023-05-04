@@ -15,7 +15,7 @@ jobs:
       - name: Prepare packages
         run: |
           sudo apt update
-          sudo apt install arch-install-scripts uuid-runtime qemu-user-static
+          sudo apt install arch-install-scripts qemu-user-static
       - name: Cache cross rootfs
         uses: actions/cache@v1.2.1
         with:
