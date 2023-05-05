@@ -15,11 +15,15 @@ jobs:
       - name: Prepare packages
         run: |
           sudo apt update
-          sudo apt install arch-install-scripts qemu-user-static libarchive-tools
+          sudo apt install arch-install-scripts qemu-user-static libarchive-tools distcc
       - name: Cache cross rootfs
         uses: actions/cache@v1.2.1
         with:
-          path: cross
+          path: |
+            blob
+            build
+            cross
+            pkg
           key:  ${{ runner.os }}-cross
       - name: Cross build
         run: compressor=no ./cross.sh
