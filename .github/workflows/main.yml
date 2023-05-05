@@ -16,6 +16,11 @@ jobs:
         run: |
           sudo apt update
           sudo apt install arch-install-scripts qemu-user-static libarchive-tools distcc
+      - name: Allow distcc for aarch64
+        run: |
+          for binary in c++ cc cpp g++ gcc; do
+            sudo ln -sf ../../bin/distcc /usr/lib/distcc/aarch64-unknown-linux-gnu-${binary}
+          done
       - name: Cache cross rootfs
         uses: actions/cache@v1.2.1
         with:
