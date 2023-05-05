@@ -26,7 +26,8 @@ blob_sha256sums+=(
   '08da0b3fb56dcbc39943bed52cb1931ab71923e83c32c8f5073ee081b3807ee3'
 )
 # Common functions
-. common/functions/build.sh
+. common/functions/relative_source.sh
+relative_source common/functions/build.sh
 # Overload common functions
 populate_boot() {
   echo " => Populating boot partition..."
