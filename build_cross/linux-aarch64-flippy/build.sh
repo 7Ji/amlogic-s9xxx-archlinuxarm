@@ -10,9 +10,9 @@ outdir="${outdir:-outdir}"
 
 should_build() {
   if [[ -f kernel.tar.gz && -f dtbs.tar.gz && -f headers.tar.gz ]]; then
-    return 0
-  else
     return 1
+  else
+    return 0
   fi
 }
 
