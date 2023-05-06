@@ -28,7 +28,7 @@ sha256sums=(
 )
 noextract=("${source[@]##*/}")
 
-_dtb_common_pkg="${_pkgbase}-dtb"
+_dtb_common_pkg="${pkgbase}-dtb"
 
 package_linux-aarch64-flippy() {
   pkgdesc="The Linux Kernel and module - ${_desc}"
@@ -43,18 +43,18 @@ package_linux-aarch64-flippy() {
     'uboot-legacy-initrd-hooks: to generate uboot legacy initrd images'
     'linux-firmware-amlogic-ophub: firmware for Amlogic SoCs'
     'wireless-regdb: to set the correct wireless channels of your country'
-    "${_pkgbase}-dtb-allwinner: dtbs for Allwinner SoCs"
-    "${_pkgbase}-dtb-amlogic: dtbs for Amlogic SoCs"
-    "${_pkgbase}-dtb-rockchip: dtbs for Rockchip SoCs"
+    "${pkgbase}-dtb-allwinner: dtbs for Allwinner SoCs"
+    "${pkgbase}-dtb-amlogic: dtbs for Amlogic SoCs"
+    "${pkgbase}-dtb-rockchip: dtbs for Rockchip SoCs"
   )
   provides=(
-    "${_pkgbase}=${pkgver}"
+    "${pkgbase}=${pkgver}"
   )
   conflicts=(
-    "${_pkgbase}"
+    "${pkgbase}"
   )
   backup=(
-    "etc/mkinitcpio.d/${_pkgbase}.preset"
+    "etc/mkinitcpio.d/${pkgbase}.preset"
   )
   tar -C "${pkgdir}" -xvzf "${srcdir}/kernel.tar.gz"
 }
@@ -62,10 +62,10 @@ package_linux-aarch64-flippy() {
 package_linux-aarch64-flippy-headers() {
   pkgdesc="Header files and scripts for building modules for linux kernel - ${_desc}"
   provides=(
-    "${_pkgbase}-headers=${pkgver}"
+    "${pkgbase}-headers=${pkgver}"
   )
   conflicts=(
-    "${_pkgbase}-headers"
+    "${pkgbase}-headers"
   )
   tar -C "${pkgdir}" -xvzf "${srcdir}/headers.tar.gz"
 }
@@ -76,12 +76,12 @@ package_linux-aarch64-flippy-dtb-allwinner() {
   pkgdesc="DTB files for Allwinner SoCs for flippy's AArch64 kernel"
   provides=(
     "${_dtb_common_provides}"
-    "${_pkgbase}-dtb-allwinner=${pkgver}"
+    "${pkgbase}-dtb-allwinner=${pkgver}"
   )
   conflicts=(
-    "${_pkgbase}-dtb-allwinner"
+    "${pkgbase}-dtb-allwinner"
   )
-  local _dtb_dir_suffix="boot/dtbs/${_pkgbase}/allwinner"
+  local _dtb_dir_suffix="boot/dtbs/${pkgbase}/allwinner"
   tar -C "${pkgdir}" -xvzf "${srcdir}/dtbs.tar.gz" "${_dtb_dir_suffix}"
 }
 
@@ -89,12 +89,12 @@ package_linux-aarch64-flippy-dtb-amlogic() {
   pkgdesc="DTB files for Amlogic SoCs for flippy's AArch64 kernel"
   provides=(
     "${_dtb_common_provides}"
-    "${_pkgbase}-dtb-amlogic=${pkgver}"
+    "${pkgbase}-dtb-amlogic=${pkgver}"
   )
   conflicts=(
-    "${_pkgbase}-dtb-amlogic"
+    "${pkgbase}-dtb-amlogic"
   )
-  local _dtb_dir_suffix="boot/dtbs/${_pkgbase}/amlogic"
+  local _dtb_dir_suffix="boot/dtbs/${pkgbase}/amlogic"
   tar -C "${pkgdir}" -xvzf "${srcdir}/dtbs.tar.gz" "${_dtb_dir_suffix}"
 }
 
@@ -102,11 +102,11 @@ package_linux-aarch64-flippy-dtb-rockchip() {
   pkgdesc="DTB files for Rockchip SoCs for flippy's AArch64 kernel"
   provides=(
     "${_dtb_common_provides}"
-    "${_pkgbase}-dtb-rockchip=${pkgver}"
+    "${pkgbase}-dtb-rockchip=${pkgver}"
   )
   conflicts=(
-    "${_pkgbase}-dtb-rockchip"
+    "${pkgbase}-dtb-rockchip"
   )
-  local _dtb_dir_suffix="boot/dtbs/${_pkgbase}/rockchip"
+  local _dtb_dir_suffix="boot/dtbs/${pkgbase}/rockchip"
   tar -C "${pkgdir}" -xvzf "${srcdir}/dtbs.tar.gz" "${_dtb_dir_suffix}"
 }
