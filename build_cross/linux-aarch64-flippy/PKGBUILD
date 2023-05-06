@@ -30,7 +30,7 @@ noextract=("${source[@]##*/}")
 
 _dtb_common_pkg="${_pkgbase}-dtb"
 
-package_linux-aarch64-flippy-cross-bin() {
+package_linux-aarch64-flippy() {
   pkgdesc="The Linux Kernel and module - ${_desc}"
   depends=(
     "${_dtb_common_pkg}"
@@ -59,7 +59,7 @@ package_linux-aarch64-flippy-cross-bin() {
   tar -C "${pkgdir}" -xvzf "${srcdir}/kernel.tar.gz"
 }
 
-package_linux-aarch64-flippy-cross-bin-headers() {
+package_linux-aarch64-flippy-headers() {
   pkgdesc="Header files and scripts for building modules for linux kernel - ${_desc}"
   provides=(
     "${_pkgbase}-headers=${pkgver}"
@@ -72,7 +72,7 @@ package_linux-aarch64-flippy-cross-bin-headers() {
 
 _dtb_common_provides="${_dtb_common_pkg}=${pkgver}"
 
-package_linux-aarch64-flippy-cross-bin-dtb-allwinner() {
+package_linux-aarch64-flippy-dtb-allwinner() {
   pkgdesc="DTB files for Allwinner SoCs for flippy's AArch64 kernel"
   provides=(
     "${_dtb_common_provides}"
@@ -85,7 +85,7 @@ package_linux-aarch64-flippy-cross-bin-dtb-allwinner() {
   tar -C "${pkgdir}" -xvzf "${srcdir}/dtbs.tar.gz" "${_dtb_dir_suffix}"
 }
 
-package_linux-aarch64-flippy-cross-bin-dtb-amlogic() {
+package_linux-aarch64-flippy-dtb-amlogic() {
   pkgdesc="DTB files for Amlogic SoCs for flippy's AArch64 kernel"
   provides=(
     "${_dtb_common_provides}"
@@ -98,7 +98,7 @@ package_linux-aarch64-flippy-cross-bin-dtb-amlogic() {
   tar -C "${pkgdir}" -xvzf "${srcdir}/dtbs.tar.gz" "${_dtb_dir_suffix}"
 }
 
-package_linux-aarch64-flippy-cross-bin-dtb-rockchip() {
+package_linux-aarch64-flippy-dtb-rockchip() {
   pkgdesc="DTB files for Rockchip SoCs for flippy's AArch64 kernel"
   provides=(
     "${_dtb_common_provides}"
