@@ -15,7 +15,15 @@ jobs:
       - name: Prepare packages
         run: |
           sudo apt update
-          sudo apt install arch-install-scripts qemu-user-static libarchive-tools distcc
+          sudo apt install \
+            arch-install-scripts \
+            bc \
+            bison \
+            device-tree-compiler \
+            distcc \
+            flex \
+            libarchive-tools \
+            qemu-user-static 
       - name: Allow distcc for aarch64
         run: |
           for binary in c++ cc cpp g++ gcc; do

@@ -155,7 +155,15 @@ Check [the CI file](.github/workflows/main.yml) to get an idea of how to set up 
 1. Install all of the dependencies:
    ```
    sudo apt update
-   sudo apt install arch-install-scripts qemu-user-static libarchive-tools distcc
+   sudo apt install \
+      arch-install-scripts \
+      bc \
+      bison \
+      device-tree-compiler \
+      distcc \
+      flex \
+      libarchive-tools \
+      qemu-user-static 
    ```
 2. Setup symlinks for distcc
    ```
