@@ -2,8 +2,7 @@
 
 _desc="flippy's AArch64-focused fork aiming to increase usability. Cross-build alternative"
 
-_pkgbase=linux-aarch64-flippy
-pkgbase="${_pkgbase}-cross-bin"
+pkgbase=linux-aarch64-flippy
 pkgname=(
   "${pkgbase}"
   "${pkgbase}-headers"
