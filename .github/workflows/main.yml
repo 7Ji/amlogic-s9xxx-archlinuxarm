@@ -42,6 +42,12 @@ jobs:
       #     key:  ${{ runner.os }}-cross
       - name: Cross build
         run: compressor=no ./cross.sh
+      - name: Compress archives and images
+        run: |
+          for i in releases/*.{tar,img}; do
+            xz -9 $i &
+          done
+          wait
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
         with:
