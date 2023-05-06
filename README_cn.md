@@ -162,11 +162,13 @@ _也可以在ArchLinux上运行，但因为脚本是给Debian衍生发行版写�
       arch-install-scripts \
       bc \
       bison \
-      device-tree-compiler \
       distcc \
       flex \
       libarchive-tools \
-      qemu-user-static 
+      qemu-user-static \
+      libssl-dev \
+      qemu-user-static \
+      u-boot-tools
    ```
 2. 配置distcc的软链接
    ```

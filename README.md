@@ -159,11 +159,12 @@ Check [the CI file](.github/workflows/main.yml) to get an idea of how to set up 
       arch-install-scripts \
       bc \
       bison \
-      device-tree-compiler \
       distcc \
       flex \
       libarchive-tools \
-      qemu-user-static 
+      libssl-dev \
+      qemu-user-static \
+      u-boot-tools
    ```
 2. Setup symlinks for distcc
    ```
