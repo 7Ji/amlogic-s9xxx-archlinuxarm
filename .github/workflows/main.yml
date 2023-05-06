@@ -20,9 +20,10 @@ jobs:
             bc \
             bison \
             distcc \
-            flex \
             libarchive-tools \
+            libfl-dev \
             libssl-dev \
+            libdebuginfod1 \
             qemu-user-static \
             u-boot-tools
       - name: Allow distcc for aarch64
