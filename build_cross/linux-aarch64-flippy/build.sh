@@ -71,8 +71,8 @@ package() {
     install -Dm644 /dev/stdin "${root}/etc/mkinitcpio.d/${pkgname}.preset"
   rm -rf "${outdir}"
   mkdir "${outdir}"
-  tar -C "${root}" -cvzf "${outdir}/kernel.tar.gz" 'usr' 'etc'
-  tar -C "${root}" -cvzf "${outdir}/dtbs.tar.gz" 'boot'
+  tar -C "${root}" -czf "${outdir}/kernel.tar.gz" 'usr' 'etc'
+  tar -C "${root}" -czf "${outdir}/dtbs.tar.gz" 'boot'
   rm -rf "${root}"
   # Headers
   root=$(mktemp -d)
@@ -150,7 +150,7 @@ package() {
   echo "Adding symlink..."
   mkdir -p "${root}/usr/src"
   ln -sr "${build}" "${root}/usr/src/${pkgname}"
-  tar -C "${root}" -cvzf "${outdir}/headers.tar.gz" usr
+  tar -C "${root}" -czf "${outdir}/headers.tar.gz" usr
   rm -rf "${root}"
   rm -rf "${oldpwd}/"{kernel,dtbs,headers}'.tar.gz'
   mv "${outdir}/"* "${oldpwd}/"
