@@ -94,7 +94,31 @@ mkinitcpio -P
       ```
 
 ## 构建
-构建脚本**必须在装有ArchLinux ARM自己或者是Manjaro ARM等衍生发行版的AArch64设备上原生运行**，因为有的AUR包需要被原生构建，并且包管理器Pacman也应且仅应当该被原生运行来安装它们还有其他的必要包。除非你想整一堆包管理器追踪不到的文件（**非常危险，而且根本不是Arch的风格**），不然这就是正确的唯一路子。
+### 通用
+克隆仓库的时候，记得先注册所有的子模块并更新。不然的话AUR包会因为找不到``PKGBUILD``而构建失败。选项`--recursive`可以自动在克隆期间处理这些琐事
+```
+git clone --recursive https://github.com/7Ji/amlogic-s9xxx-archlinuxarm.git
+```
+
+_拉取更新时，也需要用`git submodule update`来更新子模块_
+```
+git pull
+git submodule init
+git submodule update
+```
+
+_所有构建脚本应当以一个能用`sudo`的用户的身份运行，因为它会通过`sudo`运行一些高风险的命令，而不是一直作为`root`运行，如果以`root`身份或者是通过`sudo`，脚本会拒绝工作。如果你要让脚本在后台运行的话，你可能需要在`sudoers`里添加以下选项来取消超时：_
+```
+Defaults passwd_timeout=0
+```
+
+你可以设置一些环境变量来决定行为
+ - ``compressor``
+   - 压缩程序的执行文件名以及可选的参数（比如，`gzip`就是用gzip以默认选项压缩，`xz -9e`就是用xz以最大压缩率压缩）
+   - 如果设置为no，归档和镜像不会被压缩。那样的话你就能在比如说你强大的x86-64主机上来压缩
+
+### 原生（推荐）
+要在ARM平台上原生构建，构建脚本**必须在装有ArchLinux ARM自己或者是Manjaro ARM等衍生发行版的AArch64设备上原生运行**，因为有的AUR包需要被原生构建，并且包管理器Pacman也应且仅应当该被原生运行来安装它们还有其他的必要包。除非你想整一堆包管理器追踪不到的文件（**非常危险，而且根本不是Arch的风格**），不然这就是正确的唯一路子。
 
 你可以用这里的镜像或者照着[我博客上的文章](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) 来从头自举一个可以工作的ArchLinux ARM安装来当作构建环境
 
@@ -113,18 +137,6 @@ sudo pacman -Syu arch-install-scripts \
                  wget 
 ```
 
-克隆仓库的时候，记得先注册所有的子模块并更新。不然的话AUR包会因为找不到``PKGBUILD``而构建失败。选项`--recursive`可以自动在克隆期间处理这些琐事
-```
-git clone --recursive https://github.com/7Ji/amlogic-s9xxx-archlinuxarm.git
-```
-
-_拉取更新时，也需要用`git submodule update`来更新子模块_
-```
-git pull
-git submodule init
-git submodule update
-```
-
 当你本地的仓库就绪后，只需要一条简单的``./build.sh``就能构建镜像了
 ```
 ./build.sh
@@ -133,15 +145,34 @@ git submodule update
 ```
 bash -e build.sh
 ```
-_这个脚本应当以一个能用`sudo`的用户的身份运行，因为它会通过`sudo`运行一些高风险的命令，而不是一直作为`root`运行，如果以`root`身份或者是通过`sudo`，脚本会拒绝工作。如果你要让脚本在后台运行的话，你可能需要在`sudoers`里添加以下选项来取消超时：_
-```
-Defaults passwd_timeout=0
-```
 
-你可以设置一些环境变量来决定行为
- - ``compressor``
-   - 压缩程序的执行文件名以及可选的参数（比如，`gzip`就是用gzip以默认选项压缩，`xz -9e`就是用xz以最大压缩率压缩）
-   - 如果设置为no，归档和镜像不会被压缩。那样的话你就能在比如说你强大的x86-64主机上来压缩
+### 交叉编译
+构建也可以在运行Debian衍生发行版的x86-64平台上运行，这也是本仓库里Github Actions配置的构建方式（设置是每次推送更新自动构建）
+
+你也可以在你本人的实际硬件上运行，不过要注意交叉编译有很多的额外开销，这是因为脚本要部署一整个ArchLinuxARM的跟文件系统，以及x86-64作为宿主的ArchLinux用于AArch64的ArchLinuxARM的工具链，并且会同时运行distcc和一个QEMU的ALARM容器
+
+_也可以在ArchLinux上运行，但因为脚本是给Debian衍生发行版写的，你可能想自己优化掉部署ArchLinux工具链的部分_
+
+查看 [Github ACtions 配置文件](.github/workflows/main.yml) 来了解环境是怎么部署的，基本上你需要：
+
+1. 安装所有依赖:
+   ```
+   sudo apt update
+   sudo apt install arch-install-scripts qemu-user-static libarchive-tools distcc
+   ```
+2. 配置distcc的软链接
+   ```
+   for binary in c++ cc cpp g++ gcc; do
+      sudo ln -sf ../../bin/distcc /usr/lib/distcc/aarch64-unknown-linux-gnu-${binary}
+   done
+   ```
+   **务必确保没有进程占用3632端口！目前，脚本中写死distcc使用3632端口**
+3. 运行交叉构建脚本
+   ```
+   compressor=no ./cross.sh
+   ```
+   _如果不设置 `compressor`, aarch64的QEMU机器会负责压缩，效率很低_
+
 
 ## 来源
 

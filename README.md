@@ -96,7 +96,31 @@ Depending on your booting configuration you can choose whether to keep the u-boo
       ```
 
 ## Build
-The script **must be run on an AArch64 device natively, and on either ArchLinux ARM itself or derived distros like Manjaro ARM**, as our AUR packages need to built natively, and the package manager Pacman should also be run natively to install them and other essential packages. Unless you want to leave a lot of binaries not tracked by the package manager (**very dangerous, and not the Arch way**), this is the way to go.
+### Common
+When cloning the repo, remember to register all of the submodules and update them first. Otherwise the AUR packages would fail to build because of missing ``PKGBUILD``. The option `--recursive` is enough for managing them during the clone.
+```
+git clone --recursive https://github.com/7Ji/amlogic-s9xxx-archlinuxarm.git
+```
+
+_When pulling the update, you need to run `git submodule update` to also update the submodules_
+```
+git pull
+git submodule init
+git submodule update
+```
+
+*All of the build scripts should be run as a user that can use `sudo` and **never as root**. They will refuse to work if being run as `root` or with `sudo`. You might need to to set the following option in `sudoers` if you want to keep it in background to cancel the timeout:*
+```
+Defaults passwd_timeout=0
+```
+
+There're some environment variables you could set to define the behaviours:
+ - ``compressor``
+   - A combination of compressor executable and optional argument (e.g. `gzip` for compressing with gzip with default options, `xz -9e` for compressing with xz with maximum compression)
+   - If set to no, then the archive and image won't be compressed.
+
+### Native (Recommended)
+For native build on ARM platform, the script **must be run on an AArch64 device, with either ArchLinux ARM itself or derived distros like Manjaro ARM**, as our AUR packages need to built natively, and the package manager Pacman should also be run natively to install them and other essential packages. Unless you want to leave a lot of binaries not tracked by the package manager (**very dangerous, and not the Arch way**), this is the way to go.
 
 Your could just use the images here or follow [my guide on my blog](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) to bootstrap a working ArchLinux ARM installation from ground up to be used as the build environment.
 
@@ -115,35 +139,37 @@ sudo pacman -Syu arch-install-scripts \
                  wget 
 ```
 
-When cloning the repo, remember to register all of the submodules and update them first. Otherwise the AUR packages would fail to build because of missing ``PKGBUILD``. The option `--recursive` is enough for managing them during the clone.
-```
-git clone --recursive https://github.com/7Ji/amlogic-s9xxx-archlinuxarm.git
-```
-
-_When pulling the update, you need to run `git submodule update` to also update the submodules_
-```
-git pull
-git submodule init
-git submodule update
-```
-
 After you get your local repo ready, all it needs is a simple ``./build.sh`` to build the image
 ```
 ./build.sh
 ```
-Or if you prefer to prefix it with the corresponding shell (**`-e`** flash must be set):
-```
-bash -e build.sh
-```
-*The script should be run as a user that can use `sudo`, as it will run some high risk commands with `sudo` instead of always running as `root`. It will refuse to work if being run as `root` or with `sudo`. You might need to to set the following option in `sudoers` if you want to keep it in background to cancel the timeout:*
-```
-Defaults passwd_timeout=0
-```
+### Cross
+The build could also be done on a Debian-derived x86-64 platform, which is the case for the Github Actions configured on this repo (which is set to build on each push).
 
-There're some environment variables you could set to define the behaviours:
- - ``compressor``
-   - A combination of compressor executable and optional argument (e.g. `gzip` for compressing with gzip with default options, `xz -9e` for compressing with xz with maximum compression)
-   - If set to no, then the archive and image won't be compressed.
+You could still do that on your own hardware though, but note there're more overheads since the script will need to deploy a whole ArchLinuxARM rootfs and an x86-64 hosted ArchLinux toolchain for AArch64 ArchLinuxARM target, and run distcc and a QEMU ALARM container side by side.
+
+_It's also possible on ArchLinux, but since the script is written for Debian-derived and we deploy a whole ArchLinux toolchain, you probably would want to optimize by yourself_
+
+Check [the CI file](.github/workflows/main.yml) to get an idea of how to set up the environment, basically you need to:
+
+1. Install all of the dependencies:
+   ```
+   sudo apt update
+   sudo apt install arch-install-scripts qemu-user-static libarchive-tools distcc
+   ```
+2. Setup symlinks for distcc
+   ```
+   for binary in c++ cc cpp g++ gcc; do
+      sudo ln -sf ../../bin/distcc /usr/lib/distcc/aarch64-unknown-linux-gnu-${binary}
+   done
+   ```
+   **Make sure there's no process using port 3632! At this point, distcc is hardcoded to use 3632 in the scripts**
+3. Run the cross build script
+   ```
+   compressor=no ./cross.sh
+   ```
+   _If you do not set `compressor`, then the QEMU aarch64 machine will do the compression, which is very in-efficient_
+
 
 ## Sources
 
