@@ -145,7 +145,7 @@ package() {
   done < <(find "${build}" -type f -perm -u+x ! -name vmlinux -print0)
 
   echo "Stripping vmlinux..."
-  strip -v $STRIP_STATIC "${build}/vmlinux"
+  "${CROSS_COMPILE}strip" -v $STRIP_STATIC "${build}/vmlinux"
 
   echo "Adding symlink..."
   mkdir -p "${root}/usr/src"
