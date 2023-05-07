@@ -31,15 +31,6 @@ jobs:
           for binary in c++ cc cpp g++ gcc; do
             sudo ln -sf ../../bin/distcc /usr/lib/distcc/aarch64-unknown-linux-gnu-${binary}
           done
-      # - name: Cache cross rootfs
-      #   uses: actions/cache@v1.2.1
-      #   with:
-      #     path: |
-      #       blob
-      #       build
-      #       cross
-      #       pkg
-      #     key:  ${{ runner.os }}-cross
       - name: Cross build
         run: compressor=no ./cross.sh
       - name: Compress archives and images
