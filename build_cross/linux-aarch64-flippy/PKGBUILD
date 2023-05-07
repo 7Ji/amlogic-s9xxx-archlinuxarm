@@ -83,6 +83,7 @@ package_linux-aarch64-flippy-dtb-allwinner() {
   )
   local _dtb_dir_suffix="boot/dtbs/${pkgbase}/allwinner"
   tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "${_dtb_dir_suffix}"
+  chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
 }
 
 package_linux-aarch64-flippy-dtb-amlogic() {
@@ -96,6 +97,7 @@ package_linux-aarch64-flippy-dtb-amlogic() {
   )
   local _dtb_dir_suffix="boot/dtbs/${pkgbase}/amlogic"
   tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "${_dtb_dir_suffix}"
+  chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
 }
 
 package_linux-aarch64-flippy-dtb-rockchip() {
@@ -109,4 +111,5 @@ package_linux-aarch64-flippy-dtb-rockchip() {
   )
   local _dtb_dir_suffix="boot/dtbs/${pkgbase}/rockchip"
   tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "${_dtb_dir_suffix}"
+  chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
 }
