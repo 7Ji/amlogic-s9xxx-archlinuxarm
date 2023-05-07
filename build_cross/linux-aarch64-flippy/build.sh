@@ -19,7 +19,7 @@ should_build() {
 unpack() {
   rm -rf "${builddir}"
   mkdir "${builddir}"
-  tar -C "${builddir}" -xf "${dir_build_pkg}/linux-"*'.tar.gz' --strip-components=1
+  tar -C "${builddir}" -xf source.tar.gz --strip-components=1
 }
 
 patch() {
