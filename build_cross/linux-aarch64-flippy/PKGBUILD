@@ -17,9 +17,9 @@ url="https://github.com/unifreq/linux-6.1.y"
 license=('GPL2')
 options=(!strip)
 source=(
-  "kernel.tar.gz"
-  'dtbs.tar.gz'
-  'headers.tar.gz'
+  "kernel.tar"
+  'dtbs.tar'
+  'headers.tar'
 )
 sha256sums=(
   'SKIP'
@@ -56,7 +56,7 @@ package_linux-aarch64-flippy() {
   backup=(
     "etc/mkinitcpio.d/${pkgbase}.preset"
   )
-  tar -C "${pkgdir}" -xzf "${srcdir}/kernel.tar.gz"
+  tar -C "${pkgdir}" -xf "${srcdir}/kernel.tar"
 }
 
 package_linux-aarch64-flippy-headers() {
@@ -67,7 +67,7 @@ package_linux-aarch64-flippy-headers() {
   conflicts=(
     "${pkgbase}-headers"
   )
-  tar -C "${pkgdir}" -xzf "${srcdir}/headers.tar.gz"
+  tar -C "${pkgdir}" -xf "${srcdir}/headers.tar"
 }
 
 _dtb_common_provides="${_dtb_common_pkg}=${pkgver}"
@@ -82,7 +82,7 @@ package_linux-aarch64-flippy-dtb-allwinner() {
     "${pkgbase}-dtb-allwinner"
   )
   local _dtb_dir_suffix="boot/dtbs/${pkgbase}/allwinner"
-  tar -C "${pkgdir}" -xzf "${srcdir}/dtbs.tar.gz" "${_dtb_dir_suffix}"
+  tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "${_dtb_dir_suffix}"
 }
 
 package_linux-aarch64-flippy-dtb-amlogic() {
@@ -95,7 +95,7 @@ package_linux-aarch64-flippy-dtb-amlogic() {
     "${pkgbase}-dtb-amlogic"
   )
   local _dtb_dir_suffix="boot/dtbs/${pkgbase}/amlogic"
-  tar -C "${pkgdir}" -xzf "${srcdir}/dtbs.tar.gz" "${_dtb_dir_suffix}"
+  tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "${_dtb_dir_suffix}"
 }
 
 package_linux-aarch64-flippy-dtb-rockchip() {
@@ -108,5 +108,5 @@ package_linux-aarch64-flippy-dtb-rockchip() {
     "${pkgbase}-dtb-rockchip"
   )
   local _dtb_dir_suffix="boot/dtbs/${pkgbase}/rockchip"
-  tar -C "${pkgdir}" -xzf "${srcdir}/dtbs.tar.gz" "${_dtb_dir_suffix}"
+  tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "${_dtb_dir_suffix}"
 }
