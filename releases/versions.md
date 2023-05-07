@@ -40,7 +40,7 @@ Build ID: 20230131_113258
 |sudo|1.9.12.p2-1|official
 |vim|9.0.1182-1|official|
 |ampart-git|1.1.r15.17eb5ce-1|[my AUR][AUR ampart-git]|
-|linux-aarch64-flippy|6.1.8-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.8-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230119-1|[my AUR][AUR linux-firmware-amlogic-ophub]
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
 |yay|11.3.2-1|[AUR][AUR yay]
@@ -54,7 +54,7 @@ Build ID: 20230202_215449
 |sudo|1.9.12.p2-1|official
 |vim|9.0.1182-1|official|
 |ampart-git|1.1.r15.17eb5ce-1|[my AUR][AUR ampart-git]|
-|linux-aarch64-flippy|6.1.9-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.9-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230119-1|[my AUR][AUR linux-firmware-amlogic-ophub]
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
 |yay|11.3.2-1|[AUR][AUR yay]
@@ -68,7 +68,7 @@ Build ID: 20230205_114149
 |sudo|1.9.12.p2-1|official
 |vim|9.0.1182-1|official|
 |ampart-git|1.2-1|[my AUR][AUR ampart-git]|
-|linux-aarch64-flippy|6.1.9-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.9-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230119-1|[my AUR][AUR linux-firmware-amlogic-ophub]
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
 |yay|11.3.2-1|[AUR][AUR yay]
@@ -82,7 +82,7 @@ Build ID: 20230207_184409
 |sudo|1.9.12.p2-1|official
 |vim|9.0.1182-1|official|
 |ampart-git|1.2-1|[my AUR][AUR ampart-git]|
-|linux-aarch64-flippy|6.1.10-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.10-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230119-1|[my AUR][AUR linux-firmware-amlogic-ophub]
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
 |yay|11.3.2-1|[AUR][AUR yay]
@@ -96,7 +96,7 @@ Build ID: 20230213_000013
 |sudo|1.9.12.p2-2|official
 |vim|9.0.1182-1|official|
 |ampart-git|1.2-1|[my AUR][AUR ampart-git]|
-|linux-aarch64-flippy|6.1.11-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.11-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230119-1|[my AUR][AUR linux-firmware-amlogic-ophub]
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
 |yay|11.3.2-1|[AUR][AUR yay]
@@ -110,7 +110,7 @@ Build ID: 20230216_011012
 |sudo|1.9.12.p2-2|official
 |vim|9.0.1302-1|official|
 |ampart-git|1.2.r4.a5f4a7b-1|[my AUR][AUR ampart-git]|
-|linux-aarch64-flippy|6.1.12-2|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.12-2|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230129-2|[my AUR][AUR linux-firmware-amlogic-ophub]
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]
 |yay|11.3.2-1|[AUR][AUR yay]
@@ -124,7 +124,7 @@ Build ID: 20230224_222335
 |sudo|1.9.13-1|official|
 |vim|9.0.1337-1|official|
 |ampart-git|1.2.r10.9f32b19-1|[my AUR][AUR ampart-git]|
-|linux-aarch64-flippy|6.1.13-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.13-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230129-2|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
 |yay|11.3.2-1|[AUR][AUR yay]|
@@ -138,7 +138,7 @@ Build ID: 20230225_150037
 |sudo|1.9.13-1|official|
 |vim|9.0.1337-1|official|
 |ampart-git|1.2.r10.9f32b19-1|[my AUR][AUR ampart-git]|
-|linux-aarch64-flippy|6.1.13-2|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.13-2|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230129-2|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
 |yay|11.3.2-1|[AUR][AUR yay]|
@@ -152,7 +152,7 @@ Build ID: 20230227_003954
 |sudo|1.9.13-1|official|
 |vim|9.0.1337-1|official|
 |ampart-git|1.2.r10.9f32b19-1|[my AUR][AUR ampart-git]|
-|linux-aarch64-flippy|6.1.14-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.14-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230129-3|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
 |yay|11.3.2-1|[AUR][AUR yay]|
@@ -166,7 +166,7 @@ Build ID: 20230308_155007
 |sudo|1.9.13.p2-1|official|
 |vim|9.0.1337-1|official|
 |ampart|1.3-1|[my AUR][AUR ampart]|
-|linux-aarch64-flippy|6.1.15-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.15-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230129-4|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |openvfd-service|1.4.2-1|[my AUR][AUR openvfd]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
@@ -181,7 +181,7 @@ Build ID: 20230312_115242
 |sudo|1.9.13.p2-1|official|
 |vim|9.0.1337-1|official|
 |ampart|1.3-1|[my AUR][AUR ampart]|
-|linux-aarch64-flippy|6.1.16-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.16-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230129-4|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |yaopenvfd|1.0.1-1|[my AUR][AUR yaopenvfd]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
@@ -196,7 +196,7 @@ Build ID: 20230323_225456
 |sudo|1.9.13.p3-1|official|
 |vim|9.0.1420-1|official|
 |ampart|1.3-1|[my AUR][AUR ampart]|
-|linux-aarch64-flippy|6.1.21-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.21-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230129-4|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |yaopenvfd|1.0.1-1|[my AUR][AUR yaopenvfd]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
@@ -211,7 +211,7 @@ Build ID: 20230401_174724
 |sudo|1.9.13.p3-1|official|
 |vim|9.0.1420-1|official|
 |ampart|1.3-1|[my AUR][AUR ampart]|
-|linux-aarch64-flippy|6.1.22-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.22-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230129-4|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |yaopenvfd|1.0.1-1|[my AUR][AUR yaopenvfd]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
@@ -226,7 +226,7 @@ Build ID: 20230414_170724
 |sudo|1.9.13.p3-1|official|
 |vim|9.0.1420-1|official|
 |ampart|1.3-1|[my AUR][AUR ampart]|
-|linux-aarch64-flippy|6.1.24-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.24-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230129-4|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |yaopenvfd|1.0.1-1|[my AUR][AUR yaopenvfd]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
@@ -241,7 +241,7 @@ Build ID: 20230428_011356
 |sudo|1.9.13.p3-1|official|
 |vim|9.0.1420-1|official|
 |ampart|1.3-1|[my AUR][AUR ampart]|
-|linux-aarch64-flippy|6.1.26-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.26-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230405-1|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |yaopenvfd|1.0.1-1|[my AUR][AUR yaopenvfd]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
@@ -256,7 +256,7 @@ Build ID: 20230502_021546
 |sudo|1.9.13.p3-1|official|
 |vim|9.0.1420-1|official|
 |ampart|1.3-1|[my AUR][AUR ampart]|
-|linux-aarch64-flippy|6.1.27-1|[my AUR][AUR linux-aarch64-flippy-bin]|
+|linux-aarch64-flippy|6.1.27-1|[my AUR][AUR linux-aarch64-flippy]|
 |linux-firmware-amlogic-ophub|20230405-1|[my AUR][AUR linux-firmware-amlogic-ophub]|
 |yaopenvfd|1.0.1-1|[my AUR][AUR yaopenvfd]|
 |uboot-legacy-initrd-hooks|0.0.1-1|[my AUR][AUR uboot-legacy-initrd-hooks]|
@@ -264,6 +264,7 @@ Build ID: 20230502_021546
 
 [AUR ampart]: https://aur.archlinux.org/packages/ampart
 [AUR ampart-git]: https://aur.archlinux.org/packages/ampart-git
+[AUR linux-aarch64-flippy]: https://aur.archlinux.org/packages/linux-aarch64-flippy
 [AUR linux-aarch64-flippy-bin]: https://aur.archlinux.org/packages/linux-aarch64-flippy-bin
 [AUR linux-firmware-amlogic-ophub]: https://aur.archlinux.org/packages/linux-firmware-amlogic-ophub
 [AUR openvfd]: https://aur.archlinux.org/packages/openvfd-service

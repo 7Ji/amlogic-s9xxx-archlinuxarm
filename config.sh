@@ -5,7 +5,7 @@ name_distro+='-Amlogic'
 dir_booting='booting'
 release_note_packages+=(
   'ampart:[my AUR][AUR ampart]'
-  'linux-aarch64-flippy:[my AUR][AUR linux-aarch64-flippy-bin]'
+  'linux-aarch64-flippy:[my AUR][AUR linux-aarch64-flippy]'
   'linux-firmware-amlogic-ophub:[my AUR][AUR linux-firmware-amlogic-ophub]'
   'yaopenvfd:[my AUR][AUR yaopenvfd]'
   'uboot-legacy-initrd-hooks:[my AUR][AUR uboot-legacy-initrd-hooks]'
