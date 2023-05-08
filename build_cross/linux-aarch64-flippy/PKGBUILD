@@ -57,6 +57,8 @@ package_linux-aarch64-flippy() {
     "etc/mkinitcpio.d/${pkgbase}.preset"
   )
   tar -C "${pkgdir}" -xf "${srcdir}/kernel.tar"
+  chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
+  chmod -R 755 "${pkgdir}"
 }
 
 package_linux-aarch64-flippy-headers() {
@@ -68,6 +70,8 @@ package_linux-aarch64-flippy-headers() {
     "${pkgbase}-headers"
   )
   tar -C "${pkgdir}" -xf "${srcdir}/headers.tar"
+  chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
+  chmod -R 755 "${pkgdir}"
 }
 
 _dtb_common_provides="${_dtb_common_pkg}=${pkgver}"
@@ -84,6 +88,7 @@ package_linux-aarch64-flippy-dtb-allwinner() {
   local _dtb_dir_suffix="boot/dtbs/${pkgbase}/allwinner"
   tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "${_dtb_dir_suffix}"
   chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
+  chmod -R 755 "${pkgdir}"
 }
 
 package_linux-aarch64-flippy-dtb-amlogic() {
@@ -98,6 +103,7 @@ package_linux-aarch64-flippy-dtb-amlogic() {
   local _dtb_dir_suffix="boot/dtbs/${pkgbase}/amlogic"
   tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "${_dtb_dir_suffix}"
   chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
+  chmod -R 755 "${pkgdir}"
 }
 
 package_linux-aarch64-flippy-dtb-rockchip() {
@@ -112,4 +118,5 @@ package_linux-aarch64-flippy-dtb-rockchip() {
   local _dtb_dir_suffix="boot/dtbs/${pkgbase}/rockchip"
   tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "${_dtb_dir_suffix}"
   chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
+  chmod -R 755 "${pkgdir}"
 }
