@@ -1,4 +1,4 @@
-[submodule "alarm-builder-common"]
+[submodule "common"]
 	path = common
 	url = https://github.com/7Ji/alarm-builder-common.git
 [submodule "build/ampart"]
