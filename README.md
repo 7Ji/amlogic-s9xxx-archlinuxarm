@@ -17,7 +17,7 @@ Installing on USB drive is more recommended, and then [alarm-install][alarm guid
 ### Releases & Images
 All Amlogic s9xxx devices **share the same generic image**, i.e. there is **no default u-boot.ext and dtb** set, and you must set them according to your device. And take care dtb should be set both in ``uEnv.txt`` and ``extlinux/extlinux.conf``
 
-Three different kinds of releases are available
+Three different kinds of releases are available, which you can download either from [releases](../../releases) directly, or from [actions](../../actions) where all three of them are zipped into one artifact:
  - ``ArchLinuxARM-aarch64-Amlogic-*.img.xz`` is just like the normal image you would find in the Armbian and Openwrt projects, where you should just decompress and burn it to a SD card / USB drive. The layout is hard-coded but it's therefore easy to use because you do not need to worry about partitioning
  - ``ArchLinuxARM-aarch64-Amlogic-*-root.tar.xz`` is a compressed archive of the rootfs, it can be decompressed to an already partitioned disk so you can freely decide the partition layout and size, but you need to update ``/etc/fstab``, ``/boot/uEnv.txt``, ``/boot/extlinux/extlinux.conf`` according to your actual partitions. Use the following command to extract the archive:
     ```

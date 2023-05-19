@@ -15,7 +15,7 @@
 ### 发行与镜像
 所有的Amlogic s9xxx设备**共用同一个通用镜像**，也就是说镜像里**没有设置默认的u-boot.ext和dtb**，你必须根据你的设备设置。并请注意dtb需要在``uEnv.txt``和``extlinux/extlinux.conf``里一并设置
 
-有三种类型的发布可用
+有三种类型的发布可用，你既可以从[releases](../../releases)直接下载，也可以从[actions](../../actions)下载三种文件打成一个的zip文件：
  - `ArchLinuxARM-aarch64-Amlogic-*.img.xz`就和你能在Armbian和Openwrt项目里找到的普通镜像一样，只要解压后写到SD卡或者是USB驱动器上就能用。布局是写死的，不过也因此很简单，因为你不需要担心分区的问题。
  - ``ArchLinuxARM-aarch64-Amlogic-*-root.tar.xz`` 是压缩过的根文件系统的归档，可以把它解压到已经分区过的盘里，这样你就可以自由地决定分区布局和大小了，不过你需要根据你的实际分区来更新``/etc/fstab``, ``/boot/uEnv.txt``, ``/boot/extlinux/extlinux.conf``。用下面这条命令来提取归档：
     ```
