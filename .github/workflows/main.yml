@@ -31,11 +31,13 @@ jobs:
           for binary in c++ cc cpp g++ gcc; do
             sudo ln -sf ../../bin/distcc /usr/lib/distcc/aarch64-unknown-linux-gnu-${binary}
           done
-      - name: Cache Cross Build Environment
+      - name: Cache Cross Build Environment and Packages
         id: cache-cross
         uses: actions/cache@v3
         with:
-          path: cross
+          path: |
+            cross
+            pkg
           key: ${{ runner.os }}-cross
       - name: Cross build
         run: compressor=no ./cross.sh
