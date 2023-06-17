@@ -36,21 +36,21 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: cross/aarch64.*
-          # key: ${{ runner.os }}-alarm-aarch64-root-${{ hashFiles('cross/aarch64.*') }}
+          key: ${{ runner.os }}-alarm-aarch64-root
           restore-keys: ${{ runner.os }}-alarm-aarch64-root
       - name: Restore cached x86-64 Arch hosted AArch64 ArchLinuxARM toolchain
         id: cache-restore-xtools-aarch64-on-x86_64
         uses: actions/cache/restore@v3
         with:
           path: cross/xtools_aarch64_on_x86_64.*
-          # key: ${{ runner.os }}-xtools-aarch64-on-x86_64-${{ hashFiles('cross/xtools_aarch64_on_x86_64.*') }}
+          key: ${{ runner.os }}-xtools-aarch64-on-x86_64
           restore-keys: ${{ runner.os }}-xtools-aarch64-on-x86_64
       - name: Restore cached pacakges
         id: cache-restore-packages
         uses: actions/cache/restore@v3
         with:
           path: pkg
-          # key: ${{ runner.os }}-packages-${{ hashFiles('pkg') }}
+          key: ${{ runner.os }}-packages
           restore-keys: ${{ runner.os }}-packages
       - name: Cross build
         run: compressor=no ./cross.sh
