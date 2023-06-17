@@ -77,7 +77,7 @@ jobs:
           key: ${{ runner.os }}-xtools-aarch64-on-x86_64-${{ hashFiles('cross/xtools_aarch64_on_x86_64.*') }}
       - name: Save pacakges
         id: cache-save-packages
-        uses: actions/cache/restore@v3
+        uses: actions/cache/save@v3
         with:
           path: pkg
           key: ${{ runner.os }}-packages-${{ hashFiles('pkg') }}
