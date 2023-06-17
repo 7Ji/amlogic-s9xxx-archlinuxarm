@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3.5.2
         with:
           submodules: true
-      - name: Prepare packages
+      - name: Prepare system packages
         run: |
           sudo apt update
           sudo apt install \
@@ -31,9 +31,9 @@ jobs:
           for binary in c++ cc cpp g++ gcc; do
             sudo ln -sf ../../bin/distcc /usr/lib/distcc/aarch64-unknown-linux-gnu-${binary}
           done
-      - name: Cache Cross Build Environment and Packages
-        id: cache-cross
-        uses: actions/cache@v3
+      - name: Restore cached cross build environment and packages
+        id: cache-cross-restore
+        uses: actions/cache/restore@v3
         with:
           path: |
             cross/aarch64.*
@@ -51,7 +51,16 @@ jobs:
       - name: Pack AArch64 rootfs for caching
         run: |
           sudo bsdtar --strip-components=2 --acls --xattrs -czf cross/aarch64.tar.gz cross/aarch64
-      - name: Upload a Build Artifact
+      - name: Save cross build environment and packages
+        id: cache-cross-save
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            cross/aarch64.*
+            cross/xtools_aarch64_on_x86_64.*
+            pkg
+          key: ${{ steps.cache-cross-restore.outputs.cache-primary-key }}
+      - name: Upload built images and archives
         uses: actions/upload-artifact@v3.1.2
         with:
           path: releases/ArchLinuxARM-aarch64-Amlogic-*
