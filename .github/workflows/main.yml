@@ -50,7 +50,7 @@ jobs:
           wait
       - name: Pack AArch64 rootfs for caching
         run: |
-          sudo bsdtar --strip-components=2 --acls --xattrs -czf cross/aarch64.tar.gz cross
+          sudo bsdtar --strip-components=2 --acls --xattrs -czf cross/aarch64.tar.gz cross/aarch64
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
         with:
