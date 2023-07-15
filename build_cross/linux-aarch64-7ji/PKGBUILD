@@ -1,0 +1,74 @@
+# Maintainer: 7Ji <pugokughin@gmail.com>
+
+_desc="7Ji's AArch64-Amlogic-focused minor fork"
+
+pkgbase=linux-aarch64-7ji
+pkgname=(
+  "${pkgbase}"
+  "${pkgbase}-headers"
+)
+pkgver='6.4.3'
+pkgrel=1
+arch=('aarch64')
+url="https://github.com/7Ji/linux"
+license=('GPL2')
+options=(!strip)
+source=(
+  "kernel.tar"
+  'dtbs.tar'
+  'headers.tar'
+)
+sha256sums=(
+  'SKIP'
+  'SKIP'
+  'SKIP'
+)
+noextract=("${source[@]##*/}")
+
+_package() {
+  pkgdesc="The Linux Kernel and module - ${_desc}"
+  depends=(
+    'coreutils'
+    'initramfs'
+    'kmod'
+  )
+  optdepends=(
+    "${pkgbase}-headers: to build other modules"
+    'uboot-legacy-initrd-hooks: to generate uboot legacy initrd images'
+    'linux-firmware-amlogic-ophub: firmware for Amlogic SoCs'
+    'wireless-regdb: to set the correct wireless channels of your country'
+  )
+  provides=(
+    "${pkgbase}=${pkgver}"
+  )
+  conflicts=(
+    "${pkgbase}"
+  )
+  backup=(
+    "etc/mkinitcpio.d/${pkgbase}.preset"
+  )
+  tar -C "${pkgdir}" -xf "${srcdir}/kernel.tar"
+  tar -C "${pkgdir}" -xf "${srcdir}/dtbs.tar" "boot/dtbs/${pkgbase}/amlogic"
+  chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
+  chmod -R 755 "${pkgdir}"
+}
+
+_package-headers() {
+  pkgdesc="Header files and scripts for building modules for linux kernel - ${_desc}"
+  provides=(
+    "${pkgbase}-headers=${pkgver}"
+  )
+  conflicts=(
+    "${pkgbase}-headers"
+  )
+  tar -C "${pkgdir}" -xf "${srcdir}/headers.tar"
+  chown -R "$(id --user):$(id --group)" "${pkgdir}" # Otherwise fakeroot will be confused due to too many layers of chroot
+  chmod -R 755 "${pkgdir}"
+}
+
+for _p in "${pkgname[@]}"; do
+  eval "package_$_p() {
+    $(declare -f "_package${_p#$pkgbase}")
+    _package${_p#$pkgbase}
+  }"
+done

@@ -19,3 +19,6 @@
 [submodule "build/yay"]
 	path = build/yay
 	url = https://aur.archlinux.org/yay.git
+[submodule "build/linux-aarch64-7ji"]
+	path = build/linux-aarch64-7ji
+	url = https://github.com/7Ji/linux-aarch64-7ji.git
