@@ -3,9 +3,7 @@
 
 ## 信息
 
-**请仅使用本项目提供的镜像作为用pacstrap安装另一个ArchLinuxARM的live环境，而不是日常系统。预定义的ArchLinux带来的不是真正的ArchLinux的体验。为了让镜像能启动，我替你做了不少配置和包上的决定，而这些决定恐怕不是你真的想在你的系统上所要的。参考[我博客上的安装指南][alarm guide on blog]来了解怎么在晶晨平台上以Arch的方式安装**
-
-[alarm guide on blog]: https://7ji.github.io/embedded/2022/11/08/alarm-install.html
+**请仅使用本项目提供的镜像作为用pacstrap安装另一个ArchLinuxARM的live环境，而不是日常系统。预定义的ArchLinux带来的不是真正的ArchLinux的体验。为了让镜像能启动，我替你做了不少配置和包上的决定，而这些决定恐怕不是你真的想在你的系统上所要的。**
 
 ## 安装
 
@@ -42,6 +40,31 @@
     ```
     FDT     /dtbs/linux-aarch64-flippy/amlogic/meson-sm1-hk1box-vontar-x3.dtb
     ```
+
+### 备选内核
+镜像中预装两个内核， `linux-aarch64-flippy` 和 `linux-aarch64-7ji`, 均由我自己维护。和Archlinux ARM官方的`linux-aarch64`不同，多个内核可以共存。
+
+两者之中，`-flippy`是默认内核，上游为 https://github.com/unifreq/linux-6.1.y ，如名字所示基于`LTS` 6.1 内核。长久的时间已经验证这个内核对于Amlogic平台来说够稳定，不过版本也落后。
+
+一个单独的内核 `linux-aarch64-7ji` , 上游为 https://github.com/7ji/linux 分支 `amlogic`，以我自己的与kernel.org的stable主线内核最少的差别的内核构建， 自版本`6.4.3`开始添加。因为与主线区别极小的原因，这个内核缺少一些`flippy`内核独有的小众设备dts。
+
+你可以根据你的启动方式修改`/boot/extlinux/extlinux.conf`或`/boot/uEnv.txt`，把`-flippy`改成`-7ji`来使用算是主线的内核，并且可以在以后随意改回。一个例子的`extlinux.conf`:
+
+```
+LABEL   Arch Linux ARM
+LINUX   /vmlinuz-linux-aarch64-7ji
+INITRD  /initramfs-linux-aarch64-7ji-fallback.uimg
+FDT     /dtbs/linux-aarch64-7ji/amlogic/meson-gxbb-p201.dtb
+APPEND  root=UUID=c0655cfd-5797-4606-8a8e-7220e04e6170 rw audit=0
+```
+
+因为两个内核可以共存，你可以配合使用flippy内核的dtb。这样的话你可以同时享受最新的内核和最丰富的dtb资源。
+
+请在下面这些地方查看信息或者反映问题:
+ - https://github.com/7Ji/amlogic-s9xxx-archlinuxarm/issues/19 关于这里镜像里这个内核的问题
+ - https://github.com/7ji/linux-aarch64-7ji 关于内核打包本身的问题
+ - https://github.com/7ji/linux 关于内核本身的问题
+
 ### 启动
 按住重置键，保持SD卡/USB驱动器插入，给盒子上电，就和你在Armbian和Openwrt上那样做的一样
 
@@ -119,8 +142,6 @@ Defaults passwd_timeout=0
 
 ### 原生（推荐）
 要在ARM平台上原生构建，构建脚本**必须在装有ArchLinux ARM自己或者是Manjaro ARM等衍生发行版的AArch64设备上原生运行**，因为有的AUR包需要被原生构建，并且包管理器Pacman也应且仅应当该被原生运行来安装它们还有其他的必要包。除非你想整一堆包管理器追踪不到的文件（**非常危险，而且根本不是Arch的风格**），不然这就是正确的唯一路子。
-
-你可以用这里的镜像或者照着[我博客上的文章](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) 来从头自举一个可以工作的ArchLinux ARM安装来当作构建环境
 
 记得提前根据[ArchWiki上的文档][Arch Wiki distcc]设置好distcc，用其他更强大的机子（比如说你的x86-64的服务器）作为构建志愿者。AArch64设备本身太弱了，单纯用它们构建很慢。
 

@@ -5,9 +5,7 @@
 
 ## Information
 
-**Please only use the image provided in this project as live environment to install another ArchLinuxARM with pacstrap, not as your daily driver. A pre-defined ArchLinux is never an ArchLinux experience intended. I've made some decisions on configuration and packages to make the image bootable, these are probably not what you really want for your system. Refer to the [installation guide on my blog][alarm guide on blog] for how to install in Arch way.**
-
-[alarm guide on blog]: https://7ji.github.io/embedded/2022/11/08/alarm-install.html
+**Please only use the image provided in this project as live environment to install another ArchLinuxARM with pacstrap, not as your daily driver. A pre-defined ArchLinux is never an ArchLinux experience intended. I've made some decisions on configuration and packages to make the image bootable, these are probably not what you really want for your system.**
 
 ## Installation
 
@@ -44,6 +42,32 @@ After you flash the image, you should open the FAT32 first/boot partition with l
     ```
     FDT     /dtbs/linux-aarch64-flippy/amlogic/meson-sm1-hk1box-vontar-x3.dtb
     ```
+
+### Alternative kernel
+There're two kernels pre-installed in the image, `linux-aarch64-flippy` and `linux-aarch64-7ji`, both maintained by myself. Unlike official `linux-aarch64` from ArchLinux ARM, multiple kernels can exist side-by-side in my images.
+
+Between them `-flippy` is the default one, currently using https://github.com/unifreq/linux-6.1.y as upstream, as the name suggests it's based on the `LTS` 6.1 kernel. It's verified by the long-passed time as stable enough for Amlogic platforms, but it's also lagged behind in versioning.
+
+A seperate kernel `linux-aarch64-7ji` , upstream https://github.com/7ji/linux branch `amlogic`, is added using my own kernel tree with minimum diffrences from the actual mainline tree (stable at kernel.org), starting at version `6.4.3`. As a result of minimum diffrences this lack a lot of non-mainstream dts not maintained upstream but only in flippy tree.
+
+You can modify `/boot/extlinux/extlinux.conf` or `/boot/uEnv.txt` depending on your bootup scheme to change `-flippy` to `-7ji` to use the sort-of mainline kernel, and can change back at any time. An example `extlinux.conf`:
+
+```
+LABEL   Arch Linux ARM
+LINUX   /vmlinuz-linux-aarch64-7ji
+INITRD  /initramfs-linux-aarch64-7ji-fallback.uimg
+FDT     /dtbs/linux-aarch64-7ji/amlogic/meson-gxbb-p201.dtb
+APPEND  root=UUID=c0655cfd-5797-4606-8a8e-7220e04e6170 rw audit=0
+```
+
+Sicne the two kernels can exist side-by-side, you can also use dtbs from the flippy kernel, so you get both the latest kernel and rich dtb library.
+
+Please read or report at the following places:
+ - https://github.com/7Ji/amlogic-s9xxx-archlinuxarm/issues/19 for issues regarding alternative kernels in this image
+ - https://github.com/7ji/linux-aarch64-7ji for issues regarding the package itself
+ - https://github.com/7ji/linux for issues regarding kernel itself
+
+
 ### Booting
 Holding the reset button with the SD card / USB drive plugged in, and power on the box, just like how you would do with Armbian and Openwrt.
 
@@ -121,8 +145,6 @@ There're some environment variables you could set to define the behaviours:
 
 ### Native (Recommended)
 For native build on ARM platform, the script **must be run on an AArch64 device, with either ArchLinux ARM itself or derived distros like Manjaro ARM**, as our AUR packages need to built natively, and the package manager Pacman should also be run natively to install them and other essential packages. Unless you want to leave a lot of binaries not tracked by the package manager (**very dangerous, and not the Arch way**), this is the way to go.
-
-Your could just use the images here or follow [my guide on my blog](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) to bootstrap a working ArchLinux ARM installation from ground up to be used as the build environment.
 
 Be sure to setup distcc with other more powerful machines (e.g. your x86-64 server) as voluenteers beforehand, following [the documentation on ArchWiki][Arch Wiki distcc]. The AArch64 devices themselves are too weak and slow to build just by themselves.
 
