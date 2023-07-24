@@ -89,6 +89,21 @@ sudo pacman -Syu
 ```
 yay
 ```
+
+#### Packages
+It's recommended to do a full upgrade right after you boot:
+```
+sudo pacman -Syu
+```
+or (``yay`` without argument calls ``sudo pacman -Syu`` implicitly)
+```
+yay
+```
+**注意：包含内核包`linux-aarch64-flippy`在内，部分包是作为本地包安装的，因为官方仓库里没有这些包，这意味着，如果你想升级这些包，你必须以以下一种方式：**
+ 1. 用`yay`等AUR助手，他们会帮你构建和安装包。**如果你的设备或distcc网络不够强大，构建需要花费很久**
+ 2. 下载最新github action的构建产物，解压得到`*-pkgs.tar.xz`, 你可以从中再解压得到镜像中所有的预构建的包，然后用`pacman -U`来把他们作为本地包安装。 **你不需要构建这些包**
+ 3. 添加 [我的仓库](https://github.com/7Ji/archrepo) 为一个额外的pacman仓库，点击链接阅读使用方法。这样的话你就可以用 `pacman -Syu` 来更新这些包。**你不需要构建这些包**
+ 
 #### 初始化内存盘
 并立即生成初始化内存盘，因为为了节约空间，只有u-boot传统内存盘的回落镜像被保留，其他三个初始化内存盘都在打包前删掉了（标准默认配置，标准回落配置和传统默认配置）
 ```

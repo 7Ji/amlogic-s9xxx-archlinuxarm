@@ -92,6 +92,11 @@ or (``yay`` without argument calls ``sudo pacman -Syu`` implicitly)
 ```
 yay
 ```
+**Note: some packages including the kernel package `linux-aarch64-flippy` are installed as local packages, as they are not available from the official repos, this means if you want to upgrade them, you'll have to do it one of the following ways:**
+ 1. Use AUR helpers like `yay`, they will build and install the packages for you. **You will have to spend a lot of time on building if your device or distcc network is not powerful enough**
+ 2. Download the build artifacts of the newest github action CI, unzip it and you'll get `*-pkgs.tar.xz`, you can extract all pre-built packages in the image, then use `pacman -U` to install them as local packages. **You do not need to build the packages**
+ 3. Add [my repo](https://github.com/7Ji/archrepo) as an additional pacman repo, read instructions on that repo on how to add it. You can then use `pacman -Syu` to update these packages. **You do not need to build the packages**
+
 #### Initramfs
 And generate the initramfs, since only the u-boot legacy initrd fallback image is kept to save space, all other 3 initramfs were deleted before packing (standard default, standard fallback and legacy default):
 ```
