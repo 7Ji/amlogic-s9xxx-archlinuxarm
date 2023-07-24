@@ -7,7 +7,7 @@ pkgname=(
   "${pkgbase}"
   "${pkgbase}-headers"
 )
-pkgver='6.4.4'
+pkgver='6.4.5'
 pkgrel=1
 arch=('aarch64')
 url="https://github.com/7Ji/linux"
