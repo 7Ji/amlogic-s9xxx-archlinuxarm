@@ -1,4 +1,4 @@
-name: Build ArchLinuxARM for Orange Pi 5 with vendor kernel
+name: Build ArchLinuxARM for Amlogic S9XXX TV Boxes with vendor kernel
 on:
   workflow_call:
   push:
@@ -17,7 +17,8 @@ jobs:
           sudo apt install \
             libarchive-tools \
             qemu-user-static \
-            systemd-container
+            systemd-container \
+            u-boot-tools
       - name: Restore cached sources
         id: cache-restore-src
         uses: actions/cache/restore@v3

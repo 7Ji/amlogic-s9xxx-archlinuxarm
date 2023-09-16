@@ -1,4 +1,4 @@
-name: Release ArchLinuxARM for Orange Pi 5 series with vendor kernel nightly
+name: Release ArchLinuxARM for Amlogic S9XXX TV Boxes nightly
 on:
   workflow_dispatch:
   schedule:
@@ -23,6 +23,6 @@ jobs:
        with:
          name: Nightly
          tag: nightly
-         artifacts: ArchLinuxARM-aarch64-OrangePi5-*.gz
+         artifacts: ArchLinuxARM-aarch64-Amlogic-*.gz
          allowUpdates: true
          removeArtifacts: true
