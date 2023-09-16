@@ -6,11 +6,22 @@
 # If you're running Arch, then you should expect breakage due to Ubuntu FHS being expected
 
 # The following envs could be set to change the behaviour:
-# freeze_rkloaders: when not empty, do not update rkloaders from https://github.com/7Ji/orangepi5-rkloader
 # pkg_from_local_mirror: when not empty, chainload pacoloco from another local mirror, useful for local only
 
+if [[ "${pkg_from_local_mirror}" ]]; then
+    mirror_archlinux=${mirror_archlinux:-http://repo.lan:9129/repo/archlinux}
+    mirror_archlinuxarm=${mirror_alarm:-http://repo.lan:9129/repo/archlinuxarm}
+    mirror_archlinuxcn=${mirror_archlinuxcn:-http://repo.lan:9129/repo/archlinuxcn_x86_64}
+    mirror_7Ji=${mirror_7Ji:-http://repo.lan/github-mirror}
+else
+    mirror_archlinux=${mirror_archlinux:-https://geo.mirror.pkgbuild.com}
+    mirror_archlinuxarm=${mirror_alarm:-http://mirror.archlinuxarm.org}
+    mirror_archlinuxcn=${mirror_archlinuxcn:-https://opentuna.cn/archlinuxcn}
+    mirror_7Ji=${mirror_7Ji:-https://github.com/7Ji/archrepo/releases/download}
+fi
+
 # Everything will be done in a subfolder
-mkdir -p cross_nobuild/{bin,cache,out,src/{rkloader,pkg}}
+mkdir -p cross_nobuild/{bin,cache,out,src/pkg}
 pushd cross_nobuild
 
 # functions
@@ -33,15 +44,13 @@ init_repo() { # 1: dir, 2: url, 3: branch
     mkdir "$1"
     mkdir "$1"/{objects,refs}
     echo 'ref: refs/heads/'"$3" > "$1"/HEAD
-cat > "$1"/config << _EOF_
-[core]
+    echo "[core]
 	repositoryformatversion = 0
 	filemode = true
 	bare = true
 [remote "origin"]
 	url = $2
-	fetch = +refs/heads/$3:refs/heads/$3
-_EOF_
+	fetch = +refs/heads/$3:refs/heads/$3" > "$1"/config
 }
 
 dump_binary_from_repo() { # 1: repo url, 2: repo name, 3: pkgname, 4: local bin, 5: source bin
@@ -110,76 +119,28 @@ cleanup() {
 
 trap "cleanup" INT TERM EXIT
 
-# Get rkloaders
-if [[ "${freeze_rkloaders}" ]]; then
-    echo "=> Updating of RKloaders skipped"
-    rkloaders=()
-    for rkloader in src/rkloader/*; do
-        rkloaders+=("${rkloader##*/}")
-    done
-else
-    echo "=> Updating RKloaders"
-    rkloader_parent=https://github.com/7Ji/orangepi5-rkloader/releases/download/nightly
-    rkloaders=($(dl "${rkloader_parent}"/list))
-    for rkloader in "${rkloaders[@]}"; do
-        if [[ ! -f src/rkloader/"${rkloader}" ]]; then
-            dl "${rkloader_parent}/${rkloader}" src/rkloader/"${rkloader}".temp
-            mv src/rkloader/"${rkloader}"{.temp,}
-        fi
-    done
-    for rkloader in src/rkloader/*; do
-        rkloader_local="${rkloader##*/}"
-        latest=''
-        for rkloader_cmp in "${rkloaders[@]}"; do
-            if [[ "${rkloader_local}" == "${rkloader_cmp}" ]]; then
-                latest='yes'
-                break
-            fi
-        done
-        if [[ -z "${latest}" ]]; then
-            rm -f "${rkloader}"
-        fi
-    done
-    echo "=> Updated RKloaders"
-fi
-
 # Deploy pacoloco
-dump_binary_from_repo https://geo.mirror.pkgbuild.com/extra/os/x86_64 extra pacoloco pacoloco usr/bin/pacoloco
+dump_binary_from_repo "${mirror_archlinux}"/extra/os/x86_64 extra pacoloco pacoloco usr/bin/pacoloco
 
 # Prepare to run pacoloco
 # prefer mirrors provided by companies than universities, save their budget
-cat > cache/pacoloco.conf << _EOF_
-cache_dir: src/pkg
+echo "cache_dir: src/pkg
 download_timeout: 3600
 purge_files_after: 2592000
 repos:
-_EOF_
-if [[ "${pkg_from_local_mirror}" ]]; then
-cat >> cache/pacoloco.conf << _EOF_
-  archlinuxarm:
-    url: http://repo.lan:9129/repo/archlinuxarm
-  archlinuxcn_x86_64:
-    url: http://repo.lan:9129/repo/archlinuxcn_x86_64
-  7Ji:
-    url: http://repo.lan/github-mirror
-_EOF_
-else
-cat >> cache/pacoloco.conf << _EOF_
   archlinuxarm:
     urls:
-      - http://mirror.archlinuxarm.org
+      - ${mirror_archlinuxarm}
       - https://opentuna.cn/archlinuxarm
       - http://mirrors.cloud.tencent.com.cn/archlinuxarm
   archlinuxcn_x86_64:
     urls:
-      - https://opentuna.cn/archlinuxcn
+      - ${mirror_archlinuxcn}
       - https://mirrors.cloud.tencent.com/archlinuxcn
       - https://mirrors.163.com/archlinux-cn
       - https://mirrors.aliyun.com/archlinuxcn
   7Ji:
-    url: https://github.com/7Ji/archrepo/releases/download
-_EOF_
-fi
+    url: ${mirror_7Ji}" > cache/pacoloco.conf
 # Run pacoloco in background
 bin/pacoloco -config cache/pacoloco.conf &
 pid_pacoloco=$!
@@ -196,13 +157,13 @@ repo_url_7Ji_aarch64=http://127.0.0.1:9129/repo/7Ji/aarch64
 dump_binary_from_repo "${repo_url_archlinuxcn_x86_64}" archlinuxcn pacman-static pacman usr/bin/pacman-static 
 
 # Basic image layout
-build_id=ArchLinuxARM-aarch64-OrangePi5-$(date +%Y%m%d_%H%M%S)
+build_id=ArchLinuxARM-aarch64-Amlogic-s9xxx-$(date +%Y%m%d_%H%M%S)
 rm -f out/"${build_id}"-base.img
 truncate -s 2G out/"${build_id}"-base.img
-table='label: gpt
-start=8192, size=204800, type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B
-start=212992, size=3979264, type=B921B045-1DF0-41C3-AF44-4C6F280D3FAE'
-sfdisk out/${build_id}-base.img <<< "${table}"
+echo 'label: dos
+start=8192, size=524288, type=ef
+start=532480, size=3661824, type=83' |
+    sfdisk out/"${build_id}"-base.img
 
 # Partition
 lodev=$(sudo losetup --find --partscan --show out/${build_id}-base.img)
@@ -246,17 +207,13 @@ Server = ${repo_url_alarm_aarch64}
 [aur]
 Server = ${repo_url_alarm_aarch64}"
 
-cat > cache/pacman-loose.conf << _EOF_
-[options]${pacman_config}
-SigLevel = Never${pacman_mirrors}
-_EOF_
+echo "[options]${pacman_config}
+SigLevel = Never${pacman_mirrors}" > cache/pacman-loose.conf
 
-cat > cache/pacman-strict.conf << _EOF_
-[options]${pacman_config}
+echo "[options]${pacman_config}
 SigLevel = DatabaseOptional${pacman_mirrors}
 [7Ji]
-Server = ${repo_url_7Ji_aarch64}
-_EOF_
+Server = ${repo_url_7Ji_aarch64}" > cache/pacman-strict.conf
 
 # Base system
 sudo bin/pacman -Sy --config cache/pacman-loose.conf --noconfirm base archlinuxarm-keyring
@@ -274,12 +231,15 @@ run_in_chroot pacman-key --recv-keys BA27F219383BB875
 run_in_chroot pacman-key --lsign BA27F219383BB875
 
 # Non-base packages
-kernel='linux-aarch64-orangepi5'
+kernel='linux-aarch64-flippy'
+kernel_alt='linux-aarch64-7ji'
 sudo bin/pacman -Syu --config cache/pacman-strict.conf --noconfirm \
     vim nano sudo openssh \
-    7Ji/"${kernel}" \
-    linux-firmware-orangepi \
-    usb2host
+    "${kernel}"{,-dtb-amlogic} "${kernel_alt}" \
+    linux-firmware-amlogic-ophub \
+    uboot-legacy-initrd-hooks \
+    uboot-amlogic-ophub \
+    ampart yaopenvfd
 
 # Pacman-key expects to run in an actual system, it pulled up gpg-agent and it kept running
 run_in_chroot killall -s KILL gpg-agent dirmngr
@@ -307,7 +267,7 @@ printf '[Match]\nName=eth* en*\n\n[Network]\nDHCP=yes\nDNSSEC=no\n' |
     sudo tee "${root}"/etc/systemd/network/20-wired.network
 
 # Units
-run_in_chroot systemctl enable systemd-{network,resolve,timesync}d usb2host sshd
+run_in_chroot systemctl enable systemd-{network,resolve,timesync}d sshd
 
 # Users
 run_in_chroot useradd -g wheel -m alarm
@@ -324,20 +284,41 @@ sudo ln -sf 'vim' "${root}"/usr/bin/vi
 sudo umount "${root}"/etc/resolv.conf
 sudo ln -sf /run/systemd/resolve/resolv.conf "${root}"/etc/resolv.conf
 
-# Extlinux
+# Booting configuration
+boot="${root}"/boot
+for script in ../booting/*.sh; do
+    name=$(basename "$script")
+    if [ "${name}" == 'boot.sh' ]; then
+        name="${name%.sh}.scr"
+    else
+        name="${name%.sh}"
+    fi
+    sudo mkimage -A arm64 -O linux -T script -C none -d "${script}" "${boot}/${name}" > /dev/null
+done
 sudo mkdir "${root}"/boot/extlinux
+conf_linux="vmlinuz-${kernel}"
+conf_initrd="initramfs-${kernel}-fallback.uimg"
+conf_fdt="dtbs/${kernel}/amlogic/PLEASE_SET_YOUR_DTB.dtb"
+conf_append="root=UUID=${uuid_root} rw audit=0 apt_blkdevs=mmcblk2"
 printf \
     "LABEL\t%s\nLINUX\t/%s\nINITRD\t/%s\nFDT\t/%s\nAPPEND\t%s\n"\
-    'Arch Linux for OrangePi 5'\
-    "vmlinuz-${kernel}"\
-    "initramfs-${kernel}-fallback.img"\
-    "dtbs/${kernel}/rockchip/rk3588s-orangepi-5.dtb"\
-    "root=UUID=${uuid_root} rw" | 
+    'Arch Linux for Amlogic S9XXX TV Boxes'\
+    "${conf_linux}"\
+    "${conf_initrd}"\
+    "${conf_fdt}"\
+    "${conf_append}" | 
     sudo tee "${root}"/boot/extlinux/extlinux.conf
+printf \
+    "LINUX=/%s\nINITRD=/%s\nFDT=/%s\nAPPEND=%s\n"\
+    "${conf_linux}"\
+    "${conf_initrd}"\
+    "${conf_fdt}"\
+    "${conf_append}" | 
+    sudo tee "${root}"/boot/uEnv.txt
 
 # Clean up
 sudo rm -rf "${root}"/var/cache/pacman/pkg/*
-sudo rm -f "${root}"/boot/initramfs-linux-aarch64-orangepi5.img
+sudo rm -f "${root}"/boot/initramfs-{"${kernel}","${kernel_alt}"}{.{u,}img,-fallback.img}
 sudo dd if=/dev/zero of="${root}"/.zerofill bs=16M || true
 sudo dd if=/dev/zero of="${root}"/boot/.zerofill bs=16M || true
 sudo rm -f "${root}"/{,boot/}.zerofill
@@ -358,47 +339,6 @@ suffixes=(
     'root.tar'
     'base.img'
 )
-
-table='label: gpt
-first-lba: 34
-start=64, size=960, type=8DA63339-0007-60C0-C436-083AC8230908, name="idbloader"
-start=1024, size=6144, type=8DA63339-0007-60C0-C436-083AC8230908, name="uboot"
-start=8192, size=204800, type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B, name="alarmboot"
-start=212992, size=3979264, type=B921B045-1DF0-41C3-AF44-4C6F280D3FAE, name="alarmroot"'
-
-for rkloader in "${rkloaders[@]}"; do
-    model=${rkloader##*pi-}
-    model=${model%%-bl31*}
-    # Use cp as it could reflink if the fs supports it
-    cp out/"${build_id}"-{base,rkloader-"${model}"}.img
-    suffix="rkloader-${model}".img
-    suffixes+=("${suffix}")
-    out=out/"${build_id}-${suffix}"
-    dd if=src/rkloader/"${rkloader}" of="${out}" conv=notrunc
-    sfdisk "${out}" <<< "${table}"
-    case ${model} in
-    5)
-        continue
-    ;;
-    5_sata)
-        fdt='rk3588s-orangepi-5.dtb\nFDTOVERLAYS\t/dtbs/linux-aarch64-orangepi5/rockchip/overlay/rk3588-ssd-sata0.dtbo'
-    ;;
-    5b)
-        fdt='rk3588s-orangepi-5b.dtb'
-    ;;
-    5_plus)
-        fdt='rk3588-orangepi-5-plus.dtb'
-    ;;
-    esac
-    lodev=$(sudo losetup --find --offset 4M --show "${out}")
-    boot=$(mktemp -d)
-    sudo mount -o noatime "${lodev}" "${boot}"
-    sudo sed -i 's|rk3588s-orangepi-5.dtb|'"${fdt}"'|' "${boot}"/extlinux/extlinux.conf
-    sudo umount "${boot}"
-    boot=""
-    sudo losetup --detach "${lodev}"
-    lodev=""
-done
 
 kill -s TERM ${pid_pacoloco} || true
 pid_pacoloco=
