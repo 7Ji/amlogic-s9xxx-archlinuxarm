@@ -1,24 +1,24 @@
 [submodule "common"]
-	path = common
+	path = native_build/common
 	url = https://github.com/7Ji/alarm-builder-common.git
 [submodule "build/ampart"]
-	path = build/ampart
+	path = native_build/build/ampart
 	url = https://aur.archlinux.org/ampart.git
 [submodule "build/linux-aarch64-flippy"]
-	path = build/linux-aarch64-flippy
+	path = native_build/build/linux-aarch64-flippy
 	url = https://aur.archlinux.org/linux-aarch64-flippy.git
 [submodule "build/linux-firmware-amlogic-ophub"]
-	path = build/linux-firmware-amlogic-ophub
+	path = native_build/build/linux-firmware-amlogic-ophub
 	url = https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
 [submodule "build/uboot-legacy-initrd-hooks"]
-	path = build/uboot-legacy-initrd-hooks
+	path = native_build/build/uboot-legacy-initrd-hooks
 	url = https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
 [submodule "build/yaopenvfd"]
-	path = build/yaopenvfd
+	path = native_build/build/yaopenvfd
 	url = https://aur.archlinux.org/yaopenvfd.git
 [submodule "build/yay"]
-	path = build/yay
+	path = native_build/build/yay
 	url = https://aur.archlinux.org/yay.git
 [submodule "build/linux-aarch64-7ji"]
-	path = build/linux-aarch64-7ji
+	path = native_build/build/linux-aarch64-7ji
 	url = https://github.com/7Ji/linux-aarch64-7ji.git
