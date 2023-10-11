@@ -1,6 +1,3 @@
-[submodule "common"]
-	path = native_build/common
-	url = https://github.com/7Ji/alarm-builder-common.git
 [submodule "build/ampart"]
 	path = native_build/build/ampart
 	url = https://aur.archlinux.org/ampart.git
@@ -19,3 +16,6 @@
 [submodule "build/yay"]
 	path = native_build/build/yay
 	url = https://aur.archlinux.org/yay.git
+[submodule "native_build/common"]
+	path = native_build/common
+	url = https://github.com/lz00qs/alarm-builder-common.git
