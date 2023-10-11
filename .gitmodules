@@ -4,9 +4,6 @@
 [submodule "build/linux-aarch64-flippy"]
 	path = native_build/build/linux-aarch64-flippy
 	url = https://aur.archlinux.org/linux-aarch64-flippy.git
-[submodule "build/linux-firmware-amlogic-ophub"]
-	path = native_build/build/linux-firmware-amlogic-ophub
-	url = https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
 [submodule "build/uboot-legacy-initrd-hooks"]
 	path = native_build/build/uboot-legacy-initrd-hooks
 	url = https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
@@ -19,3 +16,6 @@
 [submodule "native_build/common"]
 	path = native_build/common
 	url = https://github.com/lz00qs/alarm-builder-common.git
+[submodule "native_build/build/linux-firmware-orangepi"]
+	path = native_build/build/linux-firmware-orangepi
+	url = https://aur.archlinux.org/linux-firmware-orangepi.git
