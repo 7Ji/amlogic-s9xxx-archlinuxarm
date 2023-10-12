@@ -5,6 +5,7 @@ blob
 pkg
 build/*/*
 native_build/cross
+native_build/releases
 native_build/build/uboot-amlogic-ophub/u-boot-e900v22c.bin
 native_build/build/uboot-amlogic-ophub/u-boot-zyxq.bin
 native_build/build_cross/linux-aarch64-flippy/kernel.tar
@@ -33,3 +34,4 @@ native_build/build_cross/linux-aarch64-flippy/dtbs.tar
 native_build/build_cross/linux-aarch64-orangepi-zero3/dtbs.tar
 native_build/build_cross/linux-aarch64-orangepi-zero3/headers.tar
 native_build/build_cross/linux-aarch64-orangepi-zero3/kernel.tar
+
