@@ -1,6 +1,3 @@
-[submodule "build/linux-aarch64-flippy"]
-	path = native_build/build/linux-aarch64-flippy
-	url = https://aur.archlinux.org/linux-aarch64-flippy.git
 [submodule "build/uboot-legacy-initrd-hooks"]
 	path = native_build/build/uboot-legacy-initrd-hooks
 	url = https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
