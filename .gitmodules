@@ -13,3 +13,6 @@
 [submodule "native_build/build/linux-firmware-orangepi"]
 	path = native_build/build/linux-firmware-orangepi
 	url = https://aur.archlinux.org/linux-firmware-orangepi.git
+[submodule "native_build/build/linux-aarch64-orangepi-zero3"]
+	path = native_build/build/linux-aarch64-orangepi-zero3
+	url = https://github.com/lz00qs/archlinux-aarch64-orangepi-zero3.git

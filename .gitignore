@@ -30,3 +30,6 @@ native_build/build/uboot-amlogic-ophub/u-boot-ugoos-x3.bin
 native_build/build/uboot-amlogic-ophub/u-boot-x96max.bin
 native_build/build/uboot-amlogic-ophub/u-boot-x96maxplus.bin
 native_build/build_cross/linux-aarch64-flippy/dtbs.tar
+native_build/build_cross/linux-aarch64-orangepi-zero3/dtbs.tar
+native_build/build_cross/linux-aarch64-orangepi-zero3/headers.tar
+native_build/build_cross/linux-aarch64-orangepi-zero3/kernel.tar
