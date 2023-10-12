@@ -1,6 +1,3 @@
-[submodule "build/ampart"]
-	path = native_build/build/ampart
-	url = https://aur.archlinux.org/ampart.git
 [submodule "build/linux-aarch64-flippy"]
 	path = native_build/build/linux-aarch64-flippy
 	url = https://aur.archlinux.org/linux-aarch64-flippy.git
