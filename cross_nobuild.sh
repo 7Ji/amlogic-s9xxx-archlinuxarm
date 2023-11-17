@@ -213,7 +213,7 @@ kernel_alt='linux-aarch64-7ji'
 pacman_could_retry -Syu --config cache/pacman-strict.conf --noconfirm \
     vim nano sudo openssh \
     "${kernel}"{,-dtb-amlogic} "${kernel_alt}" \
-    linux-firmware-amlogic-ophub \
+    linux-firmware-amlogic-ophub-git \
     uboot-legacy-initrd-hooks \
     uboot-amlogic-ophub \
     ampart yaopenvfd
