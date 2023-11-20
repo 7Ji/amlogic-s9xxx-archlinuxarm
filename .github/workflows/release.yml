@@ -1,4 +1,4 @@
-name: Release ArchLinuxARM for Amlogic S9XXX TV Boxes nightly
+name: Release nightly
 on:
   workflow_dispatch:
   schedule:
@@ -6,23 +6,57 @@ on:
 permissions:
   contents: write
 jobs:
-  build:
-    uses: ./.github/workflows/build.yml
   release:
-    needs: build
     runs-on: ubuntu-latest
     steps:
-     - name: Download artifacts
-       uses: actions/download-artifact@v3
-       with:
-         name: artifact
-     - name: Display structure of downloaded files
-       run: ls -R
-     - name: Release
-       uses: ncipollo/release-action@v1
-       with:
-         name: Nightly
-         tag: nightly
-         artifacts: ArchLinuxARM-aarch64-Amlogic-*.gz
-         allowUpdates: true
-         removeArtifacts: true
+      - name: Checkout
+        uses: actions/checkout@v3.5.2
+      - name: Prepare deps
+        run: |
+          sudo apt update
+          sudo apt install libarchive-tools qemu-user-static mtools
+      - name: Restore cached sources
+        id: cache-restore-src
+        uses: actions/cache/restore@v3
+        with:
+          path: src.tar
+          key: ${{ runner.os }}-src
+          restore-keys: ${{ runner.os }}-src
+      - name: Restore cached binaries
+        id: cache-restore-bin
+        uses: actions/cache/restore@v3
+        with:
+          path: bin.tar
+          key: ${{ runner.os }}-bin
+          restore-keys: ${{ runner.os }}-bin
+      - name: Extract cached sources
+        run: |
+          for i in bin src; do
+            if [[ -f $i.tar ]]; then
+              tar -xf $i.tar
+            fi
+          done
+      - name: Cross build
+        run: ./cross_nobuild.sh
+      - name: Pack sources
+        run: |
+          tar -cf src.tar src
+          tar -cf bin.tar bin
+      - name: Save sources
+        uses: actions/cache/save@v3
+        with:
+          path: src.tar
+          key: ${{ runner.os }}-src-${{ hashFiles('src.tar') }}
+      - name: Save binaries
+        uses: actions/cache/save@v3
+        with:
+          path: bin.tar
+          key: ${{ runner.os }}-bin-${{ hashFiles('bin.tar') }}
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          name: Nightly
+          tag: nightly
+          artifacts: out/latest/*
+          allowUpdates: true
+          removeArtifacts: true
