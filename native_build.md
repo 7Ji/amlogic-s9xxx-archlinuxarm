@@ -1,0 +1,1 @@
+Non-cross native build method removed, the last commit before it's removed is 868865b7c8e20d336d08ab109f471168c416c1f8
