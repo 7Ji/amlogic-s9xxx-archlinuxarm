@@ -294,8 +294,13 @@ setup_kernel() {
         mv cache/root/etc/mkinitcpio.d/"${kernel}".preset{.pacsave,}
         local initramfs=cache/root/boot/initramfs-"${kernel}"-fallback.img
         zstd -T0 "${initramfs}"
+    done
+    rm cache/root/boot/initramfs-*.img
+    for kernel in "${install_pkgs_kernel[@]}"; do
+        local initramfs=cache/root/boot/initramfs-"${kernel}"-fallback.img
         mv "${initramfs}"{.zst,}
     done
+    chroot cache/root img2uimg
 }
 
 setup_extlinux() {
