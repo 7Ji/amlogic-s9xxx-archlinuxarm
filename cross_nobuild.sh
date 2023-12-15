@@ -151,7 +151,7 @@ config_repos() {
         mirror_archlinux=${mirror_archlinux:-http://repo.lan:9129/repo/archlinux}
         mirror_archlinuxarm=${mirror_alarm:-http://repo.lan:9129/repo/archlinuxarm}
         mirror_archlinuxcn=${mirror_archlinuxcn:-http://repo.lan:9129/repo/archlinuxcn_x86_64}
-        mirror_7Ji=${mirror_7Ji:-http://repo.lan/github-mirror}
+        mirror_7Ji=${mirror_7Ji:-http://repo.lan/7Ji}
     else
         mirror_archlinux=${mirror_archlinux:-https://geo.mirror.pkgbuild.com}
         mirror_archlinuxarm=${mirror_alarm:-http://mirror.archlinuxarm.org}
@@ -309,7 +309,9 @@ setup_kernel() {
 setup_extlinux() {
     # Setup configuration
     local conf=cache/extlinux.conf
-    echo "DEFAULT ${install_pkgs_kernel[0]}" > "${conf}"
+    echo "MENU TITLE Select the kernel to boot
+TIMEOUT 30
+DEFAULT ${install_pkgs_kernel[0]}" > "${conf}"
     local kernel conf_{linux,initrd,fdt,append}
     local has_uenv=
     for kernel in "${install_pkgs_kernel[@]}"; do
