@@ -321,21 +321,24 @@ DEFAULT ${install_pkgs_kernel[0]}" > "${conf}"
     for kernel in "${install_pkgs_kernel[@]}"; do
         conf_linux="vmlinuz-${kernel}"
         conf_initrd="initramfs-${kernel}-fallback.uimg"
-        conf_fdt="dtbs/${kernel}/amlogic/PLEASE_SET_YOUR_DTB.dtb"
+        conf_fdtdir="dtbs/${kernel}"
+        conf_fdt="dtbs/${kernel}/amlogic/PLEASE_SET_YOUR_DTB_AND_UNCOMMENT_THIS_LINE_AND_COMMENT_FDTDIR.dtb"
         conf_append="root=UUID=${uuid_root} rw audit=0 apt_blkdevs=mmcblk2"
         printf \
-            "LABEL\t%s\n\tLINUX\t/%s\n\tINITRD\t/%s\n\tFDT\t/%s\n\tAPPEND\t%s\n" \
+            "LABEL\t%s\n\tLINUX\t/%s\n\tINITRD\t/%s\n\tFDTDIR\t/%s\n\t#FDT\t/%s\n\tAPPEND\t%s\n" \
             "${kernel}" \
             "${conf_linux}" \
             "${conf_initrd}" \
+            "${conf_fdtdir}" \
             "${conf_fdt}" \
             "${conf_append}" >> "${conf}"
         # Only create uenv for the first kernel package
         if [[ -z "${has_uenv}" ]]; then
             printf \
-                "LINUX=/%s\nINITRD=/%s\nFDT=/%s\nAPPEND=%s\n"\
+                "LINUX=/%s\nINITRD=/%s\nFDTDIR=/%s\n#FDT=/%s\nAPPEND=%s\n"\
                 "${conf_linux}"\
                 "${conf_initrd}"\
+                "${conf_fdtdir}"\
                 "${conf_fdt}"\
                 "${conf_append}" > cache/root/boot/uEnv.txt
             has_uenv='yes'
