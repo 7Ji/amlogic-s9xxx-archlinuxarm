@@ -649,7 +649,7 @@ if [[ "${#install_pkgs_normal[@]}" == 0 ]]; then
 fi
 
 if [[ "${#install_pkgs_kernel[@]}" == 0 ]]; then
-    install_pkgs_kernel=(linux-aarch64-{flippy,7ji})
+    install_pkgs_kernel=(linux-aarch64-{flippy-git,7ji})
 fi
 
 if [[ -z "${uuid_root}" ]]; then
