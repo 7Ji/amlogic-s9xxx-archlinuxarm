@@ -284,7 +284,8 @@ install_initramfs() {
 
 unhack_initramfs() {
     if [[ "${initramfs}" == 'booster' ]]; then
-        rm -f cache/root/etc/booster.yaml
+        printf '%s: %s\n' \
+            'universal' 'true' > cache/root/etc/booster.yaml
     else
         local mkinitcpio_conf=cache/root/etc/mkinitcpio.conf
         local mkinitcpio_install_hook=cache/root/usr/share/libalpm/hooks/90-mkinitcpio-install.hook
