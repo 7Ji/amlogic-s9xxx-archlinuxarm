@@ -9,7 +9,7 @@
 ## Installation
 
 ### Drive
-Installing on USB drive is more recommended, and then [alarm-install][alarm guide on blog] can be referred to to install to eMMC or to another USB drive/SD card **in the ArchLinux way**
+Installing on USB drive is more recommended, and then [alarm-install](https://7ji.github.io/embedded/2022/11/08/alarm-install.html) can be referred to to install to eMMC or to another USB drive/SD card **in the ArchLinux way**
 
 ### Releases & Images
 All Amlogic s9xxx devices **share the same generic image**, i.e. there is **no default u-boot.ext and dtb** set, and you must set them according to your device. And take care dtb should be set both in ``uEnv.txt`` and ``extlinux/extlinux.conf``
